@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What Customers Expect</title>
+<style>
+:root{
+ --navy:#08384f;--orange:#f47820;--blue:#2c97df;--chip:#eef7fe;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;font-family:Aptos,"Segoe UI",Arial,sans-serif;background:linear-gradient(#fff,#f8fbfd);}
+.page{max-width:1500px;height:100%;margin:auto;padding:30px 40px;display:flex;flex-direction:column}
+.module{color:var(--orange);font-weight:800;letter-spacing:3px;text-transform:uppercase}
+.module:before{content:"";display:inline-block;width:65px;height:12px;background:var(--orange);margin-right:14px}
+h1{margin:10px 0 8px 80px;font-size:58px;color:var(--navy)}
+p{margin:0 0 24px 80px;font-size:24px;color:#4d6778}
+.board{flex:1;background:#fff;border:1px solid #dce7ed;border-radius:18px;box-shadow:0 10px 24px rgba(0,0,0,.08);display:flex;flex-direction:column;overflow:hidden}
+.top{display:flex;gap:10px;padding:18px;border-bottom:1px solid #edf2f5}
+input{flex:1;padding:14px 16px;font-size:20px;border:2px solid #dce7ed;border-radius:12px}
+input:focus{outline:none;border-color:var(--blue)}
+.add{background:var(--blue);color:#fff;border:none;border-radius:12px;padding:0 22px;font-weight:700;cursor:pointer}
+.chips{flex:1;padding:22px;display:flex;flex-wrap:wrap;align-content:flex-start;gap:14px;overflow:auto}
+.chip{display:inline-flex;align-items:center;gap:10px;background:var(--chip);color:#156ba6;border-radius:999px;padding:12px 18px;font-size:22px}
+.x{background:none;border:none;color:#156ba6;font-size:22px;cursor:pointer;opacity:.6}
+.x:hover{opacity:1}
+.footer{padding-top:12px;text-align:right}
+.clear{padding:10px 16px;border:1px solid #dce7ed;border-radius:10px;background:#fff;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="page">
+<div class="module">Module 1 · Customer-Focused Mindset</div>
+<h1>WHAT CUSTOMERS EXPECT</h1>
+<p>Call out every expectation customers have when they approach us. We'll capture them here.</p>
+
+<div class="board">
+<div class="top">
+<input id="txt" placeholder="Type a customer expectation...">
+<button class="add" onclick="add()">Add</button>
+</div>
+<div id="chips" class="chips"></div>
+</div>
+
+<div class="footer"><button class="clear" onclick="clr()">Clear all responses</button></div>
+</div>
+
+<script>
+const KEY="customerExpectationChips";
+let items=JSON.parse(localStorage.getItem(KEY)||"[]");
+function save(){localStorage.setItem(KEY,JSON.stringify(items));}
+function draw(){
+ const c=document.getElementById("chips");
+ c.innerHTML="";
+ items.forEach((t,i)=>{
+  const d=document.createElement("div");
+  d.className="chip";
+  d.innerHTML='<span>'+t+'</span><button class="x" onclick="del('+i+')">×</button>';
+  c.appendChild(d);
+ });
+}
+function add(){
+ const i=document.getElementById("txt");
+ const v=i.value.trim();
+ if(!v)return;
+ items.push(v);
+ i.value="";
+ save();draw();i.focus();
+}
+function del(i){items.splice(i,1);save();draw();}
+function clr(){if(confirm("Clear all responses?")){items=[];save();draw();}}
+document.getElementById("txt").addEventListener("keydown",e=>{if(e.key==="Enter")add();});
+draw();
+</script>
+</body>
+</html>
