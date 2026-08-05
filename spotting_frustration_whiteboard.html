@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Spotting Frustration Early Whiteboard</title>
+<style>
+  :root {
+    --navy: #06354a;
+    --blue: #1f91da;
+    --blue-soft: #eaf5fc;
+    --orange: #f47820;
+    --orange-soft: #fff2e8;
+    --text: #38586b;
+    --line: #dbe8ef;
+    --panel: rgba(255,255,255,.96);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    font-family: Aptos, "Segoe UI", Arial, sans-serif;
+    background:
+      radial-gradient(circle at 88% 8%, rgba(31,145,218,.12), transparent 24%),
+      linear-gradient(180deg, #ffffff 0%, #f8fbfd 72%, #e9f5fd 100%);
+    color: var(--navy);
+  }
+
+  body::after {
+    content: "";
+    position: fixed;
+    left: -8%;
+    right: -8%;
+    bottom: -10%;
+    height: 28%;
+    background:
+      radial-gradient(ellipse at center, rgba(31,145,218,.22), rgba(31,145,218,.05) 55%, transparent 72%);
+    border-top: 3px solid rgba(31,145,218,.65);
+    border-radius: 50% 50% 0 0;
+    pointer-events: none;
+  }
+
+  .page {
+    position: relative;
+    z-index: 1;
+    width: min(1500px, 94vw);
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 34px 0 40px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .module {
+    color: var(--orange);
+    font-weight: 800;
+    letter-spacing: 3px;
+    font-size: clamp(16px, 1.5vw, 25px);
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+
+  .module::before {
+    content: "";
+    display: inline-block;
+    width: 68px;
+    height: 14px;
+    margin-right: 14px;
+    vertical-align: 1px;
+    background: var(--orange);
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(38px, 4vw, 68px);
+    line-height: 1;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .activity {
+    border: 1px solid #f0c39d;
+    background: rgba(255,255,255,.88);
+    color: #b85513;
+    border-radius: 999px;
+    padding: 10px 18px;
+    font-size: 18px;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+
+  .instruction {
+    color: var(--text);
+    font-size: clamp(18px, 1.6vw, 26px);
+    margin: 20px 0 26px 84px;
+  }
+
+  .board {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    min-height: 0;
+  }
+
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    box-shadow: 0 12px 28px rgba(30, 67, 90, .10);
+    display: flex;
+    flex-direction: column;
+    min-height: 520px;
+    overflow: hidden;
+  }
+
+  .panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 24px 28px 18px;
+    border-bottom: 1px solid #edf3f6;
+  }
+
+  .panel-title {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: clamp(24px, 2vw, 34px);
+    font-weight: 800;
+  }
+
+  .icon {
+    font-size: 34px;
+    line-height: 1;
+  }
+
+  .visual .icon, .visual .count { color: var(--blue); }
+  .verbal .icon, .verbal .count { color: var(--orange); }
+
+  .count {
+    font-weight: 800;
+    font-size: 15px;
+    background: #f6fafc;
+    border-radius: 999px;
+    padding: 6px 10px;
+  }
+
+  .entry-row {
+    display: flex;
+    gap: 10px;
+    padding: 18px 28px 12px;
+  }
+
+  input {
+    flex: 1;
+    min-width: 0;
+    border: 2px solid #dce8ee;
+    border-radius: 12px;
+    padding: 14px 16px;
+    font: inherit;
+    font-size: 20px;
+    outline: none;
+    color: var(--navy);
+    background: white;
+  }
+
+  .visual input:focus { border-color: var(--blue); }
+  .verbal input:focus { border-color: var(--orange); }
+
+  button {
+    border: 0;
+    border-radius: 12px;
+    padding: 0 20px;
+    font: inherit;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  .visual .add { background: var(--blue); color: white; }
+  .verbal .add { background: var(--orange); color: white; }
+
+  .items {
+    flex: 1;
+    list-style: none;
+    margin: 0;
+    padding: 6px 28px 26px;
+    overflow-y: auto;
+  }
+
+  .item {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 12px;
+    align-items: center;
+    margin: 10px 0;
+    padding: 13px 14px;
+    border-radius: 14px;
+    font-size: clamp(19px, 1.6vw, 27px);
+  }
+
+  .visual .item { background: var(--blue-soft); color: #176da8; }
+  .verbal .item { background: var(--orange-soft); color: #ca5c13; }
+
+  .bullet {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .visual .bullet { background: var(--blue); }
+  .verbal .bullet { background: var(--orange); }
+
+  .delete {
+    padding: 3px 8px;
+    background: transparent;
+    color: inherit;
+    font-size: 22px;
+    opacity: .55;
+  }
+
+  .delete:hover { opacity: 1; }
+
+  .footer {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 14px;
+  }
+
+  .clear-all {
+    background: white;
+    color: #5a7180;
+    border: 1px solid #d5e1e7;
+    padding: 10px 16px;
+  }
+
+  @media (max-width: 850px) {
+    .page { padding-top: 22px; }
+    .topbar { flex-direction: column; }
+    .activity { align-self: flex-start; }
+    .instruction { margin-left: 0; }
+    .board { grid-template-columns: 1fr; }
+    .panel { min-height: 420px; }
+  }
+
+  @media print {
+    .entry-row, .footer, .delete { display: none !important; }
+    body::after { display: none; }
+    .page { width: 100%; padding: 16px; }
+    .panel { box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <div class="topbar">
+      <div>
+        <div class="module">Module 4 · Catch It Early</div>
+        <h1>Spotting Frustration Early</h1>
+      </div>
+      <div class="activity">◷ 5 MIN · ACTIVITY</div>
+    </div>
+
+    <p class="instruction">
+      Call out the cues. Enter each response under what you see or what you hear.
+    </p>
+
+    <section class="board">
+      <div class="panel visual">
+        <div class="panel-head">
+          <div class="panel-title"><span class="icon">◉</span> Visual cues</div>
+          <div class="count" id="visualCount">0 responses</div>
+        </div>
+        <div class="entry-row">
+          <input id="visualInput" type="text" placeholder="Type a visual cue..." autocomplete="off" />
+          <button class="add" onclick="addItem('visual')">Add</button>
+        </div>
+        <ul class="items" id="visualList"></ul>
+      </div>
+
+      <div class="panel verbal">
+        <div class="panel-head">
+          <div class="panel-title"><span class="icon">◖))</span> Verbal cues</div>
+          <div class="count" id="verbalCount">0 responses</div>
+        </div>
+        <div class="entry-row">
+          <input id="verbalInput" type="text" placeholder="Type a verbal cue..." autocomplete="off" />
+          <button class="add" onclick="addItem('verbal')">Add</button>
+        </div>
+        <ul class="items" id="verbalList"></ul>
+      </div>
+    </section>
+
+    <div class="footer">
+      <button class="clear-all" onclick="clearAll()">Clear all responses</button>
+    </div>
+  </main>
+
+<script>
+  const STORAGE_KEY = "spottingFrustrationWhiteboard";
+  const state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{"visual":[],"verbal":[]}');
+
+  function save() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  function addItem(type) {
+    const input = document.getElementById(type + "Input");
+    const text = input.value.trim();
+    if (!text) return;
+    state[type].push(text);
+    input.value = "";
+    save();
+    render(type);
+    input.focus();
+  }
+
+  function removeItem(type, index) {
+    state[type].splice(index, 1);
+    save();
+    render(type);
+  }
+
+  function render(type) {
+    const list = document.getElementById(type + "List");
+    list.innerHTML = "";
+
+    state[type].forEach((text, index) => {
+      const li = document.createElement("li");
+      li.className = "item";
+
+      const bullet = document.createElement("span");
+      bullet.className = "bullet";
+
+      const label = document.createElement("span");
+      label.textContent = text;
+
+      const remove = document.createElement("button");
+      remove.className = "delete";
+      remove.textContent = "×";
+      remove.setAttribute("aria-label", "Delete response");
+      remove.onclick = () => removeItem(type, index);
+
+      li.appendChild(bullet);
+      li.appendChild(label);
+      li.appendChild(remove);
+      list.appendChild(li);
+    });
+
+    const count = state[type].length;
+    document.getElementById(type + "Count").textContent =
+      count + (count === 1 ? " response" : " responses");
+  }
+
+  function clearAll() {
+    if (!confirm("Clear all responses from both columns?")) return;
+    state.visual = [];
+    state.verbal = [];
+    save();
+    render("visual");
+    render("verbal");
+  }
+
+  document.getElementById("visualInput").addEventListener("keydown", e => {
+    if (e.key === "Enter") addItem("visual");
+  });
+
+  document.getElementById("verbalInput").addEventListener("keydown", e => {
+    if (e.key === "Enter") addItem("verbal");
+  });
+
+  render("visual");
+  render("verbal");
+</script>
+</body>
+</html>
