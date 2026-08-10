@@ -178,7 +178,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:18px}
     <div class="video-options">
       <div class="video-option">
         <h3>Employee View</h3>
-        <p>Open the live assistant in the lower-right corner and ask a travel policy question.</p>
+        <p>Open the Northstar Safety Assistant in the lower-right corner and ask a safety or PPE question.</p>
         <button class="primary" id="launchLiveAssistant">Open Live Assistant</button>
       </div>
       <div class="video-option">
@@ -379,7 +379,7 @@ $("launchLiveAssistant").onclick=()=>{
 };
 $("launchChatbaseBackend").onclick=()=>{
   closeAIChoice();
-  window.open("https://www.chatbase.co/dashboard/mechelleroys-workspace/chatbot/oW7hk9entDMZ--d3xsLwT/playground", "_blank", "noopener,noreferrer");
+  window.open("https://www.chatbase.co/dashboard/mechelleroys-workspace/chatbot/viAIOsxRsk0s5t2YAfGtS/playground", "_blank", "noopener,noreferrer");
 };
 aiChoiceModal.addEventListener("click",e=>{if(e.target===aiChoiceModal)closeAIChoice()});
 workflowChoiceModal.addEventListener("click",e=>{if(e.target===workflowChoiceModal)closeWorkflowChoice()});
@@ -387,7 +387,7 @@ window.addEventListener("resize",()=>{if(callout.classList.contains("active"))sh
 </script>
 
 <script>
-(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="oW7hk9entDMZ--d3xsLwT";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="viAIOsxRsk0s5t2YAfGtS";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
 </script>
 </body>
 </html>
