@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Navigate IQGEO Map</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: #f4f4f4;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .viewer {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pdf-frame {
+      width: 100%;
+      flex: 1;
+      border: 0;
+      background: white;
+    }
+
+    .fallback {
+      padding: 16px;
+      text-align: center;
+      background: white;
+    }
+
+    .fallback a {
+      color: #9d174d;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <div class="viewer">
+    <object
+      class="pdf-frame"
+      data="JA_03_Navigation_Tools.pdf#view=FitH"
+      type="application/pdf"
+      aria-label="Navigate IQGEO Map job aid">
+      <div class="fallback">
+        <p>Your browser cannot display this PDF.</p>
+        <p><a href="JA_03_Navigation_Tools.pdf" target="_blank" rel="noopener">Open the Navigate IQGEO Map job aid</a></p>
+      </div>
+    </object>
+  </div>
+</body>
+</html>
