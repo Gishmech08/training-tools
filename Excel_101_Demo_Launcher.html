@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Excel 101 Demo Launcher</title>
+<style>
+  :root {
+    --ink:#19324a;
+    --blue:#1287c9;
+    --blue2:#0f6fa7;
+    --soft:#eef7fc;
+    --line:#d8e4ec;
+    --muted:#5d7183;
+    --white:#fff;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family:Aptos, "Segoe UI", Arial, sans-serif;
+    background:linear-gradient(135deg,#f7fbfe 0%,#eef7fc 100%);
+    color:var(--ink);
+    display:grid;
+    place-items:center;
+  }
+  .shell{
+    width:min(1050px,92vw);
+    min-height:600px;
+    background:rgba(255,255,255,.97);
+    border:1px solid var(--line);
+    border-radius:24px;
+    box-shadow:0 24px 70px rgba(25,50,74,.13);
+    overflow:hidden;
+    display:grid;
+    grid-template-columns:1.1fr .9fr;
+  }
+  .left{padding:56px 54px;display:flex;flex-direction:column;justify-content:center}
+  .right{background:var(--soft);padding:46px 38px;display:flex;flex-direction:column;justify-content:center;border-left:1px solid var(--line)}
+  .eyebrow{font-size:14px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--blue);margin-bottom:12px}
+  h1{font-size:46px;line-height:1.05;margin:0 0 18px;letter-spacing:-.02em}
+  .lead{font-size:20px;line-height:1.5;margin:0 0 34px;color:#38556d;max-width:620px}
+  .buttons{display:flex;gap:14px;flex-wrap:wrap}
+  button,a.button{
+    appearance:none;border:0;border-radius:13px;padding:16px 22px;font-size:17px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:10px
+  }
+  .primary{background:var(--blue);color:#fff;box-shadow:0 9px 24px rgba(18,135,201,.25)}
+  .primary:hover{background:var(--blue2)}
+  .secondary{background:#fff;color:var(--ink);border:1px solid #bfd1de}
+  .secondary:hover{background:#f7fbfe}
+  .hint{margin-top:24px;font-size:14px;color:var(--muted);line-height:1.45}
+  .status{margin-top:20px;min-height:22px;font-size:14px;font-weight:650;color:var(--blue2)}
+  .panel-title{font-size:18px;font-weight:800;margin:0 0 18px}
+  .step{display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start;padding:13px 0;border-bottom:1px solid #d7e7f1}
+  .step:last-child{border-bottom:0}
+  .n{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#fff;color:var(--blue);font-weight:800;border:1px solid #c7dce9}
+  .step b{display:block;margin-bottom:3px;font-size:15px}
+  .step span{font-size:14px;line-height:1.38;color:#4f687c}
+  .tiny{margin-top:22px;padding:14px 16px;border-radius:12px;background:#fff;border:1px solid #cfe0ea;font-size:13px;line-height:1.45;color:#4e6577}
+  @media(max-width:820px){.shell{grid-template-columns:1fr}.right{border-left:0;border-top:1px solid var(--line)}h1{font-size:38px}.left{padding:42px 34px}.right{padding:34px}}
+</style>
+</head>
+<body>
+<main class="shell" aria-labelledby="title">
+  <section class="left">
+    <div class="eyebrow">Excel 101 • Instructor Demo</div>
+    <h1 id="title">Open your live Excel demo.</h1>
+    <p class="lead">Use this same launcher throughout the presentation. Keep the workbook open between demos so every change stays exactly where you left it.</p>
+    <div class="buttons">
+      <button class="primary" id="openExcel">Open / Return to Excel</button>
+      <button class="secondary" id="backPpt">Return to PowerPoint</button>
+    </div>
+    <div class="status" id="status" aria-live="polite"></div>
+    <p class="hint">Best VILT flow: share your full screen, open Excel from here, then use Alt + Tab to move between Excel and PowerPoint. Do not close the workbook until the session ends.</p>
+  </section>
+  <aside class="right" aria-label="Demo flow">
+    <p class="panel-title">Demo flow</p>
+    <div class="step"><div class="n">1</div><div><b>Launch once</b><span>Open the instructor workbook in desktop Excel.</span></div></div>
+    <div class="step"><div class="n">2</div><div><b>Demonstrate</b><span>Enter data, format cells, manage tabs, build formulas and set up printing.</span></div></div>
+    <div class="step"><div class="n">3</div><div><b>Switch back</b><span>Use Alt + Tab or the PowerPoint taskbar icon. Leave Excel open.</span></div></div>
+    <div class="step"><div class="n">4</div><div><b>Resume later</b><span>Select your PPT demo button again and return to the same workbook state.</span></div></div>
+    <div class="tiny">If your browser blocks the Microsoft Excel protocol, use the fallback link that appears below the launch button. If you host this page, keep the workbook in the same folder as this HTML file.</div>
+  </aside>
+</main>
+<script>
+(function(){
+  const workbookName = 'Excel_101_Instructor_Demo.xlsx';
+  const openBtn = document.getElementById('openExcel');
+  const backBtn = document.getElementById('backPpt');
+  const status = document.getElementById('status');
+
+  function workbookUrl(){
+    return new URL(workbookName, window.location.href).href;
+  }
+
+  function showFallback(url){
+    status.innerHTML = 'Excel did not open? <a href="' + url + '" style="color:#0f6fa7;font-weight:800">Open the workbook file</a>.';
+  }
+
+  openBtn.addEventListener('click', function(){
+    const url = workbookUrl();
+    localStorage.setItem('excel101DemoLaunched','yes');
+    status.textContent = 'Opening Excel…';
+
+    if (location.protocol === 'http:' || location.protocol === 'https:') {
+      window.location.href = 'ms-excel:ofe|u|' + url;
+      setTimeout(() => showFallback(url), 1600);
+    } else {
+      // Local HTML pages cannot reliably invoke Office URI schemes in every browser.
+      // Open the adjacent workbook directly as the most dependable local fallback.
+      const a = document.createElement('a');
+      a.href = workbookName;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => showFallback(workbookName), 900);
+    }
+  });
+
+  backBtn.addEventListener('click', function(){
+    status.textContent = 'Returning to PowerPoint…';
+    window.close();
+    setTimeout(() => {
+      status.textContent = 'If this window stays open, press Alt + Tab to return to PowerPoint.';
+    }, 500);
+  });
+
+  if(localStorage.getItem('excel101DemoLaunched') === 'yes'){
+    openBtn.textContent = 'Return to Excel Demo';
+  }
+})();
+</script>
+</body>
+</html>
