@@ -66,7 +66,7 @@ button,input,select{font:inherit}
 .fx{font-style:italic;font-weight:700;color:#62727d}
 .formulabar input{border:0;outline:0;width:100%;font-size:13px}
 .sheet-wrap{overflow:auto;max-height:430px;background:#fff}
-.grid{border-collapse:collapse;table-layout:fixed;user-select:none}
+.grid{border-collapse:collapse;table-layout:fixed;user-select:text}
 .grid th,.grid td{border:1px solid #d3d8dc;height:28px;min-width:88px;max-width:160px;padding:4px 6px;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .grid th{background:#f2f3f5;text-align:center;font-weight:500;color:#4e5d66;position:relative}
 .col-resizer{position:absolute;right:-3px;top:0;width:7px;height:100%;cursor:col-resize;z-index:5}
@@ -495,7 +495,8 @@ function selectCell(td, extend=false){
  const nb=card.querySelector("[data-namebox]"); if(nb) nb.textContent=td.dataset.cell;
  const formula=card.querySelector("[data-formula]");
  if(formula) formula.value=td.dataset.formulaSrc||td.dataset.raw||td.textContent;
- addHandle(td);
+ // Do not mutate the contents of a cell while the user is actively editing it.
+ if(document.activeElement!==td) addHandle(td);
 }
 
 function setFormulaBarFromCell(td){
@@ -521,7 +522,12 @@ function initializeCellTypes(){
 
 function addHandle(td){
  card.querySelectorAll(".fill-handle").forEach(x=>x.remove());
- const h=document.createElement("span");h.className="fill-handle";h.title="Fill Handle";td.appendChild(h);
+ if(!td || document.activeElement===td) return;
+ const h=document.createElement("span");
+ h.className="fill-handle";
+ h.title="Fill Handle";
+ h.setAttribute("contenteditable","false");
+ td.appendChild(h);
 }
 
 function fillDown(source, target){
@@ -542,6 +548,7 @@ function fillDown(source, target){
    } else td.textContent=value;
  }
  recalcAll();
+ persistCurrentState();
 }
 
 function shiftFormula(formula, delta){
@@ -557,7 +564,11 @@ document.addEventListener("click",e=>{
  if(e.target.id==="resetDemo" && currentDemo){delete snapshots[currentDemo]; delete sheetBooks[currentDemo]; historyStack=[]; redoStack=[]; buildDemo(currentDemo,true);return}
  if(e.target.id==="resetAll"){sessionStorage.clear();Object.keys(snapshots).forEach(k=>delete snapshots[k]);Object.keys(sheetBooks).forEach(k=>delete sheetBooks[k]);historyStack=[];redoStack=[];showHome();return}
  const td=e.target.closest("td[data-cell]");
- if(td && !e.target.classList.contains("fill-handle")){selectCell(td);return}
+ if(td && !e.target.classList.contains("fill-handle")){
+   // focusin already selects an editable cell. Avoid rebuilding its DOM on click.
+   if(document.activeElement!==td) selectCell(td);
+   return;
+ }
  const rowh=e.target.closest(".rowhead");
  if(rowh){selectRow(+rowh.dataset.row);return}
  const colh=e.target.closest(".colhead");
@@ -587,7 +598,15 @@ document.addEventListener("dblclick",e=>{
 
 document.addEventListener("focusin",e=>{
  const td=e.target.closest("td[data-cell]");
- if(td){ editStartState=card.innerHTML; selectCell(td); }
+ if(td){
+   editStartState=card.innerHTML;
+   card.querySelectorAll(".fill-handle").forEach(x=>x.remove());
+   card.querySelectorAll(".selected,.range").forEach(x=>x.classList.remove("selected","range"));
+   currentCell=td;
+   td.classList.add("selected");
+   const nb=card.querySelector("[data-namebox]"); if(nb) nb.textContent=td.dataset.cell;
+   setFormulaBarFromCell(td);
+ }
 });
 
 document.addEventListener("input",e=>{
@@ -598,6 +617,7 @@ document.addEventListener("input",e=>{
    currentCell=td;
    const formula=card.querySelector("[data-formula]"); if(formula) formula.value=td.textContent;
    inferCellType(td);
+   persistCurrentState();
  }
 });
 
@@ -607,6 +627,8 @@ document.addEventListener("blur",e=>{
    commitCellEdit(td);
    if(editStartState && editStartState!==card.innerHTML){ historyStack.push(editStartState); redoStack=[]; }
    editStartState=null;
+   addHandle(td);
+   persistCurrentState();
  }
 },true);
 
@@ -707,6 +729,8 @@ function applyStyle(s){pushHistory();selectedCells().forEach(td=>td.classList.ad
 
 function commitCellEdit(td){
  if(!td) return;
+ // Remove any non-editing UI before reading the cell value.
+ td.querySelectorAll(".fill-handle").forEach(x=>x.remove());
  const raw=td.textContent.trim();
  if(raw.startsWith("=")){
    td.dataset.formulaSrc=raw;
@@ -715,9 +739,11 @@ function commitCellEdit(td){
  }else{
    delete td.dataset.formulaSrc;
    td.dataset.raw=raw;
+   td.textContent=raw;
  }
  inferCellType(td);
  recalcAll();
+ persistCurrentState();
 }
 
 function commitFormula(){
@@ -725,7 +751,7 @@ function commitFormula(){
  const inp=card.querySelector("[data-formula]"); const f=inp.value.trim();
  if(f.startsWith("=")){currentCell.dataset.formulaSrc=f;currentCell.textContent=evalFormula(f);currentCell.dataset.raw=currentCell.textContent}
  else {delete currentCell.dataset.formulaSrc;currentCell.textContent=f;currentCell.dataset.raw=f}
- inferCellType(currentCell); recalcAll(); addHandle(currentCell);
+ inferCellType(currentCell); recalcAll(); addHandle(currentCell); persistCurrentState();
 }
 
 function autoSum(){
@@ -877,7 +903,14 @@ document.addEventListener('change',e=>{
  if(e.target.id==='orientation'||e.target.id==='scaling') applyPage();
 });
 
-function saveSnapshot(){if(currentDemo){const active=card.querySelector(".tab.active");if(active&&sheetBooks[currentDemo])sheetBooks[currentDemo].sheets[active.dataset.tab]=captureGrid();snapshots[currentDemo]=card.innerHTML}}
+function persistCurrentState(){
+ if(!currentDemo) return;
+ const active=card.querySelector(".tab.active");
+ if(active && sheetBooks[currentDemo]) sheetBooks[currentDemo].sheets[active.dataset.tab]=captureGrid();
+ snapshots[currentDemo]=card.innerHTML;
+}
+
+function saveSnapshot(){persistCurrentState()}
 
 function showHome(){
  saveSnapshot();currentDemo=null;
