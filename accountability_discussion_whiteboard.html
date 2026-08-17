@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Accountability Whiteboard</title>
+<style>
+  :root{
+    --navy:#062f44;
+    --blue:#2f8fcd;
+    --light:#eaf3f8;
+    --orange:#f58220;
+    --ink:#17384a;
+    --muted:#66808f;
+    --line:#cfe0ea;
+    --card:#ffffff;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:#f7fbfd;
+    color:var(--ink);
+  }
+  .app{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+  }
+  header{
+    background:linear-gradient(135deg,#082f44 0%,#0d4663 100%);
+    color:#fff;
+    padding:18px 26px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    box-shadow:0 2px 10px rgba(0,0,0,.14);
+  }
+  .title-wrap h1{
+    margin:0;
+    font-size:26px;
+    line-height:1.15;
+  }
+  .title-wrap p{
+    margin:5px 0 0;
+    color:#cfe8f5;
+    font-size:14px;
+  }
+  .controls{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  button{
+    border:0;
+    border-radius:10px;
+    padding:10px 14px;
+    font-weight:700;
+    cursor:pointer;
+    font-size:14px;
+  }
+  .btn-primary{background:var(--orange); color:#fff}
+  .btn-secondary{background:#fff; color:var(--navy)}
+  .btn-ghost{background:transparent; color:#fff; border:1px solid rgba(255,255,255,.45)}
+  main{
+    flex:1;
+    display:grid;
+    grid-template-columns:1.1fr 1fr;
+    gap:18px;
+    padding:20px;
+  }
+  .panel{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:16px;
+    box-shadow:0 4px 18px rgba(29,73,96,.08);
+    overflow:hidden;
+  }
+  .panel-head{
+    padding:16px 18px 10px;
+    border-bottom:1px solid var(--line);
+  }
+  .panel-head h2{
+    margin:0;
+    font-size:20px;
+    color:var(--navy);
+  }
+  .panel-head p{
+    margin:5px 0 0;
+    color:var(--muted);
+    font-size:13px;
+  }
+  .board{
+    padding:16px;
+    min-height:560px;
+  }
+  .prompt{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    margin-bottom:14px;
+  }
+  .prompt .num{
+    width:28px;height:28px;border-radius:50%;
+    background:var(--orange);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:700;flex:0 0 auto;
+  }
+  .prompt strong{display:block;color:var(--navy);margin-bottom:2px}
+  .prompt span{color:var(--muted);font-size:13px}
+  .add-row{
+    display:flex;
+    gap:8px;
+    margin:14px 0 18px;
+  }
+  input[type="text"], select{
+    flex:1;
+    padding:11px 12px;
+    border:1px solid #b9cedb;
+    border-radius:10px;
+    font-size:14px;
+    outline:none;
+  }
+  input[type="text"]:focus, select:focus{
+    border-color:var(--blue);
+    box-shadow:0 0 0 3px rgba(47,143,205,.12);
+  }
+  .sticky-area{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;
+  }
+  .sticky{
+    position:relative;
+    padding:14px 38px 14px 14px;
+    min-height:92px;
+    border-radius:12px;
+    background:#eef6fb;
+    border-left:5px solid var(--blue);
+    box-shadow:0 2px 8px rgba(0,0,0,.06);
+  }
+  .sticky.orange{background:#fff3e9;border-left-color:var(--orange)}
+  .sticky h3{
+    margin:0 0 7px;
+    font-size:15px;
+    color:var(--navy);
+  }
+  .sticky p{
+    margin:0;
+    line-height:1.35;
+    font-size:14px;
+    white-space:pre-wrap;
+    word-break:break-word;
+  }
+  .remove{
+    position:absolute;
+    top:8px;right:8px;
+    border:0;background:transparent;
+    color:#8095a1;font-size:18px;padding:2px 6px;
+  }
+  .tool-grid{
+    padding:16px;
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:12px;
+  }
+  .tool{
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:14px;
+    background:#fbfdfe;
+    min-height:110px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+  }
+  .tool h3{
+    margin:0 0 7px;
+    font-size:16px;
+    color:var(--navy);
+  }
+  .tool p{
+    margin:0;
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.35;
+  }
+  .tool button{
+    margin-top:10px;
+    padding:8px 10px;
+    background:var(--blue);
+    color:#fff;
+  }
+  .match-panel{
+    margin:0 16px 16px;
+    background:#f2f8fb;
+    border:1px dashed #9fc0d4;
+    border-radius:14px;
+    padding:14px;
+  }
+  .match-panel h3{margin:0 0 8px;color:var(--navy)}
+  .matches{
+    display:grid;
+    gap:8px;
+  }
+  .match{
+    display:grid;
+    grid-template-columns:1fr 170px;
+    gap:8px;
+    align-items:center;
+    background:#fff;
+    padding:8px;
+    border-radius:10px;
+    border:1px solid #d7e5ed;
+  }
+  .match .issue{
+    font-size:14px;
+  }
+  footer{
+    padding:10px 20px 16px;
+    color:#78909e;
+    font-size:12px;
+    text-align:center;
+  }
+  .empty{
+    color:#8aa0ad;
+    font-size:14px;
+    padding:12px;
+    border:1px dashed #bfd2de;
+    border-radius:10px;
+    text-align:center;
+  }
+  @media (max-width: 980px){
+    main{grid-template-columns:1fr}
+    .sticky-area{grid-template-columns:1fr}
+    .tool-grid{grid-template-columns:1fr}
+    .match{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="title-wrap">
+      <h1>What Weakens Accountability?</h1>
+      <p>Capture team barriers, then connect each one to a tool that helps address it.</p>
+    </div>
+    <div class="controls">
+      <button class="btn-secondary" onclick="seedExamples()">Add examples</button>
+      <button class="btn-ghost" onclick="clearBoard()">Clear board</button>
+      <button class="btn-primary" onclick="exportBoard()">Export notes</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel">
+      <div class="panel-head">
+        <h2>1. What weakens accountability?</h2>
+        <p>Add one issue at a time. Keep entries short enough to scan across the room.</p>
+      </div>
+      <div class="board">
+        <div class="prompt">
+          <div class="num">1</div>
+          <div>
+            <strong>Think about teams you’ve worked on.</strong>
+            <span>What caused ownership to become unclear, delayed, or avoided?</span>
+          </div>
+        </div>
+        <div class="add-row">
+          <input id="issueInput" type="text" placeholder="Example: No one knew who had final approval" />
+          <button class="btn-primary" onclick="addIssue()">Add</button>
+        </div>
+        <div id="issueArea" class="sticky-area">
+          <div class="empty" id="emptyState">Participant responses will appear here.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>2. Which tool would help?</h2>
+        <p>Match each issue to the strongest tool from this morning.</p>
+      </div>
+
+      <div class="tool-grid">
+        <div class="tool">
+          <div>
+            <h3>Roles</h3>
+            <p>Clarifies who owns the work, who decides, and who supports.</p>
+          </div>
+          <button onclick="quickAssign('Roles')">Use for selected</button>
+        </div>
+        <div class="tool">
+          <div>
+            <h3>Project Charter</h3>
+            <p>Clarifies authority, purpose, key players, constraints, and success.</p>
+          </div>
+          <button onclick="quickAssign('Project Charter')">Use for selected</button>
+        </div>
+        <div class="tool">
+          <div>
+            <h3>Scope</h3>
+            <p>Clarifies what is included, excluded, and what “done” means.</p>
+          </div>
+          <button onclick="quickAssign('Scope')">Use for selected</button>
+        </div>
+      </div>
+
+      <div class="match-panel">
+        <h3>Accountability Match-Up</h3>
+        <div id="matches" class="matches">
+          <div class="empty">Add accountability issues on the left to begin matching.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Discussion goal: identify patterns, then connect each barrier to a practical project tool.
+  </footer>
+</div>
+
+<script>
+let issues = [];
+let selectedIndex = null;
+
+function save(){
+  localStorage.setItem('accountabilityWhiteboard', JSON.stringify(issues));
+}
+function load(){
+  const saved = localStorage.getItem('accountabilityWhiteboard');
+  if(saved){
+    try{ issues = JSON.parse(saved) || []; }catch(e){ issues=[]; }
+  }
+  render();
+}
+function addIssue(text){
+  const input = document.getElementById('issueInput');
+  const value = (text || input.value).trim();
+  if(!value) return;
+  issues.push({text:value, tool:''});
+  input.value='';
+  save();
+  render();
+}
+function removeIssue(i){
+  issues.splice(i,1);
+  if(selectedIndex===i) selectedIndex=null;
+  save();
+  render();
+}
+function selectIssue(i){
+  selectedIndex = i;
+  render();
+}
+function assignTool(i, tool){
+  issues[i].tool = tool;
+  selectedIndex = i;
+  save();
+  render();
+}
+function quickAssign(tool){
+  if(selectedIndex===null){
+    alert('Select an issue first by clicking its card.');
+    return;
+  }
+  assignTool(selectedIndex, tool);
+}
+function render(){
+  const area = document.getElementById('issueArea');
+  const matches = document.getElementById('matches');
+  area.innerHTML='';
+  matches.innerHTML='';
+
+  if(!issues.length){
+    area.innerHTML='<div class="empty">Participant responses will appear here.</div>';
+    matches.innerHTML='<div class="empty">Add accountability issues on the left to begin matching.</div>';
+    return;
+  }
+
+  issues.forEach((item,i)=>{
+    const card=document.createElement('div');
+    card.className='sticky ' + (i%3===1 ? 'orange':'');
+    card.style.outline = selectedIndex===i ? '3px solid rgba(47,143,205,.3)' : 'none';
+    card.onclick=(e)=>{ if(e.target.classList.contains('remove')) return; selectIssue(i); };
+    card.innerHTML = `
+      <button class="remove" aria-label="Remove" onclick="removeIssue(${i})">×</button>
+      <h3>Accountability barrier ${i+1}</h3>
+      <p>${escapeHtml(item.text)}</p>
+    `;
+    area.appendChild(card);
+
+    const row=document.createElement('div');
+    row.className='match';
+    row.innerHTML=`
+      <div class="issue">${escapeHtml(item.text)}</div>
+      <select onchange="assignTool(${i}, this.value)">
+        <option value="" ${item.tool===''?'selected':''}>Choose a tool</option>
+        <option value="Roles" ${item.tool==='Roles'?'selected':''}>Roles</option>
+        <option value="Project Charter" ${item.tool==='Project Charter'?'selected':''}>Project Charter</option>
+        <option value="Scope" ${item.tool==='Scope'?'selected':''}>Scope</option>
+      </select>
+    `;
+    matches.appendChild(row);
+  });
+}
+function clearBoard(){
+  if(confirm('Clear all responses?')){
+    issues=[]; selectedIndex=null; save(); render();
+  }
+}
+function seedExamples(){
+  const samples=[
+    'Two people thought the other person owned the same task',
+    'The team kept changing what “done” meant',
+    'No one knew who had authority to make the final call',
+    'People waited until status meetings to raise blockers'
+  ];
+  samples.forEach(s=>{
+    if(!issues.some(x=>x.text===s)) issues.push({text:s, tool:''});
+  });
+  save(); render();
+}
+function exportBoard(){
+  if(!issues.length){
+    alert('There are no notes to export yet.');
+    return;
+  }
+  let text='ACCOUNTABILITY DISCUSSION NOTES\\n\\n';
+  issues.forEach((x,i)=>{
+    text += `${i+1}. ${x.text}\\n   Tool: ${x.tool || 'Not assigned'}\\n\\n`;
+  });
+  const blob=new Blob([text],{type:'text/plain'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='accountability-discussion-notes.txt';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+function escapeHtml(str){
+  return str.replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+}
+document.getElementById('issueInput').addEventListener('keydown', e=>{
+  if(e.key==='Enter') addIssue();
+});
+load();
+</script>
+</body>
+</html>
