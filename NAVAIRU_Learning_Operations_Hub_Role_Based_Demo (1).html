@@ -302,7 +302,7 @@
       </div>
       <div class="top-actions">
         <span class="pill">Concept Demo</span>
-        <div class="role-switch" aria-label="Demo role switch">
+        <div class="role-switch" aria-label="Demo role switch" title="Switch views during the demo to show what the requester sees versus what the NAVAIRU team sees.">
           <button id="requesterRole" class="active">Requester</button>
           <button id="teamRole">NAVAIRU Team</button>
         </div>
@@ -336,26 +336,7 @@
             <div><h3>My Requests</h3><div class="sub">See only the requests you submitted and what happens next.</div></div>
             <button class="btn btn-ghost" data-view-jump="mine">View all</button>
           </div>
-          <div class="requester-status">
-            <div class="requester-card">
-              <div class="statusline"><span class="tag gold">In Triage</span><span class="due">NU-1054</span></div>
-              <h4>Program Management Essentials</h4>
-              <p>We are reviewing existing options and confirming ownership.</p>
-              <div class="mini-progress"><span class="done"></span><span class="current"></span><span></span><span></span><span></span></div>
-            </div>
-            <div class="requester-card">
-              <div class="statusline"><span class="tag">In Progress</span><span class="due">NU-1060</span></div>
-              <h4>Acquisition Onboarding Update</h4>
-              <p>Your request is moving through the agreed update path.</p>
-              <div class="mini-progress"><span class="done"></span><span class="done"></span><span class="done"></span><span class="current"></span><span></span></div>
-            </div>
-            <div class="requester-card">
-              <div class="statusline"><span class="tag">Ready</span><span class="due">NU-1062</span></div>
-              <h4>Test & Evaluation Quick Reference</h4>
-              <p>The solution is ready for release.</p>
-              <div class="mini-progress"><span class="done"></span><span class="done"></span><span class="done"></span><span class="done"></span><span class="current"></span></div>
-            </div>
-          </div>
+          <div class="requester-status" id="requesterStatus"></div>
         </div>
       </section>
 
@@ -387,10 +368,10 @@
         </div>
         <div class="section-head"><div><h3>Team Snapshot</h3><div class="sub">What needs action now.</div></div></div>
         <div class="statgrid">
-          <div class="stat"><div class="num">7</div><div class="lbl">New requests</div></div>
-          <div class="stat"><div class="num">4</div><div class="lbl">Need triage</div></div>
-          <div class="stat"><div class="num">18</div><div class="lbl">Active projects</div></div>
-          <div class="stat"><div class="num">2</div><div class="lbl">Need attention</div></div>
+          <div class="stat"><div class="num" id="newRequestCount">0</div><div class="lbl">New requests</div></div>
+          <div class="stat"><div class="num" id="triageCount">0</div><div class="lbl">Need triage</div></div>
+          <div class="stat"><div class="num" id="activeCount">0</div><div class="lbl">Active projects</div></div>
+          <div class="stat"><div class="num" id="attentionCount">0</div><div class="lbl">Need attention</div></div>
         </div>
         <div class="section-head"><div><h3>Projects in Progress</h3><div class="sub">Shared operational view for the NAVAIRU team.</div></div></div>
         <div class="board" id="board"></div>
@@ -398,21 +379,16 @@
 
       <section class="view team-only" id="view-intake">
         <div class="section-head"><div><h3>Intake Queue</h3><div class="sub">New requests waiting for triage.</div></div></div>
-        <div class="panel">
-          <div class="list-row"><strong>NU-1064 • Systems Engineering Request</strong><span>New training • Research & Engineering</span></div>
-          <div class="list-row"><strong>NU-1067 • Existing Course Update</strong><span>Modify • CISL</span></div>
-          <div class="list-row"><strong>NU-1068 • Commercial Leadership Course</strong><span>Potential procurement • CPM</span></div>
-          <div class="list-row"><strong>NU-1070 • Data Skills Request</strong><span>Needs triage • Multiple colleges?</span></div>
-        </div>
+        <div class="panel" id="intakeQueue"></div>
       </section>
 
 <section class="view" id="view-projects">
         <div class="section-head"><div><h3>Portfolio View</h3><div class="sub">A simple snapshot of volume, work stage and ownership.</div></div></div>
         <div class="statgrid">
-          <div class="stat"><div class="num">18</div><div class="lbl">Active projects</div></div>
+          <div class="stat"><div class="num" id="activeCount">0</div><div class="lbl">Active projects</div></div>
           <div class="stat"><div class="num">5</div><div class="lbl">In review</div></div>
           <div class="stat"><div class="num">4</div><div class="lbl">Cross-college</div></div>
-          <div class="stat"><div class="num">2</div><div class="lbl">Need attention</div></div>
+          <div class="stat"><div class="num" id="attentionCount">0</div><div class="lbl">Need attention</div></div>
         </div>
         <div class="section-head"><div><h3>Current Work</h3></div></div>
         <div class="board" id="board2"></div>
@@ -447,6 +423,7 @@
       </section>
 
       <section class="view" id="view-admin">
+        <div style="display:flex;justify-content:flex-end;margin-bottom:12px"><button class="btn btn-ghost" id="resetDemo">Reset Demo Data</button></div>
         <div class="grid2">
           <div class="panel"><h3>Admin: Intake Rules</h3>
             <div class="list-row"><strong>New training</strong><span>Route to Develop</span></div>
@@ -489,8 +466,8 @@
         <div class="eyebrow">Step 2 of 4</div>
         <div class="question">Tell us only what we need to start.</div>
         <div class="form-grid">
-          <div class="field full"><label>What is needed?</label><textarea id="need" placeholder="Describe the need in plain language."></textarea></div>
-          <div class="field"><label>Who needs it?</label><input id="audience" placeholder="Audience or workforce group"></div>
+          <div class="field full"><label>What is needed? <span style="color:#a13c3c">*</span></label><textarea id="need" placeholder="Describe the need in plain language."></textarea></div>
+          <div class="field"><label>Who needs it? <span style="color:#a13c3c">*</span></label><input id="audience" placeholder="Audience or workforce group"></div>
           <div class="field"><label>When is it needed?</label><input id="when" type="date"></div>
           <div class="field"><label>What already exists?</label><select id="exists"><option>Not sure</option><option>Nothing that I know of</option><option>Existing course or material</option><option>External option may exist</option></select></div>
           <div class="field"><label>Who should be involved?</label><input id="people" placeholder="SMEs, teams or colleges"></div>
@@ -501,11 +478,17 @@
       <div id="step3" style="display:none">
         <div class="eyebrow">Step 3 of 4</div>
         <div class="question">Triage recommends a path.</div>
-        <div class="route" id="routeBox">✓ Recommended path: <strong id="routeText">Develop</strong></div>
+        <div class="route" id="routeBox">✓ Based on your request: <strong id="routeText">Develop</strong></div><div class="helper" id="routeReason" style="margin-top:7px">The NAVAIRU team can confirm or adjust this during triage.</div>
         <div style="margin-top:16px" class="form-grid">
           <div class="field"><label>College</label><select id="college"><option>College of Interdisciplinary Studies & Leadership</option><option>College of Program Management</option><option>Procurement Management College</option><option>College of Research & Engineering</option><option>College of Test & Evaluation</option><option>College of Sustainment & Product Support</option><option>College of Command Operations</option><option>College of Digital Education</option></select></div>
           <div class="field"><label>Priority</label><select id="priority"><option>Routine</option><option>Time-sensitive</option><option>Mission priority</option></select></div>
-          <div class="field full"><label>Additional information for this path</label><textarea id="extra" placeholder="Only path-specific questions appear here."></textarea><div class="helper" id="extraHelp">Example: desired outcomes, available source content, known SMEs.</div></div>
+          <div class="field"><label>Multiple colleges involved?</label>
+            <select id="multiCollege"><option>No / Not sure</option><option>Yes</option></select>
+          </div>
+          <div class="field"><label>Funding</label>
+            <select id="funding"><option>Not sure / Not applicable</option><option>Funding identified</option><option>Funding may be required</option></select>
+          </div>
+          <div class="field full"><label id="extraLabel">Additional information for this path</label><textarea id="extra" placeholder="Only path-specific questions appear here."></textarea><div class="helper" id="extraHelp">We only ask for details needed for the recommended path.</div></div>
         </div>
       </div>
 
@@ -534,19 +517,20 @@
   <div class="drawer-body" id="drawerBody"></div>
 </div>
 
-<div class="toast" id="toast">Request submitted and routed to triage.</div>
+<div class="toast" id="toast">Request submitted.</div>
 <div class="concept">CONCEPT • Pending confirmation of SharePoint access and capabilities</div>
 
 <script>
-const projects = [
-  {id:"NU-1048",title:"Supervisor Foundations Refresh",type:"Modify",college:"CISL",owner:"AR",status:"Planning",due:"Sep 18",progress:38,tag:"Existing training",cross:false},
-  {id:"NU-1052",title:"Digital Engineering Learning Path",type:"Develop",college:"Digital Education",owner:"ML",status:"In Progress",due:"Oct 02",progress:58,tag:"New training",cross:true},
-  {id:"NU-1054",title:"Program Management Essentials",type:"Reuse",college:"CPM",owner:"JT",status:"Triage",due:"Sep 09",progress:16,tag:"Reuse",cross:false},
-  {id:"NU-1057",title:"Commercial Cyber Course Review",type:"Procure",college:"Command Operations",owner:"SK",status:"Review",due:"Sep 22",progress:77,tag:"Purchase",cross:true},
-  {id:"NU-1060",title:"Acquisition Onboarding Update",type:"Modify",college:"Procurement Mgmt",owner:"RD",status:"In Progress",due:"Sep 28",progress:63,tag:"Update",cross:false},
-  {id:"NU-1062",title:"Test & Evaluation Quick Reference",type:"Reuse",college:"Test & Evaluation",owner:"KB",status:"Ready",due:"Sep 05",progress:93,tag:"Reuse",cross:false},
-  {id:"NU-1064",title:"Systems Engineering Request",type:"Develop",college:"Research & Engineering",owner:"UN",status:"Submitted",due:"TBD",progress:5,tag:"New request",cross:false}
+const seedProjects = [
+  {id:"NU-1048",title:"Supervisor Foundations Refresh",type:"Modify",college:"CISL",owner:"AR",status:"Planning",due:"Sep 18",progress:38,tag:"Existing training",cross:false,requester:"A. Reed"},
+  {id:"NU-1052",title:"Digital Engineering Learning Path",type:"Develop",college:"Digital Education",owner:"ML",status:"In Progress",due:"Oct 02",progress:58,tag:"New training",cross:true,requester:"M. Lee"},
+  {id:"NU-1054",title:"Program Management Essentials",type:"Reuse",college:"CPM",owner:"JT",status:"Triage",due:"Sep 09",progress:16,tag:"Reuse",cross:false,requester:"Demo Requestor"},
+  {id:"NU-1057",title:"Commercial Cyber Course Review",type:"Procure",college:"Command Operations",owner:"SK",status:"Review",due:"Sep 22",progress:77,tag:"Purchase",cross:true,requester:"S. Kim"},
+  {id:"NU-1060",title:"Acquisition Onboarding Update",type:"Modify",college:"Procurement Mgmt",owner:"RD",status:"In Progress",due:"Sep 28",progress:63,tag:"Update",cross:false,requester:"Demo Requestor"},
+  {id:"NU-1062",title:"Test & Evaluation Quick Reference",type:"Reuse",college:"Test & Evaluation",owner:"KB",status:"Ready",due:"Sep 05",progress:93,tag:"Reuse",cross:false,requester:"Demo Requestor"},
+  {id:"NU-1064",title:"Systems Engineering Request",type:"Develop",college:"Research & Engineering",owner:"UN",status:"Submitted",due:"TBD",progress:5,tag:"New request",cross:false,requester:"J. Morgan"}
 ];
+let projects = JSON.parse(JSON.stringify(seedProjects));
 
 const colMap = [
   ["Submitted","Submitted"],["Triage","Triage"],["Planning","Planning"],["In Progress","In Progress"],["Review","Review"],["Ready","Ready"]
@@ -573,7 +557,7 @@ function renderBoard(targetId){
   }).join("");
   wrap.querySelectorAll(".card").forEach(c=>c.addEventListener("click",()=>openDrawer(c.dataset.id)));
 }
-renderBoard("board"); renderBoard("board2");
+renderAll();
 
 document.querySelectorAll(".nav button").forEach(btn=>{
   btn.addEventListener("click",()=>{
@@ -589,7 +573,7 @@ const openModal = (preset)=>{
   modal.classList.add("show"); resetWizard();
   if(preset){
     const opt = document.querySelector(`.opt[data-route="${preset}"]`);
-    if(opt){ selectRoute(opt); setTimeout(()=>nextStep(),120); }
+    if(opt){ selectRoute(opt); }
   }
 };
 document.getElementById("openRequest").onclick=()=>openModal();
@@ -598,44 +582,125 @@ document.querySelectorAll(".quick").forEach(q=>q.onclick=()=>openModal(q.dataset
 document.getElementById("closeModal").onclick=()=>modal.classList.remove("show");
 document.getElementById("cancelBtn").onclick=()=>modal.classList.remove("show");
 
-let step=1, selectedType="", recommended="";
 const routeNames={new:"Develop",modify:"Modify",procure:"Procure",reuse:"Reuse",unsure:"Triage Review"};
 const typeNames={new:"Create new training",modify:"Update existing training",procure:"Purchase training",reuse:"Reuse existing training",unsure:"I’m not sure"};
+let step=1, selectedType="", recommended="";
 
 function resetWizard(){
   step=1; selectedType=""; recommended="";
   [1,2,3,4].forEach(n=>document.getElementById("step"+n).style.display=n===1?"block":"none");
   document.querySelectorAll(".opt").forEach(o=>o.classList.remove("selected"));
+  ["need","audience","people","extra"].forEach(id=>{const el=document.getElementById(id); if(el) el.value="";});
+  const when=document.getElementById("when"); if(when) when.value="";
+  const exists=document.getElementById("exists"); if(exists) exists.selectedIndex=0;
+  const multi=document.getElementById("multiCollege"); if(multi) multi.selectedIndex=0;
+  const funding=document.getElementById("funding"); if(funding) funding.selectedIndex=0;
   updateWizard();
 }
+
 function selectRoute(opt){
   document.querySelectorAll(".opt").forEach(o=>o.classList.remove("selected"));
-  opt.classList.add("selected"); selectedType=opt.dataset.route; recommended=routeNames[selectedType];
+  opt.classList.add("selected");
+  selectedType=opt.dataset.route;
+  recommended=routeNames[selectedType];
   document.getElementById("nextBtn").disabled=false;
 }
 document.querySelectorAll(".opt").forEach(o=>o.onclick=()=>selectRoute(o));
+
+function determineRecommendation(){
+  const existing = document.getElementById("exists").value;
+
+  // The requester's explicit front-door choice is the primary signal.
+  if(selectedType==="modify") return {path:"Modify", reason:"You selected Update existing training, so the request starts on the modification path."};
+  if(selectedType==="procure") return {path:"Procure", reason:"You selected Purchase training, so the request starts on the procurement path."};
+  if(selectedType==="reuse") return {path:"Reuse", reason:"You selected Reuse existing training, so the request starts on the reuse path."};
+  if(selectedType==="unsure") return {path:"Triage Review", reason:"You selected I’m not sure. The NAVAIRU team will review the need before assigning a path."};
+
+  // For a new-training request, what already exists can redirect the path and prevent unnecessary development.
+  if(selectedType==="new"){
+    if(existing==="Existing course or material") return {path:"Modify", reason:"An existing course or material may meet part of the need, so modification should be considered before a new build."};
+    if(existing==="External option may exist") return {path:"Procure", reason:"An external option may already meet the need, so procurement should be evaluated before a new build."};
+    return {path:"Develop", reason:"You selected Create new training and no suitable existing solution has been identified."};
+  }
+
+  return {path:"Triage Review", reason:"The NAVAIRU team will confirm the best path during triage."};
+}
+
+function configurePathQuestions(path){
+  const label=document.getElementById("extraLabel");
+  const extra=document.getElementById("extra");
+  const help=document.getElementById("extraHelp");
+  const configs={
+    "Develop":{
+      label:"Development details",
+      placeholder:"What should learners be able to do? Note known source content or likely SMEs.",
+      help:"Only development-specific details are requested here."
+    },
+    "Modify":{
+      label:"Modification details",
+      placeholder:"What existing course or material should be updated, and what needs to change?",
+      help:"No new-course questions unless the change requires them."
+    },
+    "Procure":{
+      label:"Procurement details",
+      placeholder:"What type of external solution are you looking for? Add any known vendor, access, cost, or timing information.",
+      help:"Procurement questions appear only for this path."
+    },
+    "Reuse":{
+      label:"Reuse details",
+      placeholder:"What existing solution should be reused? Note any access, audience, or minor adaptation needs.",
+      help:"Keep this short if the existing solution already fits."
+    },
+    "Triage Review":{
+      label:"Anything else we should know? (Optional)",
+      placeholder:"Add context only if it will help the triage team.",
+      help:"No additional path-specific information is required yet."
+    }
+  };
+  const c=configs[path];
+  label.textContent=c.label;
+  extra.placeholder=c.placeholder;
+  help.textContent=c.help;
+}
+
+function validateBasicIntake(){
+  const need=document.getElementById("need");
+  const audience=document.getElementById("audience");
+  [need,audience].forEach(el=>el.style.borderColor="#d7dde5");
+  const missing=[];
+  if(!need.value.trim()){missing.push(need); need.style.borderColor="#a13c3c";}
+  if(!audience.value.trim()){missing.push(audience); audience.style.borderColor="#a13c3c";}
+  if(missing.length){
+    missing[0].focus();
+    showToast("Please complete the two required fields before continuing.");
+    return false;
+  }
+  return true;
+}
 
 function updateWizard(){
   document.querySelectorAll(".stepper span").forEach((s,i)=>s.classList.toggle("on",i<step));
   document.getElementById("backBtn").style.visibility=step>1?"visible":"hidden";
   document.getElementById("nextBtn").textContent=step===4?"Submit Request":"Continue";
-  if(step===1) document.getElementById("nextBtn").disabled=!selectedType; else document.getElementById("nextBtn").disabled=false;
+  if(step===1) document.getElementById("nextBtn").disabled=!selectedType;
+  else document.getElementById("nextBtn").disabled=false;
 }
 function nextStep(){
+  if(step===2 && !validateBasicIntake()) return;
+
   if(step<4){
-    document.getElementById("step"+step).style.display="none"; step++;
+    document.getElementById("step"+step).style.display="none";
+    step++;
     document.getElementById("step"+step).style.display="block";
+
     if(step===3){
+      const rec=determineRecommendation();
+      recommended=rec.path;
       document.getElementById("routeText").textContent=recommended;
-      const help={
-        Develop:"Add desired outcomes, known source content and likely SMEs.",
-        Modify:"Identify the current course/material and what needs to change.",
-        Procure:"Describe the external option, funding status or acquisition constraints.",
-        Reuse:"Identify the existing solution and any access or adaptation needs.",
-        "Triage Review":"No extra detail required yet. The triage team will help determine the path."
-      };
-      document.getElementById("extraHelp").textContent=help[recommended];
+      document.getElementById("routeReason").textContent=rec.reason+" The NAVAIRU team can confirm or adjust this during triage.";
+      configurePathQuestions(recommended);
     }
+
     if(step===4){
       document.getElementById("sumType").textContent=typeNames[selectedType];
       document.getElementById("sumRoute").textContent=recommended;
@@ -650,14 +715,101 @@ document.getElementById("backBtn").onclick=()=>{
   if(step>1){document.getElementById("step"+step).style.display="none";step--;document.getElementById("step"+step).style.display="block";updateWizard();}
 };
 
-function submitRequest(){
-  const title=(document.getElementById("need").value||typeNames[selectedType]).slice(0,58);
-  projects.push({id:"NU-"+(1065+projects.length),title:title,type:recommended,college:document.getElementById("college").value,owner:"ME",status:"Submitted",due:document.getElementById("when").value||"TBD",progress:4,tag:"New request",cross:false});
-  renderBoard("board"); renderBoard("board2");
-  modal.classList.remove("show");
-  const toast=document.getElementById("toast");toast.classList.add("show");setTimeout(()=>toast.classList.remove("show"),2500);
+function nextRequestId(){
+  const nums=projects.map(p=>parseInt((p.id||"").replace(/\D/g,""),10)).filter(Number.isFinite);
+  return "NU-"+(Math.max(...nums,1064)+1);
 }
 
+function friendlyDate(v){
+  if(!v) return "TBD";
+  const d=new Date(v+"T00:00:00");
+  return d.toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"});
+}
+
+function submitRequest(){
+  const needText=document.getElementById("need").value.trim();
+  const title=(needText || typeNames[selectedType]).split(/[.!?]/)[0].slice(0,62);
+  const multi=document.getElementById("multiCollege").value==="Yes";
+  const newProject={
+    id:nextRequestId(),
+    title:title,
+    type:recommended,
+    college:document.getElementById("college").value,
+    owner:"Unassigned",
+    status:"Submitted",
+    due:friendlyDate(document.getElementById("when").value),
+    progress:4,
+    tag:typeNames[selectedType],
+    cross:multi,
+    requester:"Demo Requestor",
+    audience:document.getElementById("audience").value.trim(),
+    people:document.getElementById("people").value.trim(),
+    funding:document.getElementById("funding").value,
+    detail:document.getElementById("extra").value.trim()
+  };
+  projects.push(newProject);
+  renderAll();
+  modal.classList.remove("show");
+  showToast(`${newProject.id} submitted. Switch to NAVAIRU Team to see it in the Intake Queue.`);
+}
+
+function showToast(message){
+  const toast=document.getElementById("toast");
+  toast.textContent=message;
+  toast.classList.add("show");
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer=setTimeout(()=>toast.classList.remove("show"),3200);
+}
+
+function renderRequesterStatus(){
+  const wrap=document.getElementById("requesterStatus");
+  if(!wrap) return;
+  const mine=projects.filter(p=>p.requester==="Demo Requestor").slice(-3).reverse();
+  const stageMap={"Submitted":0,"Triage":1,"Planning":2,"In Progress":3,"Review":4,"Ready":4};
+  wrap.innerHTML=mine.map(p=>{
+    const idx=stageMap[p.status]??0;
+    return `<div class="requester-card" data-id="${p.id}" style="cursor:pointer">
+      <div class="statusline"><span class="tag ${p.status==="Submitted"||p.status==="Triage"?"gold":""}">${p.status}</span><span class="due">${p.id}</span></div>
+      <h4>${p.title}</h4>
+      <p>${p.status==="Submitted"?"Your request was received and is waiting for triage.":p.status==="Triage"?"We are reviewing the need and confirming the best path.":p.status==="Ready"?"The solution is ready for release.":"Your request is moving through the process."}</p>
+      <div class="mini-progress">${[0,1,2,3,4].map(i=>`<span class="${i<idx?"done":i===idx?"current":""}"></span>`).join("")}</div>
+    </div>`;
+  }).join("");
+  wrap.querySelectorAll(".requester-card").forEach(c=>c.onclick=()=>openDrawer(c.dataset.id));
+}
+
+function renderIntakeQueue(){
+  const wrap=document.getElementById("intakeQueue");
+  if(!wrap) return;
+  const items=projects.filter(p=>p.status==="Submitted").slice().reverse();
+  wrap.innerHTML=items.length?items.map(p=>`<div class="list-row" data-id="${p.id}" style="cursor:pointer">
+    <strong>${p.id} • ${p.title}</strong>
+    <span>${p.type} • ${p.cross?"Cross-college • ":""}${p.college}</span>
+  </div>`).join(""):`<div style="padding:18px;color:#667085">No new requests waiting for triage.</div>`;
+  wrap.querySelectorAll(".list-row").forEach(r=>r.onclick=()=>openDrawer(r.dataset.id));
+}
+
+function renderMineLists(){
+  const mine=projects.filter(p=>p.requester==="Demo Requestor").slice().reverse();
+  const waiting=mine.filter(p=>["Submitted","Triage","Planning"].includes(p.status)).slice(0,4);
+  const recent=mine.filter(p=>!["Submitted","Triage","Planning"].includes(p.status)).slice(0,4);
+  const w=document.getElementById("waitingList"), r=document.getElementById("recentList");
+  if(w) w.innerHTML=waiting.map(p=>`<div class="list-row"><strong>${p.title}</strong><span>${p.status}</span></div>`).join("") || `<div style="color:#667085">Nothing waiting on you.</div>`;
+  if(r) r.innerHTML=recent.map(p=>`<div class="list-row"><strong>${p.title}</strong><span>${p.status}</span></div>`).join("") || `<div style="color:#667085">No recent updates.</div>`;
+}
+
+function renderAll(){
+  renderBoard("board");
+  renderBoard("board2");
+  renderRequesterStatus();
+  renderIntakeQueue();
+  renderMineLists();
+  const set=(id,val)=>{const el=document.getElementById(id); if(el) el.textContent=val;};
+  set("newRequestCount",projects.filter(p=>p.status==="Submitted").length);
+  set("triageCount",projects.filter(p=>["Submitted","Triage"].includes(p.status)).length);
+  set("activeCount",projects.filter(p=>!["Ready"].includes(p.status)).length);
+  set("attentionCount",projects.filter(p=>p.cross && ["Submitted","Triage","Review"].includes(p.status)).length);
+}
 function openDrawer(id){
   const p=projects.find(x=>x.id===id); if(!p)return;
   document.getElementById("drawerTitle").textContent=p.title;
@@ -670,7 +822,7 @@ function openDrawer(id){
       <div>College</div><div>${p.college}</div>
       <div>Owner</div><div>${p.owner}</div>
       <div>Current stage</div><div>${p.status}</div>
-      <div>Target date</div><div>${p.due}</div>
+      <div>Target date</div><div>${p.due}</div><div>Recommended path</div><div>${p.type}</div><div>Requestor</div><div>${p.requester||"—"}</div>
       <div>Next action</div><div>${p.status==="Submitted"?"Triage review":p.status==="Review"?"SME approval":"Advance current work"}</div>
       <div>Waiting on</div><div>${p.status==="Review"?"Content owner":"—"}</div>
     </div>
@@ -682,9 +834,16 @@ function openDrawer(id){
 }
 document.getElementById("closeDrawer").onclick=()=>document.getElementById("drawer").classList.remove("show");
 
-const mine=projects.slice(0,4);
-document.getElementById("waitingList").innerHTML=mine.slice(0,2).map(p=>`<div class="list-row"><strong>${p.title}</strong><span>${p.status}</span></div>`).join("");
-document.getElementById("recentList").innerHTML=mine.slice(2).map(p=>`<div class="list-row"><strong>${p.title}</strong><span>${p.due}</span></div>`).join("");
+
+
+const resetButton=document.getElementById("resetDemo");
+if(resetButton){
+  resetButton.onclick=()=>{
+    projects=JSON.parse(JSON.stringify(seedProjects));
+    renderAll();
+    showToast("Demo data reset.");
+  };
+}
 
 function setRole(role){
   const body=document.body;
