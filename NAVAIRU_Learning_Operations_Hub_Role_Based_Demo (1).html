@@ -266,6 +266,25 @@
   body.requester-mode .requester-only{display:block}
   body.requester-mode .team-only{display:none}
 
+
+  .nav button{position:relative;transition:.15s ease}
+  .nav button:hover{background:rgba(255,255,255,.08);transform:translateX(2px)}
+  .nav button.active:before{content:"";position:absolute;left:0;top:8px;bottom:8px;width:3px;border-radius:3px;background:#d0a12b}
+  .navbadge{margin-left:auto;min-width:20px;height:20px;border-radius:999px;background:#c99720;color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center;padding:0 6px}
+  .sidebar-user{margin:14px 12px;padding:12px;border:1px solid rgba(255,255,255,.12);border-radius:12px;background:rgba(255,255,255,.05)}
+  .sidebar-user b{display:block;font-size:11px;color:#fff}.sidebar-user span{font-size:9px;color:#aebbd0}
+  .drawer-form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+  .drawer-form .full{grid-column:1/-1}
+  .drawer-form label{display:block;font-size:9px;font-weight:900;color:#40506a;margin-bottom:5px;text-transform:uppercase;letter-spacing:.35px}
+  .drawer-form input,.drawer-form select,.drawer-form textarea{width:100%;box-sizing:border-box;border:1px solid #d7dde5;border-radius:10px;padding:10px 11px;font:inherit;color:#142746;background:#fff}
+  .drawer-form textarea{min-height:78px;resize:vertical}
+  .activity{margin-top:18px;border-top:1px solid #e3e7ed;padding-top:14px}
+  .activity-item{display:grid;grid-template-columns:10px 1fr;gap:9px;margin:11px 0}
+  .activity-dot{width:8px;height:8px;border-radius:50%;background:#c99720;margin-top:5px}
+  .activity-item b{font-size:11px;color:#142746}.activity-item span{display:block;font-size:9px;color:#6d788a;margin-top:2px}
+  .drawer-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;position:sticky;bottom:0;background:#fff;padding:12px 0 2px}
+  .file-chip{display:inline-flex;align-items:center;gap:6px;border:1px solid #d7dde5;border-radius:9px;padding:8px 10px;font-size:10px;font-weight:800;margin:4px 4px 0 0;background:#f8fafc}
+
 </style>
 </head>
 <body class="requester-mode">
@@ -283,8 +302,8 @@
       <button class="requester-only" data-view="guide"><span class="ico">?</span><span class="label">What Happens Next?</span></button>
 
       <button class="team-only" data-view="teamhome"><span class="ico">⌂</span><span class="label">Team Dashboard</span></button>
-      <button class="team-only" data-view="intake"><span class="ico">☷</span><span class="label">Intake Queue</span></button>
-      <button class="team-only" data-view="projects"><span class="ico">▦</span><span class="label">Projects in Progress</span></button>
+      <button class="team-only" data-view="intake"><span class="ico">☷</span><span class="label">Intake Queue</span><span class="navbadge" id="intakeBadge">0</span></button>
+      <button class="team-only" data-view="projects"><span class="ico">▦</span><span class="label">Projects in Progress</span><span class="navbadge" id="projectBadge">0</span></button>
       <button class="team-only" data-view="resources"><span class="ico">◇</span><span class="label">Resources & Templates</span></button>
       <button class="team-only" data-view="guide"><span class="ico">?</span><span class="label">Process Guide</span></button>
       <button class="team-only" data-view="admin"><span class="ico">⚙</span><span class="label">Administration</span></button>
@@ -513,8 +532,24 @@
 </div>
 
 <div class="drawer" id="drawer">
-  <div class="drawer-head"><div><div class="kicker">Project Record</div><h3 id="drawerTitle">Project</h3></div><button class="x" id="closeDrawer">×</button></div>
-  <div class="drawer-body" id="drawerBody"></div>
+  <div class="drawer-head"><div><div class="kicker" id="drawerKicker">Project Record</div><h3 id="drawerTitle">Project</h3><div class="sub" id="drawerId"></div></div><button class="x" id="closeDrawer">×</button></div>
+  <div class="drawer-body">
+    <div class="requester-only" id="requesterProjectView"><div class="kv" id="requesterProjectDetails"></div><div class="panel" style="margin-top:18px"><h3>What happens next?</h3><p class="sub" id="requesterProjectNext"></p></div></div>
+    <div class="team-only" id="teamProjectView">
+      <div class="drawer-form">
+        <div><label>Owner</label><select id="editOwner"><option>Unassigned</option><option>A. Reed</option><option>M. Lee</option><option>J. Torres</option><option>S. Kim</option><option>R. Davis</option><option>K. Brown</option><option>J. Morgan</option></select></div>
+        <div><label>Priority</label><select id="editPriority"><option>Low</option><option>Routine</option><option>High</option><option>Urgent</option></select></div>
+        <div><label>Stage</label><select id="editStatus"><option>Submitted</option><option>Triage</option><option>Planning</option><option>In Progress</option><option>Review</option><option>Ready</option><option>Complete</option></select></div>
+        <div><label>Target date</label><input id="editDue"></div>
+        <div class="full"><label>Next action</label><input id="editNextAction"></div>
+        <div class="full"><label>Attention / blocker</label><input id="editBlocker" placeholder="Leave blank if none"></div>
+        <div class="full"><label>Team members / SMEs</label><input id="editTeam" placeholder="Names separated by commas"></div>
+      </div>
+      <div style="margin-top:16px"><div class="kicker">Project Files</div><span class="file-chip">▣ Working Files</span><span class="file-chip">▣ Review Package</span><span class="file-chip">▣ Final Materials</span></div>
+      <div class="activity"><div class="kicker">Activity & Notes</div><div id="activityList"></div><div class="drawer-form" style="grid-template-columns:1fr"><div class="full"><label>Add a note</label><textarea id="newNote" placeholder="Add a project note, decision or follow-up..."></textarea></div></div><button class="btn btn-ghost" id="addNoteBtn">＋ Add Note</button></div>
+      <div class="drawer-actions"><button class="btn btn-ghost" id="saveProjectBtn">Save Changes</button><button class="btn btn-primary" id="nextStageBtn">Move to Next Stage</button></div>
+    </div>
+  </div>
 </div>
 
 <div class="toast" id="toast">Request submitted.</div>
@@ -522,13 +557,13 @@
 
 <script>
 const seedProjects = [
-  {id:"NU-1048",title:"Supervisor Foundations Refresh",type:"Modify",college:"CISL",owner:"AR",status:"Planning",due:"Sep 18",progress:38,tag:"Existing training",cross:false,requester:"A. Reed"},
-  {id:"NU-1052",title:"Digital Engineering Learning Path",type:"Develop",college:"Digital Education",owner:"ML",status:"In Progress",due:"Oct 02",progress:58,tag:"New training",cross:true,requester:"M. Lee"},
-  {id:"NU-1054",title:"Program Management Essentials",type:"Reuse",college:"CPM",owner:"JT",status:"Triage",due:"Sep 09",progress:16,tag:"Reuse",cross:false,requester:"Demo Requestor"},
-  {id:"NU-1057",title:"Commercial Cyber Course Review",type:"Procure",college:"Command Operations",owner:"SK",status:"Review",due:"Sep 22",progress:77,tag:"Purchase",cross:true,requester:"S. Kim"},
-  {id:"NU-1060",title:"Acquisition Onboarding Update",type:"Modify",college:"Procurement Mgmt",owner:"RD",status:"In Progress",due:"Sep 28",progress:63,tag:"Update",cross:false,requester:"Demo Requestor"},
-  {id:"NU-1062",title:"Test & Evaluation Quick Reference",type:"Reuse",college:"Test & Evaluation",owner:"KB",status:"Ready",due:"Sep 05",progress:93,tag:"Reuse",cross:false,requester:"Demo Requestor"},
-  {id:"NU-1064",title:"Systems Engineering Request",type:"Develop",college:"Research & Engineering",owner:"UN",status:"Submitted",due:"TBD",progress:5,tag:"New request",cross:false,requester:"J. Morgan"}
+  {id:"NU-1048",title:"Supervisor Foundations Refresh",type:"Modify",college:"CISL",owner:"AR",status:"Planning",due:"Sep 18",progress:38,tag:"Existing training",cross:false,requester:"A. Reed",priority:"Routine",nextAction:"Confirm next action",blocker:"",team:[],notes:[{by:"A. Reed",date:"Aug 18",text:"Project record created."}]},
+  {id:"NU-1052",title:"Digital Engineering Learning Path",type:"Develop",college:"Digital Education",owner:"ML",status:"In Progress",due:"Oct 02",progress:58,tag:"New training",cross:true,requester:"M. Lee",priority:"Routine",nextAction:"Confirm next action",blocker:"",team:[],notes:[{by:"M. Lee",date:"Aug 18",text:"Project record created."}]},
+  {id:"NU-1054",title:"Program Management Essentials",type:"Reuse",college:"CPM",owner:"JT",status:"Triage",due:"Sep 09",progress:16,tag:"Reuse",cross:false,requester:"Demo Requestor",priority:"Routine",nextAction:"Confirm next action",blocker:"",team:[],notes:[{by:"Demo Requestor",date:"Aug 18",text:"Project record created."}]},
+  {id:"NU-1057",title:"Commercial Cyber Course Review",type:"Procure",college:"Command Operations",owner:"SK",status:"Review",due:"Sep 22",progress:77,tag:"Purchase",cross:true,requester:"S. Kim",priority:"Routine",nextAction:"Confirm next action",blocker:"",team:[],notes:[{by:"S. Kim",date:"Aug 18",text:"Project record created."}]},
+  {id:"NU-1060",title:"Acquisition Onboarding Update",type:"Modify",college:"Procurement Mgmt",owner:"RD",status:"In Progress",due:"Sep 28",progress:63,tag:"Update",cross:false,requester:"Demo Requestor",priority:"Routine",nextAction:"Confirm next action",blocker:"",team:[],notes:[{by:"Demo Requestor",date:"Aug 18",text:"Project record created."}]},
+  {id:"NU-1062",title:"Test & Evaluation Quick Reference",type:"Reuse",college:"Test & Evaluation",owner:"KB",status:"Ready",due:"Sep 05",progress:93,tag:"Reuse",cross:false,requester:"Demo Requestor",priority:"Routine",nextAction:"Confirm next action",blocker:"",team:[],notes:[{by:"Demo Requestor",date:"Aug 18",text:"Project record created."}]},
+  {id:"NU-1064",title:"Systems Engineering Request",type:"Develop",college:"Research & Engineering",owner:"UN",status:"Submitted",due:"TBD",progress:5,tag:"New request",cross:false,requester:"J. Morgan",priority:"Routine",nextAction:"Confirm next action",blocker:"",team:[],notes:[{by:"J. Morgan",date:"Aug 18",text:"Project record created."}]}
 ];
 let projects = JSON.parse(JSON.stringify(seedProjects));
 
@@ -745,7 +780,12 @@ function submitRequest(){
     audience:document.getElementById("audience").value.trim(),
     people:document.getElementById("people").value.trim(),
     funding:document.getElementById("funding").value,
-    detail:document.getElementById("extra").value.trim()
+    detail:document.getElementById("extra").value.trim(),
+    priority:document.getElementById("priority").value,
+    nextAction:"Triage and assign ownership",
+    blocker:"",
+    team:[],
+    notes:[{by:"System",date:new Date().toLocaleDateString(undefined,{month:"short",day:"numeric"}),text:"Request submitted and added to intake queue."}]
   };
   projects.push(newProject);
   renderAll();
@@ -809,29 +849,39 @@ function renderAll(){
   set("triageCount",projects.filter(p=>["Submitted","Triage"].includes(p.status)).length);
   set("activeCount",projects.filter(p=>!["Ready"].includes(p.status)).length);
   set("attentionCount",projects.filter(p=>p.cross && ["Submitted","Triage","Review"].includes(p.status)).length);
+  set("intakeBadge",projects.filter(p=>p.status==="Submitted").length);
+  set("projectBadge",projects.filter(p=>!["Submitted","Complete"].includes(p.status)).length);
 }
+let currentProjectId=null;
 function openDrawer(id){
   const p=projects.find(x=>x.id===id); if(!p)return;
+  currentProjectId=id;
   document.getElementById("drawerTitle").textContent=p.title;
-  const stages=["Request","Triage","Plan","Do the Work","Review / Release","Sustain"];
-  const idx=Math.max(0,["Submitted","Triage","Planning","In Progress","Review","Ready"].indexOf(p.status));
-  document.getElementById("drawerBody").innerHTML=`
-    <span class="tag ${p.type==="Modify"||p.type==="Develop"?"gold":""}">${p.type}</span>
-    <div class="kv">
-      <div>Project ID</div><div>${p.id}</div>
-      <div>College</div><div>${p.college}</div>
-      <div>Owner</div><div>${p.owner}</div>
-      <div>Current stage</div><div>${p.status}</div>
-      <div>Target date</div><div>${p.due}</div><div>Recommended path</div><div>${p.type}</div><div>Requestor</div><div>${p.requester||"—"}</div>
-      <div>Next action</div><div>${p.status==="Submitted"?"Triage review":p.status==="Review"?"SME approval":"Advance current work"}</div>
-      <div>Waiting on</div><div>${p.status==="Review"?"Content owner":"—"}</div>
-    </div>
-    <div class="timeline">
-      <div class="kicker">Process</div>
-      ${stages.map((s,i)=>`<div class="tline ${i<idx?"done":i===idx?"current":""}"><div class="circle">${i<idx?"✓":i+1}</div><div><b>${s}</b><p>${i===idx?"Current stage":i<idx?"Complete":"Not started"}</p></div></div>`).join("")}
-    </div>`;
-  document.getElementById("drawer").classList.add("show");
+  document.getElementById("drawerKicker").textContent=(p.type||"Project")+" • Project Record";
+  document.getElementById("drawerId").textContent=p.id+" • "+p.college;
+  document.getElementById("requesterProjectDetails").innerHTML=`<div>Status</div><div>${p.status}</div><div>Path</div><div>${p.type}</div><div>Target date</div><div>${p.due}</div><div>Owner</div><div>${p.owner||"Unassigned"}</div><div>Priority</div><div>${p.priority||"Routine"}</div>`;
+  document.getElementById("requesterProjectNext").textContent=p.nextAction?`Next: ${p.nextAction}`:"The NAVAIRU team will update this request as it moves forward.";
+  const set=(id,v)=>{const el=document.getElementById(id);if(el)el.value=v||""};
+  set("editOwner",p.owner==="UN"?"Unassigned":p.owner);set("editPriority",p.priority||"Routine");set("editStatus",p.status);set("editDue",p.due);set("editNextAction",p.nextAction);set("editBlocker",p.blocker);set("editTeam",(p.team||[]).join(", "));
+  document.getElementById("newNote").value=""; renderActivity(p); document.getElementById("drawer").classList.add("show");
 }
+function renderActivity(p){
+  const notes=(p.notes||[]).slice().reverse();
+  document.getElementById("activityList").innerHTML=notes.length?notes.map(n=>`<div class="activity-item"><div class="activity-dot"></div><div><b>${n.text}</b><span>${n.by} • ${n.date}</span></div></div>`).join(""):`<div class="sub">No activity yet.</div>`;
+}
+function saveCurrentProject(msg=true){
+  const p=projects.find(x=>x.id===currentProjectId);if(!p)return;
+  const old={owner:p.owner,status:p.status,priority:p.priority};
+  p.owner=document.getElementById("editOwner").value;p.priority=document.getElementById("editPriority").value;p.status=document.getElementById("editStatus").value;p.due=document.getElementById("editDue").value.trim()||"TBD";p.nextAction=document.getElementById("editNextAction").value.trim();p.blocker=document.getElementById("editBlocker").value.trim();p.team=document.getElementById("editTeam").value.split(",").map(x=>x.trim()).filter(Boolean);p.notes=p.notes||[];
+  const d=new Date().toLocaleDateString(undefined,{month:"short",day:"numeric"});
+  if(old.owner!==p.owner)p.notes.push({by:"NAVAIRU Team",date:d,text:`Assigned to ${p.owner}.`});
+  if(old.priority!==p.priority)p.notes.push({by:"NAVAIRU Team",date:d,text:`Priority changed to ${p.priority}.`});
+  if(old.status!==p.status)p.notes.push({by:"NAVAIRU Team",date:d,text:`Stage moved from ${old.status} to ${p.status}.`});
+  renderAll();renderActivity(p);if(msg)showToast(`${p.id} updated.`);
+}
+document.getElementById("saveProjectBtn").onclick=()=>saveCurrentProject(true);
+document.getElementById("addNoteBtn").onclick=()=>{const p=projects.find(x=>x.id===currentProjectId);const v=document.getElementById("newNote").value.trim();if(!v){showToast("Enter a note first.");return;}p.notes=p.notes||[];p.notes.push({by:"NAVAIRU Team",date:new Date().toLocaleDateString(undefined,{month:"short",day:"numeric"}),text:v});document.getElementById("newNote").value="";renderActivity(p);showToast("Note added.");};
+document.getElementById("nextStageBtn").onclick=()=>{const order=["Submitted","Triage","Planning","In Progress","Review","Ready","Complete"];const p=projects.find(x=>x.id===currentProjectId);const cur=document.getElementById("editStatus").value;const i=order.indexOf(cur);if(i<order.length-1){document.getElementById("editStatus").value=order[i+1];saveCurrentProject(false);showToast(`${p.id} moved to ${order[i+1]}.`);openDrawer(p.id);}else showToast("This project is already complete.");};
 document.getElementById("closeDrawer").onclick=()=>document.getElementById("drawer").classList.remove("show");
 
 
