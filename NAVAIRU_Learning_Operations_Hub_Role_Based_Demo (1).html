@@ -285,6 +285,37 @@
   .drawer-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;position:sticky;bottom:0;background:#fff;padding:12px 0 2px}
   .file-chip{display:inline-flex;align-items:center;gap:6px;border:1px solid #d7dde5;border-radius:9px;padding:8px 10px;font-size:10px;font-weight:800;margin:4px 4px 0 0;background:#f8fafc}
 
+
+  body.demo-team #drawer .team-only{display:block !important}
+  body.demo-team #drawer .requester-only{display:none !important}
+  body.demo-requester #drawer .requester-only{display:block !important}
+  body.demo-requester #drawer .team-only{display:none !important}
+  #drawer .drawer-body{padding-bottom:28px}
+  .priority-high{border-left:4px solid #c99720 !important}
+  .priority-urgent{border-left:4px solid #9b3d32 !important}
+
+  .card-edit-btn{
+    border:1px solid #d7dde5;background:#fff;color:#142746;border-radius:8px;
+    padding:5px 9px;font-size:9px;font-weight:900;cursor:pointer
+  }
+  .card-edit-btn:hover{border-color:#c99720;background:#fffaf0}
+  .project-summary{margin-top:12px}
+  .summary-grid{display:grid;grid-template-columns:105px 1fr;gap:9px 12px;font-size:11px}
+  .summary-grid .key{color:#748095}.summary-grid .val{color:#20324f;font-weight:700}
+  .edit-project-btn{width:100%;margin-top:16px}
+  #teamEditForm{display:none}
+  #teamEditForm.editing{display:block}
+  #teamSummary.editing{display:none}
+
+  .nav .navbadge{display:none !important}
+  .nav button{padding-left:14px}
+  .nav button .label{line-height:1.25}
+  .nav-description{
+    max-width:760px;margin:22px auto;padding:28px 30px;background:#fff;
+    border:1px solid #e1e6ed;border-radius:16px;box-shadow:0 8px 24px rgba(20,39,70,.06)
+  }
+  .nav-description h2{margin:5px 0 8px;color:#142746;font-size:25px}
+  .nav-description p{margin:0;color:#657287;font-size:13px;line-height:1.6}
 </style>
 </head>
 <body class="requester-mode">
@@ -536,19 +567,46 @@
   <div class="drawer-body">
     <div class="requester-only" id="requesterProjectView"><div class="kv" id="requesterProjectDetails"></div><div class="panel" style="margin-top:18px"><h3>What happens next?</h3><p class="sub" id="requesterProjectNext"></p></div></div>
     <div class="team-only" id="teamProjectView">
-      <div class="drawer-form">
-        <div><label>Owner</label><select id="editOwner"><option>Unassigned</option><option>A. Reed</option><option>M. Lee</option><option>J. Torres</option><option>S. Kim</option><option>R. Davis</option><option>K. Brown</option><option>J. Morgan</option></select></div>
-        <div><label>Priority</label><select id="editPriority"><option>Low</option><option>Routine</option><option>High</option><option>Urgent</option></select></div>
-        <div><label>Stage</label><select id="editStatus"><option>Submitted</option><option>Triage</option><option>Planning</option><option>In Progress</option><option>Review</option><option>Ready</option><option>Complete</option></select></div>
-        <div><label>Target date</label><input id="editDue"></div>
-        <div class="full"><label>Next action</label><input id="editNextAction"></div>
-        <div class="full"><label>Attention / blocker</label><input id="editBlocker" placeholder="Leave blank if none"></div>
-        <div class="full"><label>Team members / SMEs</label><input id="editTeam" placeholder="Names separated by commas"></div>
+      <div id="teamSummary">
+        <div class="project-summary">
+          <div class="summary-grid" id="teamSummaryGrid"></div>
+        </div>
+        <div style="margin-top:18px"><div class="kicker">Project Files</div>
+          <button class="file-chip demoFile" type="button">▣ Working Files</button>
+          <button class="file-chip demoFile" type="button">▣ Review Package</button>
+          <button class="file-chip demoFile" type="button">▣ Final Materials</button>
+        </div>
+        <div class="activity"><div class="kicker">Recent Activity</div><div id="activitySummary"></div></div>
+        <button class="btn btn-primary edit-project-btn" id="editProjectBtn">Edit Project</button>
       </div>
-      <div style="margin-top:16px"><div class="kicker">Project Files</div><span class="file-chip">▣ Working Files</span><span class="file-chip">▣ Review Package</span><span class="file-chip">▣ Final Materials</span></div>
-      <div class="activity"><div class="kicker">Activity & Notes</div><div id="activityList"></div><div class="drawer-form" style="grid-template-columns:1fr"><div class="full"><label>Add a note</label><textarea id="newNote" placeholder="Add a project note, decision or follow-up..."></textarea></div></div><button class="btn btn-ghost" id="addNoteBtn">＋ Add Note</button></div>
-      <div class="drawer-actions"><button class="btn btn-ghost" id="saveProjectBtn">Save Changes</button><button class="btn btn-primary" id="nextStageBtn">Move to Next Stage</button></div>
-    </div>
+
+      <div id="teamEditForm">
+        <div class="route" style="margin-bottom:14px">EDIT PROJECT • Update the record, then save or move it through the process.</div>
+        <div class="drawer-form">
+          <div><label>Owner</label><select id="editOwner"><option>Unassigned</option><option>A. Reed</option><option>M. Lee</option><option>J. Torres</option><option>S. Kim</option><option>R. Davis</option><option>K. Brown</option><option>J. Morgan</option></select></div>
+          <div><label>Priority</label><select id="editPriority"><option>Low</option><option>Routine</option><option>High</option><option>Urgent</option></select></div>
+          <div><label>Stage</label><select id="editStatus"><option>Submitted</option><option>Triage</option><option>Planning</option><option>In Progress</option><option>Review</option><option>Ready</option><option>Complete</option></select></div>
+          <div><label>Target date</label><input id="editDue"></div>
+          <div class="full"><label>Next action</label><input id="editNextAction"></div>
+          <div class="full"><label>Attention / blocker</label><input id="editBlocker" placeholder="Leave blank if none"></div>
+          <div class="full"><label>Team members / SMEs</label><input id="editTeam" placeholder="Names separated by commas"></div>
+        </div>
+        <div style="margin-top:16px"><div class="kicker">Project Files</div>
+          <button class="file-chip demoFile" type="button">▣ Working Files</button>
+          <button class="file-chip demoFile" type="button">▣ Review Package</button>
+          <button class="file-chip demoFile" type="button">▣ Final Materials</button>
+        </div>
+        <div class="activity"><div class="kicker">Activity & Notes</div><div id="activityList"></div>
+          <div class="drawer-form" style="grid-template-columns:1fr"><div class="full"><label>Add a note</label><textarea id="newNote" placeholder="Add a project note, decision or follow-up..."></textarea></div></div>
+          <button class="btn btn-ghost" id="addNoteBtn">＋ Add Note</button>
+        </div>
+        <div class="drawer-actions">
+          <button class="btn btn-ghost" id="cancelEditBtn">Cancel</button>
+          <button class="btn btn-ghost" id="saveProjectBtn">Save Changes</button>
+          <button class="btn btn-primary" id="nextStageBtn">Move to Next Stage</button>
+        </div>
+      </div>
+    </div></div>
   </div>
 </div>
 
@@ -580,7 +638,12 @@ function cardHTML(p){
       <div>Owner ${p.owner}</div><div>Due ${p.due}</div>
     </div>
     <div class="progress"><span style="width:${p.progress}%"></span></div>
-    <div class="card-foot"><span>${p.status}</span><span class="avatar">${p.owner}</span></div>
+    <div class="card-foot"><span>${p.status}</span>
+      <span style="display:flex;align-items:center;gap:7px">
+        <button class="card-edit-btn team-only" type="button" data-edit="${p.id}">Edit</button>
+        <span class="avatar">${p.owner}</span>
+      </span>
+    </div>
   </div>`;
 }
 
@@ -824,7 +887,7 @@ function renderIntakeQueue(){
   const items=projects.filter(p=>p.status==="Submitted").slice().reverse();
   wrap.innerHTML=items.length?items.map(p=>`<div class="list-row" data-id="${p.id}" style="cursor:pointer">
     <strong>${p.id} • ${p.title}</strong>
-    <span>${p.type} • ${p.cross?"Cross-college • ":""}${p.college}</span>
+    <span>${p.type} • ${p.cross?"Cross-college • ":""}${p.college} • ${p.owner||"Unassigned"} • ${p.priority||"Routine"}</span>
   </div>`).join(""):`<div style="padding:18px;color:#667085">No new requests waiting for triage.</div>`;
   wrap.querySelectorAll(".list-row").forEach(r=>r.onclick=()=>openDrawer(r.dataset.id));
 }
@@ -863,7 +926,33 @@ function openDrawer(id){
   document.getElementById("requesterProjectNext").textContent=p.nextAction?`Next: ${p.nextAction}`:"The NAVAIRU team will update this request as it moves forward.";
   const set=(id,v)=>{const el=document.getElementById(id);if(el)el.value=v||""};
   set("editOwner",p.owner==="UN"?"Unassigned":p.owner);set("editPriority",p.priority||"Routine");set("editStatus",p.status);set("editDue",p.due);set("editNextAction",p.nextAction);set("editBlocker",p.blocker);set("editTeam",(p.team||[]).join(", "));
-  document.getElementById("newNote").value=""; renderActivity(p); document.getElementById("drawer").classList.add("show");
+  document.getElementById("newNote").value="";
+  const sg=document.getElementById("teamSummaryGrid");
+  if(sg) sg.innerHTML=`
+    <div class="key">Project ID</div><div class="val">${p.id}</div>
+    <div class="key">College</div><div class="val">${p.college}</div>
+    <div class="key">Owner</div><div class="val">${p.owner||"Unassigned"}</div>
+    <div class="key">Current stage</div><div class="val">${p.status}</div>
+    <div class="key">Target date</div><div class="val">${p.due}</div>
+    <div class="key">Path</div><div class="val">${p.type}</div>
+    <div class="key">Priority</div><div class="val">${p.priority||"Routine"}</div>
+    <div class="key">Next action</div><div class="val">${p.nextAction||"—"}</div>
+    <div class="key">Waiting on</div><div class="val">${p.blocker||"—"}</div>`;
+  renderActivity(p);
+  renderActivitySummary(p);
+  setEditMode(false);
+  document.getElementById("drawer").classList.add("show");
+}
+function setEditMode(on){
+  const form=document.getElementById("teamEditForm");
+  const summary=document.getElementById("teamSummary");
+  if(form) form.classList.toggle("editing",on);
+  if(summary) summary.classList.toggle("editing",on);
+}
+function renderActivitySummary(p){
+  const el=document.getElementById("activitySummary"); if(!el)return;
+  const notes=(p.notes||[]).slice().reverse().slice(0,3);
+  el.innerHTML=notes.length?notes.map(n=>`<div class="activity-item"><div class="activity-dot"></div><div><b>${n.text}</b><span>${n.by} • ${n.date}</span></div></div>`).join(""):`<div class="sub">No activity yet.</div>`;
 }
 function renderActivity(p){
   const notes=(p.notes||[]).slice().reverse();
@@ -872,16 +961,30 @@ function renderActivity(p){
 function saveCurrentProject(msg=true){
   const p=projects.find(x=>x.id===currentProjectId);if(!p)return;
   const old={owner:p.owner,status:p.status,priority:p.priority};
-  p.owner=document.getElementById("editOwner").value;p.priority=document.getElementById("editPriority").value;p.status=document.getElementById("editStatus").value;p.due=document.getElementById("editDue").value.trim()||"TBD";p.nextAction=document.getElementById("editNextAction").value.trim();p.blocker=document.getElementById("editBlocker").value.trim();p.team=document.getElementById("editTeam").value.split(",").map(x=>x.trim()).filter(Boolean);p.notes=p.notes||[];
+  p.owner=document.getElementById("editOwner").value;p.priority=document.getElementById("editPriority").value;p.status=document.getElementById("editStatus").value;const progressByStage={"Submitted":5,"Triage":16,"Planning":35,"In Progress":60,"Review":78,"Ready":93,"Complete":100};p.progress=progressByStage[p.status]??p.progress;p.due=document.getElementById("editDue").value.trim()||"TBD";p.nextAction=document.getElementById("editNextAction").value.trim();p.blocker=document.getElementById("editBlocker").value.trim();p.team=document.getElementById("editTeam").value.split(",").map(x=>x.trim()).filter(Boolean);p.notes=p.notes||[];
   const d=new Date().toLocaleDateString(undefined,{month:"short",day:"numeric"});
   if(old.owner!==p.owner)p.notes.push({by:"NAVAIRU Team",date:d,text:`Assigned to ${p.owner}.`});
   if(old.priority!==p.priority)p.notes.push({by:"NAVAIRU Team",date:d,text:`Priority changed to ${p.priority}.`});
   if(old.status!==p.status)p.notes.push({by:"NAVAIRU Team",date:d,text:`Stage moved from ${old.status} to ${p.status}.`});
-  renderAll();renderActivity(p);if(msg)showToast(`${p.id} updated.`);
+  renderAll();renderActivity(p);renderActivitySummary(p);if(msg){showToast(`${p.id} updated.`);openDrawer(p.id);}
 }
+
+document.getElementById("editProjectBtn").onclick=()=>setEditMode(true);
+document.getElementById("cancelEditBtn").onclick=()=>{const p=projects.find(x=>x.id===currentProjectId);if(p)openDrawer(p.id);};
+document.addEventListener("click",e=>{
+  const b=e.target.closest(".card-edit-btn");
+  if(!b)return;
+  e.stopPropagation();
+  openDrawer(b.dataset.edit);
+  setEditMode(true);
+});
+
 document.getElementById("saveProjectBtn").onclick=()=>saveCurrentProject(true);
 document.getElementById("addNoteBtn").onclick=()=>{const p=projects.find(x=>x.id===currentProjectId);const v=document.getElementById("newNote").value.trim();if(!v){showToast("Enter a note first.");return;}p.notes=p.notes||[];p.notes.push({by:"NAVAIRU Team",date:new Date().toLocaleDateString(undefined,{month:"short",day:"numeric"}),text:v});document.getElementById("newNote").value="";renderActivity(p);showToast("Note added.");};
 document.getElementById("nextStageBtn").onclick=()=>{const order=["Submitted","Triage","Planning","In Progress","Review","Ready","Complete"];const p=projects.find(x=>x.id===currentProjectId);const cur=document.getElementById("editStatus").value;const i=order.indexOf(cur);if(i<order.length-1){document.getElementById("editStatus").value=order[i+1];saveCurrentProject(false);showToast(`${p.id} moved to ${order[i+1]}.`);openDrawer(p.id);}else showToast("This project is already complete.");};
+
+document.querySelectorAll(".demoFile").forEach(b=>b.onclick=()=>showToast(`${b.textContent.trim().replace("▣","").trim()} would open the linked SharePoint folder.`));
+
 document.getElementById("closeDrawer").onclick=()=>document.getElementById("drawer").classList.remove("show");
 
 
@@ -890,12 +993,15 @@ const resetButton=document.getElementById("resetDemo");
 if(resetButton){
   resetButton.onclick=()=>{
     projects=JSON.parse(JSON.stringify(seedProjects));
+    document.getElementById("drawer").classList.remove("show");
     renderAll();
     showToast("Demo data reset.");
   };
 }
 
 function setRole(role){
+  document.body.classList.toggle("demo-team",role==="team");
+  document.body.classList.toggle("demo-requester",role==="requester");
   const body=document.body;
   body.classList.toggle("requester-mode",role==="requester");
   body.classList.toggle("team-mode",role==="team");
