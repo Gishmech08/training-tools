@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Identifying Performance Measures | Participant Activity</title>
+<style>
+:root{--navy:#073B4C;--blue:#2F8FCE;--orange:#F47B20;--ink:#17313B;--muted:#667985;--line:#D9E3E8;--panel:#F4F7F9;--softblue:#EAF5FB;--softorange:#FFF1E5;--white:#fff;--shadow:0 10px 28px rgba(7,59,76,.10)}
+*{box-sizing:border-box} body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f7fafc;color:var(--ink)}
+header{position:sticky;top:0;z-index:20;background:white;border-bottom:1px solid var(--line);padding:14px 28px;display:flex;justify-content:space-between;align-items:center;gap:15px}
+.brand{display:flex;align-items:center;gap:12px}.mark{width:40px;height:40px;border-radius:50%;background:var(--navy);color:white;display:grid;place-items:center;font-weight:800}.brand strong{color:var(--navy);letter-spacing:.12em;text-transform:uppercase;font-size:14px}.brand span{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}button{border:0;border-radius:8px;padding:10px 14px;font-weight:700;cursor:pointer}.primary{background:var(--orange);color:white}.secondary{background:#eef4f7;color:var(--navy);border:1px solid #d4e1e7}.danger{background:#fff1ef;color:#9b2c1d;border:1px solid #ffd2cb}
+.hero{background:white;padding:34px 34px 26px;border-bottom:1px solid var(--line)}.eyebrow{color:var(--orange);font-size:13px;font-weight:800;letter-spacing:.18em;text-transform:uppercase}.eyebrow:before{content:"";display:inline-block;width:42px;height:7px;background:var(--orange);margin-right:12px;vertical-align:middle}
+h1{margin:12px 0 8px;color:var(--navy);font-size:clamp(34px,5vw,56px);line-height:1.05}.lead{margin:0;color:var(--muted);font-size:19px}
+main{max-width:1450px;margin:auto;padding:24px 32px 42px}
+.intro{display:grid;grid-template-columns:.8fr 1.2fr;gap:18px;margin-bottom:20px}.card{background:white;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}.how{background:var(--navy);color:white;border:0}.cardbody{padding:20px}.how h2{margin:0 0 18px;color:#ff9a48;font-size:15px;letter-spacing:.17em;text-transform:uppercase}.step{display:flex;gap:12px;align-items:flex-start;margin:15px 0}.num{flex:0 0 31px;width:31px;height:31px;border-radius:50%;display:grid;place-items:center;background:var(--blue);font-weight:800}.step div:last-child{line-height:1.45}
+.examples h2{margin:0 0 8px;color:var(--navy);font-size:21px}.examples p{margin:0 0 14px;color:var(--muted);font-size:14px}.chips{display:grid;grid-template-columns:1fr 1fr;gap:9px}.chip{padding:12px;border-radius:9px;background:var(--panel);border-left:5px solid var(--blue)}.chip strong{display:block;color:var(--navy);font-size:14px}.chip span{display:block;color:var(--muted);font-size:12px;margin-top:3px}
+.group{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}label{display:block;color:var(--navy);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}input,textarea{width:100%;border:1px solid #c9d8df;border-radius:9px;padding:12px 13px;font:inherit;color:var(--ink);outline:none}input:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(47,143,206,.13)}
+.sectionhead{margin:24px 0 12px}.sectionhead h2{margin:0;color:var(--navy);font-size:27px}.sectionhead p{margin:5px 0 0;color:var(--muted);font-size:14px}
+.entry{display:grid;grid-template-columns:1fr 160px;gap:10px;margin-bottom:14px}
+.board{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.sticky{min-height:190px;background:#fff7bf;border:1px solid #f0dfa0;border-radius:4px;box-shadow:0 7px 15px rgba(0,0,0,.08);padding:14px;position:relative;transform:rotate(-.4deg)}.sticky:nth-child(even){background:#e7f5fd;transform:rotate(.5deg)}.sticky:nth-child(3n){background:#fff0e2;transform:rotate(-.2deg)}.sticky .metric{font-size:18px;font-weight:800;color:var(--navy);line-height:1.25;margin:20px 0 8px}.sticky .why{font-size:13px;color:#536771;line-height:1.4}.sticky-actions{position:absolute;top:7px;right:7px;display:flex;gap:4px}.icon{width:26px;height:26px;padding:0;border-radius:50%;background:rgba(255,255,255,.8);border:1px solid rgba(0,0,0,.08);color:var(--navy)}.empty{grid-column:1/-1;padding:45px 15px;text-align:center;color:#8d9ca5;background:white;border:1px dashed #cbd8de;border-radius:12px}
+.reflection{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:22px}.reflection h3{margin:0 0 6px;color:var(--navy)}.reflection p{margin:0 0 12px;color:var(--muted);font-size:14px}textarea{min-height:105px;resize:vertical}.share{background:var(--softorange)}.compare{background:var(--softblue)}
+footer{background:var(--navy);color:white;padding:15px 32px;display:flex;justify-content:space-between;font-size:12px}footer strong{letter-spacing:.15em;text-transform:uppercase}footer span{opacity:.8}
+.toast{position:fixed;right:22px;bottom:22px;background:var(--navy);color:white;padding:12px 16px;border-radius:8px;opacity:0;transition:.2s}.toast.show{opacity:1}
+@media(max-width:1050px){.board{grid-template-columns:repeat(3,1fr)}}@media(max-width:800px){.intro,.group,.reflection{grid-template-columns:1fr}.chips{grid-template-columns:1fr}.board{grid-template-columns:1fr 1fr}.entry{grid-template-columns:1fr}header{align-items:flex-start;flex-direction:column}}@media(max-width:520px){.board{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><div class="mark">C²</div><div><strong>Data Visualization</strong><span>Participant Group Activity</span></div></div>
+  <div class="actions"><button class="secondary" onclick="copySummary()">Copy Summary</button><button class="secondary" onclick="downloadSummary()">Download</button><button class="danger" onclick="resetAll()">Reset</button></div>
+</header>
+
+<section class="hero">
+  <div class="eyebrow">10 Min · Small Groups</div>
+  <h1>Identifying Performance Measures</h1>
+  <p class="lead">In groups of 3–4, identify 3–5 key performance metrics used in your area, then prepare to share out.</p>
+</section>
+
+<main>
+  <section class="intro">
+    <div class="card how"><div class="cardbody">
+      <h2>How It Works</h2>
+      <div class="step"><div class="num">1</div><div><strong>Brainstorm</strong><br>Identify the metrics your team relies on most.</div></div>
+      <div class="step"><div class="num">2</div><div><strong>Capture</strong><br>Add 3–5 metrics to your group's sticky-note board.</div></div>
+      <div class="step"><div class="num">3</div><div><strong>Share</strong><br>Choose one metric to discuss with the full class.</div></div>
+    </div></div>
+
+    <div class="card examples"><div class="cardbody">
+      <h2>Examples to Get You Thinking</h2>
+      <p>Use these only as prompts. Your group's metrics should reflect your own work area.</p>
+      <div class="chips">
+        <div class="chip"><strong>On-Time Performance (OTP)</strong><span>Schedule adherence and reliability</span></div>
+        <div class="chip"><strong>Mean Distance Between Failures (MDBF)</strong><span>Vehicle reliability and maintenance effectiveness</span></div>
+        <div class="chip"><strong>Ridership Recovery</strong><span>Passenger volumes compared with historical baselines</span></div>
+        <div class="chip"><strong>Customer Incident Reports</strong><span>Safety and customer experience</span></div>
+      </div>
+    </div></div>
+  </section>
+
+  <section class="group">
+    <div><label for="groupName">Group Name or Number</label><input id="groupName" placeholder="Example: Group 2" oninput="saveMeta()"></div>
+    <div><label for="members">Group Members</label><input id="members" placeholder="Enter participant names" oninput="saveMeta()"></div>
+  </section>
+
+  <section>
+    <div class="sectionhead"><h2>Your Performance Measures</h2><p>Add one metric per sticky note. Include a short description of what it tells you.</p></div>
+    <div class="entry">
+      <input id="metricInput" maxlength="100" placeholder="Metric name, e.g., Response Time" onkeydown="if(event.key==='Enter')addMetric()">
+      <button class="primary" onclick="addMetric()">Add Sticky Note</button>
+    </div>
+    <div id="board" class="board"></div>
+  </section>
+
+  <section class="reflection">
+    <div class="card compare"><div class="cardbody">
+      <h3>What Does Your List Tell You?</h3>
+      <p>What do these measures reveal about what your area values or prioritizes?</p>
+      <textarea id="observation" placeholder="Our metrics suggest..." oninput="saveMeta()"></textarea>
+    </div></div>
+    <div class="card share"><div class="cardbody">
+      <h3>Choose One to Share</h3>
+      <p>Which metric would your group highlight, and why is it useful?</p>
+      <textarea id="shareBack" placeholder="We chose..." oninput="saveMeta()"></textarea>
+    </div></div>
+  </section>
+</main>
+
+<footer><strong>C² Technologies | Data Visualization</strong><span>Responses are saved in this browser until reset.</span></footer>
+<div class="toast" id="toast">Copied</div>
+
+<script>
+const KEY='c2_performance_measures_activity_v1';
+let state=load();
+
+function load(){
+ try{return JSON.parse(localStorage.getItem(KEY))||{groupName:'',members:'',observation:'',shareBack:'',metrics:[]}}
+ catch(e){return{groupName:'',members:'',observation:'',shareBack:'',metrics:[]}}
+}
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function saveMeta(){
+ state.groupName=document.getElementById('groupName').value;
+ state.members=document.getElementById('members').value;
+ state.observation=document.getElementById('observation').value;
+ state.shareBack=document.getElementById('shareBack').value; save()
+}
+function esc(t){const d=document.createElement('div');d.textContent=t;return d.innerHTML}
+function addMetric(){
+ const input=document.getElementById('metricInput'); const name=input.value.trim(); if(!name)return;
+ const desc=prompt('In a few words, what does this metric tell you?')||'';
+ state.metrics.push({id:Date.now().toString()+Math.random().toString(36).slice(2),name,desc:desc.trim()});
+ input.value='';save();render();input.focus()
+}
+function editMetric(id){
+ const m=state.metrics.find(x=>x.id===id);if(!m)return;
+ const n=prompt('Metric name:',m.name);if(n===null||!n.trim())return;
+ const d=prompt('What does this metric tell you?',m.desc);if(d===null)return;
+ m.name=n.trim();m.desc=d.trim();save();render()
+}
+function delMetric(id){state.metrics=state.metrics.filter(x=>x.id!==id);save();render()}
+function render(){
+ const b=document.getElementById('board');
+ if(!state.metrics.length){b.innerHTML='<div class="empty">Your group’s sticky notes will appear here.<br>Add your first performance measure above.</div>';return}
+ b.innerHTML=state.metrics.map(m=>`<div class="sticky"><div class="sticky-actions"><button class="icon" onclick="editMetric('${m.id}')" title="Edit">✎</button><button class="icon" onclick="delMetric('${m.id}')" title="Delete">×</button></div><div class="metric">${esc(m.name)}</div><div class="why">${esc(m.desc)||'Add a short description.'}</div></div>`).join('')
+}
+function hydrate(){
+ document.getElementById('groupName').value=state.groupName||'';
+ document.getElementById('members').value=state.members||'';
+ document.getElementById('observation').value=state.observation||'';
+ document.getElementById('shareBack').value=state.shareBack||'';render()
+}
+function summary(){
+ saveMeta();
+ return `IDENTIFYING PERFORMANCE MEASURES
+Group: ${state.groupName||'Not entered'}
+Members: ${state.members||'Not entered'}
+
+OUR KEY PERFORMANCE METRICS
+${state.metrics.length?state.metrics.map((m,i)=>`${i+1}. ${m.name}${m.desc?' — '+m.desc:''}`).join('\n'):'None entered'}
+
+WHAT OUR LIST TELLS US
+${state.observation||'No response entered'}
+
+METRIC WE WILL SHARE
+${state.shareBack||'No response entered'}
+`
+}
+async function copySummary(){const t=summary();try{await navigator.clipboard.writeText(t)}catch(e){const x=document.createElement('textarea');x.value=t;document.body.appendChild(x);x.select();document.execCommand('copy');x.remove()}toast('Group summary copied')}
+function downloadSummary(){const t=summary(),blob=new Blob([t],{type:'text/plain'}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=(state.groupName||'Group').replace(/[^a-z0-9]+/gi,'_')+'_Performance_Measures.txt';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u)}
+function resetAll(){if(!confirm('Reset this activity and erase all responses saved in this browser?'))return;state={groupName:'',members:'',observation:'',shareBack:'',metrics:[]};save();hydrate();toast('Activity reset')}
+function toast(t){const x=document.getElementById('toast');x.textContent=t;x.classList.add('show');setTimeout(()=>x.classList.remove('show'),1700)}
+hydrate();
+</script>
+</body>
+</html>
