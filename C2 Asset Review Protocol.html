@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C² Catalog Asset Review Protocol</title>
+<style>
+  :root{
+    --navy:#003044; --blue:#2B86C8; --orange:#EA8029;
+    --ink:#1E282C; --muted:#5F7178; --lgray:#F3F6F7; --mgray:#DCE4E8;
+    --crit:#B3261E; --mod:#EA8029; --minor:#5F7178;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:#fff; color:var(--ink);
+    font:16px/1.6 Calibri,"Segoe UI",system-ui,-apple-system,sans-serif;
+  }
+  .wrap{max-width:900px;margin:0 auto;padding:48px 32px 96px}
+  header.doc{border-bottom:1px solid var(--mgray);padding-bottom:28px;margin-bottom:40px}
+  .bar{width:120px;height:7px;background:var(--orange);margin-bottom:22px}
+  .eyebrow{
+    font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--orange);margin:0 0 10px
+  }
+  h1{font-size:44px;line-height:1.1;letter-spacing:-.02em;color:var(--navy);margin:0 0 14px;font-weight:700}
+  .sub{font-size:19px;color:var(--muted);margin:0;max-width:62ch}
+  h2{
+    font-size:27px;line-height:1.25;color:var(--navy);margin:56px 0 6px;font-weight:700;
+    padding-top:26px;border-top:1px solid var(--mgray)
+  }
+  h2 .num{color:var(--blue)}
+  h3{font-size:15px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin:32px 0 10px}
+  h4{font-size:18px;color:var(--navy);margin:26px 0 6px;font-weight:700}
+  p{margin:0 0 14px;max-width:74ch;text-wrap:pretty}
+  .lede{font-size:19px;color:#3C4A50;max-width:66ch}
+  ul,ol{margin:0 0 16px;padding-left:22px;max-width:74ch}
+  li{margin-bottom:7px}
+  code{
+    font-family:Consolas,ui-monospace,monospace;font-size:.9em;
+    background:var(--lgray);padding:1px 5px;border-radius:2px
+  }
+  table{border-collapse:collapse;width:100%;margin:14px 0 24px;font-size:15px}
+  th{
+    background:var(--navy);color:#fff;text-align:left;padding:10px 13px;
+    font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase
+  }
+  td{padding:10px 13px;border-bottom:1px solid var(--mgray);vertical-align:top}
+  tbody tr:nth-child(even){background:#FAFCFC}
+  td:first-child{font-weight:700;color:var(--navy)}
+  .card{background:var(--lgray);border-left:6px solid var(--orange);padding:20px 24px;margin:22px 0}
+  .card.blue{border-left-color:var(--blue)}
+  .card .label{
+    font-size:12px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
+    color:var(--orange);margin:0 0 6px
+  }
+  .card.blue .label{color:var(--blue)}
+  .card .title{font-size:20px;font-weight:700;color:var(--navy);margin:0 0 8px}
+  .card p:last-child,.card ul:last-child{margin-bottom:0}
+  .band{background:var(--navy);color:#fff;padding:22px 26px;margin:34px 0}
+  .band .t{
+    font-size:20px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin:0 0 4px
+  }
+  .band .s{color:#C9DDE9;font-size:15px;margin:0}
+  .sev{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.1em;
+    text-transform:uppercase;padding:3px 9px;border-radius:2px;color:#fff;white-space:nowrap}
+  .sev.c{background:var(--crit)} .sev.m{background:var(--orange)} .sev.n{background:var(--muted)}
+  pre{
+    background:#F7FAFC;border:1px solid var(--mgray);border-left:6px solid var(--blue);
+    padding:20px 22px;margin:18px 0;overflow-x:auto;
+    font:13.5px/1.65 Consolas,ui-monospace,monospace;color:#24343A;white-space:pre-wrap
+  }
+  .steps{counter-reset:s;list-style:none;padding:0;max-width:74ch}
+  .steps li{counter-increment:s;position:relative;padding-left:44px;margin-bottom:16px}
+  .steps li::before{
+    content:counter(s);position:absolute;left:0;top:1px;width:29px;height:29px;
+    background:var(--blue);color:#fff;border-radius:50%;text-align:center;
+    line-height:29px;font-weight:700;font-size:15px
+  }
+  footer.doc{margin-top:64px;border-top:1px solid var(--mgray);padding-top:20px;
+    font-size:13px;color:var(--muted)}
+  @media print{
+    .wrap{max-width:none;padding:0}
+    h2{page-break-after:avoid;break-after:avoid}
+    table,.card,pre,.band{page-break-inside:avoid;break-inside:avoid}
+    body{font-size:11pt}
+  }
+  @media (max-width:600px){
+    .wrap{padding:28px 18px 60px} h1{font-size:32px} h2{font-size:23px}
+    table{font-size:13.5px} td,th{padding:8px 9px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="doc">
+  <div class="bar"></div>
+  <p class="eyebrow">C² Technologies · Off-the-Shelf Catalog</p>
+  <h1>Asset Review Protocol</h1>
+  <p class="sub">Upload this file to an AI assistant along with a course asset. The assistant audits the asset against the C² Off-the-Shelf Catalog Style Guide and returns a revision report split by severity.</p>
+</header>
+
+<p class="lede">This protocol is written to be read by an AI assistant and by a person. It carries the rules a reviewer needs, the checks that apply to each asset type, and the exact report format the assistant must return.</p>
+
+<div class="card">
+  <p class="label">Works with</p>
+  <p class="title">Any C² catalog asset</p>
+  <p>Facilitator guides, participant guides, slide decks, storyboards, design documents, electronic workbooks, job aids, and handouts. The assistant applies the universal checks to every asset and then the checklist for that asset type.</p>
+</div>
+
+<h2><span class="num">1.</span> How to use this file</h2>
+<ol class="steps">
+  <li><strong>Open a new conversation</strong> with Claude, ChatGPT, or another assistant that accepts file uploads. Start fresh so nothing from an earlier conversation influences the review.</li>
+  <li><strong>Upload two files:</strong> this protocol, and the asset you want reviewed. Upload the asset in its native format where possible. A .docx or .pptx gives the assistant the real text. A PDF export works but loses editability detail, and a folder of screenshots is the weakest input and should be a last resort.</li>
+  <li><strong>Paste the prompt</strong> in the box below, exactly as written.</li>
+  <li><strong>Read the report</strong> and work top down. Critical first, then Moderate. Minor findings are optional polish.</li>
+  <li><strong>Answer the closing question.</strong> The assistant ends by offering to make the corrections it can, re-export the file, and report what remains here and in your other assets. Say yes and it does the work.</li>
+  <li><strong>Re-run after revising</strong> if the asset changed substantially. A second pass on a revised file is cheap and catches what the first round introduced.</li>
+</ol>
+
+<h3>The prompt to paste</h3>
+<pre>You are reviewing a C² Technologies course asset against the C² Off-the-Shelf
+Catalog Style Guide.
+
+I have uploaded two files:
+1. The Asset Review Protocol (HTML): your instructions and the rule set
+2. The asset to review
+
+Read the protocol in full before you begin. Then:
+
+- Identify the asset type and say which checklist you are applying.
+- Audit the asset against the universal checks and that asset type's checklist.
+- Return your findings in the exact report format the protocol specifies,
+  split into Critical, Moderate, and Minor.
+- Separate findings that belong in a different file into the Downstream
+  impact section.
+- End with the closing offer described in Section 7 of the protocol, then
+  wait for my answer before making any corrections.
+- Quote the asset's own wording in every finding. Never paraphrase what
+  you found.
+- Do not flag anything on the protocol's "do not flag" list.
+- If you cannot verify something from what I uploaded, list it under
+  "Could not verify" rather than guessing.
+
+Begin with the summary table.</pre>
+
+<div class="card blue">
+  <p class="label">If the asset is large</p>
+  <p>For a deck or guide over about 60 pages or slides, ask for the review in two passes: mechanics and copy first, then layout and structure. A single pass over a very large file tends to thin out toward the end.</p>
+</div>
+
+<h2><span class="num">2.</span> Severity definitions</h2>
+<p>Every finding gets exactly one severity. The test is consequence, not effort.</p>
+
+<table>
+  <thead><tr><th style="width:16%">Severity</th><th style="width:38%">Definition</th><th>Examples</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><span class="sev c">Critical</span></td>
+      <td>Factually wrong, legally or contractually risky, inaccessible, or it will visibly fail in front of learners. Fix before the next delivery.</td>
+      <td>Wrong delivery format on a title slide. A timing badge that contradicts the agenda. Body text below the contrast floor. Missing attribution on a cited framework. An activity whose instructions cannot be completed as written. A broken cross-reference to a slide or section that does not exist.</td>
+    </tr>
+    <tr>
+      <td><span class="sev m">Moderate</span></td>
+      <td>Violates a stated standard in the style guide. It will not break the delivery, and it makes the asset look unfinished or inconsistent. Fix in the next revision cycle.</td>
+      <td>Em dashes in learner-facing copy. Missing serial commas. Ampersands outside proper names. Title case where sentence case is required. Off-palette color. Inconsistent labels between modules. A required block missing from a facilitator guide entry.</td>
+    </tr>
+    <tr>
+      <td><span class="sev n">Minor</span></td>
+      <td>Polish. A defensible judgment call, or a small inconsistency with no practical consequence. Optional.</td>
+      <td>A bullet running slightly long. A caption that could be tighter. Two acceptable phrasings used for the same idea. Spacing that is marginally off the pattern.</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="card">
+  <p class="label">Rule for the reviewer</p>
+  <p class="title">When two severities are arguable, choose the lower one.</p>
+  <p>A report that marks everything Critical is a report nobody acts on. Reserve Critical for findings where shipping the asset unchanged has a real consequence.</p>
+</div>
+
+<h2><span class="num">3.</span> Universal checks</h2>
+<p>These apply to every asset type. Run all of them before the asset-specific checklist.</p>
+
+<h3>3.1 Copy mechanics</h3>
+<table>
+  <thead><tr><th style="width:22%">Rule</th><th style="width:14%">Severity</th><th>What to look for</th></tr></thead>
+  <tbody>
+    <tr><td>Em dashes</td><td><span class="sev m">Moderate</span></td><td>No em dashes in learner-facing copy. Replace with a period, a comma, a colon, or a line break. Permitted only inside a facilitator guide "Say" line, where speech patterns matter.</td></tr>
+    <tr><td>Serial comma</td><td><span class="sev m">Moderate</span></td><td>Required. <code>Scope, schedule, and cost.</code> Flag every list of three or more missing it.</td></tr>
+    <tr><td>Semicolons</td><td><span class="sev m">Moderate</span></td><td>Avoid. If a sentence needs one, it is two sentences.</td></tr>
+    <tr><td>Ampersands</td><td><span class="sev m">Moderate</span></td><td>Only inside proper names. Write <code>and</code> everywhere else, including titles and headings.</td></tr>
+    <tr><td>Bullet punctuation</td><td><span class="sev m">Moderate</span></td><td>Fragments take no end punctuation. Full sentences take periods. Never mixed inside one list. No semicolons between bullets, and no <code>and</code> or <code>or</code> before the last item.</td></tr>
+    <tr><td>Parallel construction</td><td><span class="sev m">Moderate</span></td><td>Every item in a list starts with the same part of speech. All verbs, or all nouns, or all questions.</td></tr>
+    <tr><td>Capitalization</td><td><span class="sev m">Moderate</span></td><td>Sentence case for slide titles, headings, buttons, labels, and bullets. Title case only for the course title, module titles, and named published documents. No all caps for a sentence.</td></tr>
+    <tr><td>Numbers</td><td><span class="sev m">Moderate</span></td><td>Spell out one through nine in prose. Numerals for 10 and above, and always for times, percentages, measurements, money, and step or page references. Never open a sentence with a numeral.</td></tr>
+    <tr><td>Time</td><td><span class="sev m">Moderate</span></td><td>Lowercase with periods and no leading zero: <code>10:15 a.m.</code>, <code>2 p.m.</code> En dash for ranges. Units spelled out: <code>15 minutes</code>, not <code>15 min</code>.</td></tr>
+    <tr><td>Percent</td><td><span class="sev m">Moderate</span></td><td>Spell out <code>percent</code> in prose and learner-facing copy. The symbol only in a chart or a tight table.</td></tr>
+    <tr><td>Spacing</td><td><span class="sev n">Minor</span></td><td>One space after a period. No space before punctuation. No double spaces between words.</td></tr>
+    <tr><td>Quotation marks</td><td><span class="sev m">Moderate</span></td><td>Reserved for spoken language in a facilitator guide. Never for emphasis or to flag jargon.</td></tr>
+    <tr><td>Standard terms</td><td><span class="sev m">Moderate</span></td><td>Use <code>Select</code> not <code>Click</code>, <code>learner</code> not participant, student, or attendee, <code>facilitator</code> not trainer or presenter, <code>workbook</code> not worksheet or handout, <code>breakout room</code> as two words, and <code>session</code> for a delivery. One term per concept across the whole asset.</td></tr>
+    <tr><td>Hedges and filler</td><td><span class="sev n">Minor</span></td><td>Cut <code>very</code>, <code>really</code>, <code>simply</code>, <code>just</code>, <code>actually</code>, <code>obviously</code>. Cut throat-clearing openers such as <code>In this module we will explore</code>.</td></tr>
+  </tbody>
+</table>
+
+<h3>3.2 Color and type</h3>
+<table>
+  <thead><tr><th style="width:22%">Rule</th><th style="width:14%">Severity</th><th>What to look for</th></tr></thead>
+  <tbody>
+    <tr><td>Palette</td><td><span class="sev m">Moderate</span></td><td>Navy <code>#003044</code>, blue <code>#2B86C8</code>, orange <code>#EA8029</code>, light gray <code>#F3F6F7</code>, ink <code>#1E282C</code>, plus approved tints. Flag any other hue, especially greens and teals.</td></tr>
+    <tr><td>Accent discipline</td><td><span class="sev m">Moderate</span></td><td>Roughly 70 percent light, 20 percent navy and blue, 10 percent or less orange. If the asset reads as orange, the accent has taken over.</td></tr>
+    <tr><td>Orange on white text</td><td><span class="sev c">Critical</span></td><td>Orange does not clear the contrast floor for body text. Acceptable only for bars, rules, and large display type.</td></tr>
+    <tr><td>Color as emphasis</td><td><span class="sev m">Moderate</span></td><td>Emphasis is carried by bold in the body color. Colored text as emphasis fails in grayscale and is ruled out.</td></tr>
+    <tr><td>Typeface</td><td><span class="sev m">Moderate</span></td><td>Calibri or Aptos for production files. No more than two families in one asset. Flag any style inheriting a substituted font.</td></tr>
+    <tr><td>Slide text size</td><td><span class="sev c">Critical</span></td><td>21 pt is the floor for anything projected or screen shared. Below that is a delivery failure.</td></tr>
+    <tr><td>Document text size</td><td><span class="sev m">Moderate</span></td><td>10.5 pt minimum for body copy in a guide. 10 pt minimum on a job aid.</td></tr>
+    <tr><td>Alignment</td><td><span class="sev n">Minor</span></td><td>Left aligned. Never justified.</td></tr>
+  </tbody>
+</table>
+
+<h3>3.3 Accessibility</h3>
+<table>
+  <thead><tr><th style="width:22%">Rule</th><th style="width:14%">Severity</th><th>What to look for</th></tr></thead>
+  <tbody>
+    <tr><td>Contrast</td><td><span class="sev c">Critical</span></td><td>4.5:1 for body text and controls. 3:1 for large text above 24 px and for interface boundaries.</td></tr>
+    <tr><td>Target size</td><td><span class="sev c">Critical</span></td><td>44 px minimum for anything a learner selects, with clear spacing between targets.</td></tr>
+    <tr><td>Color-only meaning</td><td><span class="sev c">Critical</span></td><td>Never carry meaning by color alone. Pair with text, an icon, or position. Test by imagining the asset in grayscale.</td></tr>
+    <tr><td>Alt text</td><td><span class="sev m">Moderate</span></td><td>Meaningful images described in one sentence. Decorative images marked decorative. Slide images in a guide should name the slide number and title.</td></tr>
+    <tr><td>Keyboard access</td><td><span class="sev c">Critical</span></td><td>Every interactive element reachable and operable by keyboard, with a visible focus state.</td></tr>
+    <tr><td>Drag and drop</td><td><span class="sev m">Moderate</span></td><td>Avoid in core learning. Where unavoidable, a select-based alternative must reach the same outcome.</td></tr>
+    <tr><td>Reading order</td><td><span class="sev m">Moderate</span></td><td>Logical order matching the visual order. Multi-column layouts are where this most often breaks.</td></tr>
+    <tr><td>Labels</td><td><span class="sev m">Moderate</span></td><td>Short and literal on fields, buttons, and downloads. Clever labels fail screen readers.</td></tr>
+  </tbody>
+</table>
+
+<h3>3.4 Content discipline</h3>
+<table>
+  <thead><tr><th style="width:22%">Rule</th><th style="width:14%">Severity</th><th>What to look for</th></tr></thead>
+  <tbody>
+    <tr><td>One idea per screen</td><td><span class="sev m">Moderate</span></td><td>One dominant focal point. Secondary elements support it or they go.</td></tr>
+    <tr><td>Copy density</td><td><span class="sev m">Moderate</span></td><td>Three to five concise bullets, or two short blocks. More than five bullets on a slide is two slides.</td></tr>
+    <tr><td>No duplication</td><td><span class="sev m">Moderate</span></td><td>On-screen text is not repeated word for word in narration or a guide, and slide copy is not retyped as body text beside its own image.</td></tr>
+    <tr><td>Meaningful graphics</td><td><span class="sev m">Moderate</span></td><td>Light supporting graphics are fine where they fit the look and feel. Flag anything busy, off-system, or placed only to fill space.</td></tr>
+    <tr><td>AI imagery</td><td><span class="sev m">Moderate</span></td><td>No humanoid robots, chrome figures, glowing brains, or holograms. AI must appear as a tool inside a human workflow, with the person in the frame.</td></tr>
+    <tr><td>Dark screens</td><td><span class="sev m">Moderate</span></td><td>Dark full-bleed treatments belong to closing and thank-you screens only. Flag dark backgrounds behind instructional content.</td></tr>
+    <tr><td>Attribution</td><td><span class="sev c">Critical</span></td><td>Any named framework, model, or statistic needs a complete citation or must be reworded. Flag incomplete citations as well as missing ones.</td></tr>
+    <tr><td>Editability</td><td><span class="sev m">Moderate</span></td><td>Native editable text, tables, and images. Flag flattened page images and art a teammate could not maintain.</td></tr>
+  </tbody>
+</table>
+
+<h2><span class="num">4.</span> Asset-specific checklists</h2>
+<p>Apply the one checklist matching the asset. If the upload contains more than one asset type, review each separately and label the findings by asset.</p>
+
+<h4>4.1 Slide deck (PPTX or PDF)</h4>
+<ul>
+  <li>Title slide names the correct delivery format and duration. A wrong format is <span class="sev c">Critical</span>.</li>
+  <li>Section openers use one consistent treatment across every module.</li>
+  <li>Activity and practice badges state a duration that reconciles with the agenda slides. A contradiction is <span class="sev c">Critical</span>.</li>
+  <li>Break and lunch slides carry a return time, and a placeholder such as <code>[TIME]</code> is correct rather than a hard-coded clock time.</li>
+  <li>Cross-references point to artifacts by name, not by slide number. A reference to a slide that does not exist or is out of order is <span class="sev c">Critical</span>.</li>
+  <li>Slide titles are sentence case, and the same module name is spelled the same way on the agenda and its divider.</li>
+  <li>The orange accent bar, logo placement, and footer band are consistent across the deck.</li>
+  <li>Nothing enters the outer 5 percent of the slide except a deliberate full bleed or the footer band.</li>
+  <li>Every activity states where the learner works: chat, workbook, whiteboard, breakout room, or out loud.</li>
+</ul>
+
+<h4>4.2 Facilitator guide</h4>
+<ul>
+  <li>Every slide has an entry, in deck order, and each entry starts on a new page.</li>
+  <li>Required blocks present and in a consistent order: On Screen, Slide Time, Materials Needed, Instructor Notes, Purpose, Say, Do, Ask, Watch For, Transition. A missing block across many entries is <span class="sev m">Moderate</span>; an absent block set is <span class="sev c">Critical</span>.</li>
+  <li>Label names identical in every module. Label drift is <span class="sev m">Moderate</span>.</li>
+  <li>Timing is numeric with the unit, and slide times reconcile with the agenda. A contradiction is <span class="sev c">Critical</span>.</li>
+  <li>Quotation marks appear only around Say lines.</li>
+  <li>Breakout instructions state room count, group size, duration, the task, and what returns to the main room.</li>
+  <li>Workbook and whiteboard references name the section and the entry the learner makes.</li>
+  <li>Transitions are written against the slide that actually follows.</li>
+  <li>Any slide requiring customization before class is flagged in Materials Needed.</li>
+  <li>Discrepancies between the deck, the notes, and the agenda are flagged in place, not only in a summary.</li>
+</ul>
+
+<h4>4.3 Participant guide</h4>
+<ul>
+  <li>Cover carries the course title, delivery format, and fill-in fields for name, role, date, and facilitator.</li>
+  <li>A "How to use this guide" page, and a table naming every practice file or handout against its slide.</li>
+  <li>Every slide appears in deck order with its number and title, at 4.0 to 4.5 inches with a thin border.</li>
+  <li>A notes area beside or beneath every slide. Blank "Notes" pages at the back are <span class="sev m">Moderate</span>.</li>
+  <li>Activity steps in an accent-marked box under the slide that runs the activity.</li>
+  <li>No facilitator language: no Say lines, no timing, no Watch For notes. Their presence is <span class="sev c">Critical</span>.</li>
+  <li>For virtual delivery, notes areas are fillable fields with prompt text, and editing is not restricted.</li>
+  <li>The guide prints cleanly with empty fields.</li>
+</ul>
+
+<h4>4.4 Storyboard or design document</h4>
+<ul>
+  <li>Every screen has a unique identifier, and the identifiers run in a consistent sequence.</li>
+  <li>On-screen text, narration, and interaction notes are in separate fields, never merged into one prose block.</li>
+  <li>Interaction type is named per screen, and matches the patterns the guide allows.</li>
+  <li>Each screen maps to a stated objective. An orphaned screen is <span class="sev m">Moderate</span>.</li>
+  <li>Narration does not repeat on-screen text word for word.</li>
+  <li>Media and asset callouts specify what is needed rather than describing it vaguely.</li>
+  <li>Accessibility notes present per screen: alt text, keyboard path, and any color-dependent meaning.</li>
+  <li>Screen counts and durations reconcile with the design document's own totals. A mismatch is <span class="sev c">Critical</span>.</li>
+</ul>
+
+<h4>4.5 Electronic workbook</h4>
+<ul>
+  <li>Section names match the facilitator guide references exactly. A mismatch is <span class="sev c">Critical</span>.</li>
+  <li>Every activity referenced by the deck has a matching workbook section.</li>
+  <li>Instructions sit with the response field, not only on a slide.</li>
+  <li>Visible save state, an export or download control, and a persistent section rail.</li>
+  <li>Response fields are obviously editable, with visible focus states and labels that stay readable while typing.</li>
+  <li>Body text at 16 px minimum and headings at 24 px and above.</li>
+  <li>The approved AI icon appears only where AI support genuinely exists, with a short label.</li>
+</ul>
+
+<h4>4.6 Job aid or handout</h4>
+<ul>
+  <li>A job aid is one page, two sides at most. Longer is <span class="sev m">Moderate</span> and signals a scope problem.</li>
+  <li>Task-oriented title naming the task, not the topic.</li>
+  <li>A trigger line saying when to use it.</li>
+  <li>Numbered steps in performance order. Bullets where order matters is <span class="sev m">Moderate</span>.</li>
+  <li>Survives grayscale printing with no loss of meaning. Failure is <span class="sev c">Critical</span>.</li>
+  <li>Version and date in the footer.</li>
+  <li>No learning objectives, narration, or facilitator language.</li>
+  <li>A handout names its activity title and slide reference, and restates the instruction on the handout itself.</li>
+</ul>
+
+<h2><span class="num">5.</span> Report format</h2>
+<p>The assistant returns the report in this structure and nothing else. No preamble, no closing pleasantries.</p>
+
+<pre># Revision Report
+**Asset:** [file name] · **Type:** [asset type] · **Checklist applied:** [4.x]
+**Reviewed against:** C² Off-the-Shelf Catalog Style Guide
+
+## Summary
+| Severity | Count | Themes |
+|---|---|---|
+| Critical | n | short phrase per theme |
+| Moderate | n | short phrase per theme |
+| Minor | n | short phrase per theme |
+
+## Critical
+### C1. [Short title]
+- **Location:** [slide, page, or screen reference]
+- **Found:** "[quote the asset's own wording or describe what is there]"
+- **Change to:** [the specific fix, written out]
+- **Rule:** [which universal check or checklist item]
+
+### C2. ...
+
+## Moderate
+### M1. [Short title]
+- **Location:**
+- **Found:**
+- **Change to:**
+- **Rule:**
+
+## Minor
+### N1. [Short title] · [location] · [found] · [change to]
+
+## Deck-wide or document-wide patterns
+Findings that repeat throughout, listed once with a representative example
+and an instance count, rather than repeated per occurrence.
+
+## Could not verify
+Anything the upload did not let you check, and what you would need to check it.
+
+## Suggested fix order
+1. Batch find-and-replace passes, listed first
+2. Judgment-call edits
+3. Item-by-item fixes
+
+## Downstream impact
+Findings in this asset that require a change in a different file, grouped
+by the file that has to change. State the asset, the change, and why this
+review surfaced it.
+
+## Next step
+[The offer, worded per Section 7 of the protocol.]</pre>
+
+<div class="card">
+  <p class="label">Report rules</p>
+  <ul>
+    <li>Quote the asset's own wording in every finding. A paraphrase makes the finding unverifiable.</li>
+    <li>Give a location precise enough to navigate to: slide number, page number, or screen identifier.</li>
+    <li>Write the fix out in full. "Reword for clarity" is not a fix.</li>
+    <li>Collapse repeating issues into a pattern entry with a count. Twelve rows for one missing serial comma rule is noise.</li>
+    <li>Never invent a page or slide number. If the location is uncertain, say so.</li>
+    <li>Never soften a Critical finding to be agreeable, and never inflate a Minor one to look thorough.</li>
+  </ul>
+</div>
+
+<h2><span class="num">6.</span> Downstream impact</h2>
+<p>Most findings live in the asset under review. Some do not. A review of a facilitator guide routinely surfaces a change that has to be made in the slide deck, and a review of a deck surfaces changes to both guides. The reviewer separates the two so nobody fixes a file and assumes the job is done.</p>
+
+<h3>Where changes usually land</h3>
+<table>
+  <thead><tr><th style="width:24%">Reviewing this</th><th>Commonly requires a change in</th></tr></thead>
+  <tbody>
+    <tr><td>Facilitator guide</td><td>The slide deck: wrong delivery format, timing badges that disagree with the agenda, slide order, ampersands and title case in slide titles, cross-references to the wrong slide. Also the participant guide, if both quote the same activity instruction.</td></tr>
+    <tr><td>Slide deck</td><td>The facilitator guide: slide times, materials, transitions written against a slide that moved. The participant guide: slide images and activity steps.</td></tr>
+    <tr><td>Participant guide</td><td>The slide deck, when a slide image shows a copy or color problem. The facilitator guide, when the activity steps disagree between the two.</td></tr>
+    <tr><td>Storyboard or design document</td><td>Whichever artifacts have already been built from it. Flag the drift explicitly, because a storyboard corrected after production has begun creates rework rather than preventing it.</td></tr>
+    <tr><td>Electronic workbook</td><td>The facilitator guide and the deck, whenever a workbook section name changes. Every reference to that section has to change with it.</td></tr>
+    <tr><td>Job aid or handout</td><td>The facilitator guide Materials Needed block, and the participant guide materials table.</td></tr>
+  </tbody>
+</table>
+
+<div class="card">
+  <p class="label">Rule for the reviewer</p>
+  <p class="title">Never silently fix a symptom in the wrong file.</p>
+  <p>If a facilitator guide says 20 minutes and the slide badge says 30, the guide is not automatically the error. Say which one you believe is correct, say why, and list the other under Downstream impact. If you cannot tell which is right, put it in "Could not verify" and say what would settle it.</p>
+</div>
+
+<h2><span class="num">7.</span> Closing offer</h2>
+<p>The report ends with an offer to do the work, not with a summary of the work. The reviewer states plainly what it can fix directly, what it cannot, and what has to happen in another file.</p>
+
+<h3>What the assistant can usually correct directly</h3>
+<ul>
+  <li>Copy mechanics throughout: em dashes, serial commas, semicolons, ampersands, bullet punctuation, capitalization, number and time formats, standard terms.</li>
+  <li>Wording rewrites where the report already specifies the replacement.</li>
+  <li>Text inside a .docx it can rewrite and re-export.</li>
+  <li>Adding a missing structural block to a guide entry, where the content exists elsewhere in the file.</li>
+</ul>
+
+<h3>What it usually cannot</h3>
+<ul>
+  <li>Anything in a file that was not uploaded.</li>
+  <li>Slide images, layout, color, and positioning inside a .pptx, unless the assistant has been given the deck and can edit it.</li>
+  <li>Contrast, target size, and reading order, which need the real file and a checker.</li>
+  <li>Decisions that belong to the course owner, such as which of two conflicting timings is correct.</li>
+</ul>
+
+<h3>How to word the offer</h3>
+<p>End the report with a short question in the assistant's own voice, covering three things: what it will correct, what it will hand back, and what remains elsewhere. It should read like this.</p>
+
+<pre>## Next step
+
+I can correct 34 of the 41 findings directly in this facilitator guide:
+all of the copy mechanics, the label inconsistencies in Modules 3 and 6,
+and the four incomplete citations. I would re-export it as a .docx with
+your original formatting and slide images intact.
+
+The remaining 7 findings need changes I cannot make from this file:
+
+- 5 belong in the slide deck (the Day One banner on Slide 1, the timing
+  badges on Slides 29 and 60, and the ampersands in nine slide titles).
+  Upload the .pptx and I can review and correct it too.
+- 1 is a timing conflict between the agenda and Module 6 that needs the
+  course owner to decide which is right.
+- 1 is a contrast check I cannot run on a PDF.
+
+Would you like me to make the corrections I can, re-export the guide, and
+give you a short remaining-work report covering what is left here and in
+the other assets?</pre>
+
+<div class="card blue">
+  <p class="label">Rules for the offer</p>
+  <ul>
+    <li>Give real counts, not "most" or "several."</li>
+    <li>Name the specific findings that fall outside this file, with their locations.</li>
+    <li>Say which other asset each one belongs to, and offer to review that asset if it is uploaded.</li>
+    <li>Name anything that needs a human decision rather than an edit, and say who decides.</li>
+    <li>Ask once, in one question. Do not offer three options and a menu.</li>
+    <li>Wait for the answer. Do not start making corrections in the same reply as the report.</li>
+  </ul>
+</div>
+
+<h3>If the answer is yes</h3>
+<ul>
+  <li>Make only the corrections listed in the report. Do not improve anything the report did not flag.</li>
+  <li>Preserve the original formatting, styles, images, and structure. The output is a corrected file, not a rebuilt one.</li>
+  <li>Return the corrected file, then a <strong>Remaining Work Report</strong> in this shape:
+    <ul>
+      <li><strong>Corrected in this file:</strong> a count by severity, and the list.</li>
+      <li><strong>Still open in this file:</strong> each item, and why it could not be corrected.</li>
+      <li><strong>Open in other assets:</strong> grouped by file, with locations, ready to hand to whoever owns that file.</li>
+      <li><strong>Needs a decision:</strong> the question, the options, and who should answer it.</li>
+    </ul>
+  </li>
+  <li>Then offer to review the next asset in the set, naming it.</li>
+</ul>
+
+<h2><span class="num">8.</span> Do not flag</h2>
+<p>These are correct as written. Flagging them wastes the reviewer's time and makes the report harder to trust.</p>
+<ul>
+  <li><strong>Em dashes inside a facilitator guide Say line.</strong> Spoken copy is exempt.</li>
+  <li><strong>Ampersands inside proper names</strong> such as a company or product name.</li>
+  <li><strong>A placeholder such as <code>[TIME]</code> or <code>[DATE]</code>.</strong> These are intentional and filled in before delivery.</li>
+  <li><strong>Short notes areas on break, lunch, and divider slides.</strong> Nobody takes notes there.</li>
+  <li><strong>A slide with a large amount of open space.</strong> Space is the design, not an omission.</li>
+  <li><strong>A slide with no graphic.</strong> A screen with no meaningful visual is finished.</li>
+  <li><strong>Repeated structure across facilitator guide entries.</strong> Consistency is the standard, not redundancy.</li>
+  <li><strong>Contractions in learner-facing copy.</strong> They are welcome.</li>
+  <li><strong>Second person and active voice.</strong> Required, not casual.</li>
+  <li><strong>Sentence-case titles.</strong> This is the standard, not an error.</li>
+  <li><strong>A sentence opening with "And" or "But" inside a Say line.</strong> Deliberate spoken rhetoric.</li>
+  <li><strong>Duplicate wording between a facilitator guide and a participant guide</strong> where both must state the same activity instruction.</li>
+  <li><strong>A finding correctly placed under Downstream impact.</strong> A change that belongs in another file is not a defect in this one.</li>
+</ul>
+
+<div class="card blue">
+  <p class="label">One more instruction for the reviewer</p>
+  <p class="title">Say what you could not check.</p>
+  <p>A screenshot cannot prove a contrast ratio, and a PDF cannot prove a file is natively editable. List those under "Could not verify" with what would be needed. An honest gap is more useful than a confident guess.</p>
+</div>
+
+<div class="band">
+  <p class="t">Before you send the report on</p>
+  <p class="s">Spot-check three findings against the asset yourself. If all three hold up, the rest of the report is probably sound. If one does not, re-run the review.</p>
+</div>
+
+<footer class="doc">
+  C² Technologies, Inc. Proprietary · Asset Review Protocol, Version 1.0, September 2026 · Maintained by Instructional Design and Media. This protocol reflects the C² Off-the-Shelf Catalog Design and Development Style Guide, Version 2.0. When the style guide changes, this file is updated to match.
+</footer>
+
+</div>
+</body>
+</html>
