@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Time Management: Focus, Prioritize and Deliver | Participant eWorkbook</title>
+<style>
+:root{
+  --navy:#003044;
+  --blue:#2B86C8;
+  --orange:#EA8029;
+  --light:#F3F6F7;
+  --ink:#1E282C;
+  --muted:#5F7178;
+  --border:#DCE4E8;
+  --white:#fff;
+  --focus:#7A2E00;
+  --success:#1E6B45;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Calibri, Aptos, "Segoe UI", Arial, sans-serif;
+  color:var(--ink);
+  background:#fff;
+  line-height:1.5;
+  font-size:16px;
+}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+a{color:var(--blue)}
+.skip-link{
+  position:absolute; left:-999px; top:8px; background:#fff; color:var(--navy);
+  padding:10px 14px; z-index:10000; border:2px solid var(--navy);
+}
+.skip-link:focus{left:8px}
+.app{
+  display:grid;
+  grid-template-columns:260px minmax(0,1fr);
+  min-height:100vh;
+}
+.sidebar{
+  background:var(--navy);
+  color:#fff;
+  padding:22px 18px;
+  position:sticky;
+  top:0;
+  height:100vh;
+  overflow:auto;
+}
+.brand{
+  border-left:6px solid var(--orange);
+  padding-left:12px;
+  margin-bottom:22px;
+}
+.brand .eyebrow{
+  color:#D5E7F4;
+  font-size:12px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  font-weight:700;
+}
+.brand h1{
+  font-size:22px;
+  margin:5px 0 4px;
+  line-height:1.15;
+}
+.brand p{margin:0;color:#D5E7F4;font-size:14px}
+.nav-title{
+  text-transform:uppercase;
+  letter-spacing:.11em;
+  font-size:11px;
+  color:#C9DDE9;
+  margin:22px 0 8px;
+  font-weight:700;
+}
+.nav a{
+  display:block;
+  color:#fff;
+  text-decoration:none;
+  padding:9px 10px;
+  border-radius:6px;
+  margin-bottom:3px;
+  font-size:14px;
+}
+.nav a:hover,.nav a:focus{
+  background:#0B4A63;
+  outline:2px solid #fff;
+  outline-offset:1px;
+}
+.sidebar-actions{
+  margin-top:20px;
+  border-top:1px solid rgba(255,255,255,.2);
+  padding-top:16px;
+}
+.side-btn{
+  width:100%;
+  border:1px solid #fff;
+  background:transparent;
+  color:#fff;
+  border-radius:6px;
+  padding:10px 12px;
+  margin-bottom:8px;
+  text-align:left;
+}
+.side-btn.primary{
+  background:var(--orange);
+  border-color:var(--orange);
+  color:#1E282C;
+  font-weight:700;
+}
+.status{
+  font-size:12px;
+  color:#D5E7F4;
+  margin-top:8px;
+}
+main{min-width:0}
+.hero{
+  padding:48px clamp(24px,5vw,70px) 40px;
+  background:
+    linear-gradient(110deg,#fff 0%,#fff 58%,#EAF3FA 58%,#FCE9D9 100%);
+  border-bottom:1px solid var(--border);
+}
+.hero .bar{width:90px;height:7px;background:var(--orange);margin-bottom:18px}
+.hero .kicker{
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  font-size:13px;
+  font-weight:700;
+  color:var(--blue);
+}
+.hero h2{
+  color:var(--navy);
+  font-size:clamp(34px,4vw,52px);
+  line-height:1.05;
+  margin:7px 0 10px;
+  max-width:850px;
+}
+.hero p{
+  max-width:760px;
+  font-size:18px;
+  color:#3C4A50;
+}
+.hero-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+  margin-top:24px;
+  max-width:900px;
+}
+.hero-card{
+  background:rgba(255,255,255,.9);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:14px 16px;
+}
+.hero-card strong{color:var(--navy);display:block}
+.content{
+  max-width:1100px;
+  margin:0 auto;
+  padding:34px clamp(20px,4vw,56px) 80px;
+}
+.section{
+  scroll-margin-top:18px;
+  margin:0 0 42px;
+}
+.section-heading{
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+  margin-bottom:16px;
+}
+.section-number{
+  flex:0 0 auto;
+  width:42px;height:42px;
+  border-radius:50%;
+  background:var(--blue);
+  color:#fff;
+  display:grid;place-items:center;
+  font-weight:700;
+}
+.section-heading h2{
+  color:var(--navy);
+  margin:0;
+  font-size:28px;
+  line-height:1.15;
+}
+.section-heading p{margin:4px 0 0;color:var(--muted)}
+.activity{
+  border:1px solid var(--border);
+  border-radius:10px;
+  overflow:hidden;
+  margin:18px 0 26px;
+  background:#fff;
+}
+.activity-head{
+  background:var(--light);
+  border-left:7px solid var(--orange);
+  padding:17px 20px;
+}
+.activity-head .meta{
+  display:flex;gap:9px;flex-wrap:wrap;margin-bottom:6px;
+}
+.badge{
+  display:inline-block;
+  border-radius:999px;
+  padding:4px 9px;
+  font-size:12px;
+  font-weight:700;
+  background:#EAF3FA;
+  color:var(--navy);
+}
+.badge.orange{background:#FCE9D9}
+.activity-head h3{
+  color:var(--navy);
+  margin:0;
+  font-size:23px;
+}
+.activity-body{padding:20px}
+.instructions{
+  background:#FAFCFC;
+  border-left:4px solid var(--blue);
+  padding:12px 15px;
+  margin:0 0 18px;
+}
+.instructions p{margin:0}
+.expected{
+  color:var(--muted);
+  font-size:14px;
+  margin-top:6px;
+}
+.field{
+  margin:14px 0;
+}
+label,legend{
+  display:block;
+  font-weight:700;
+  color:var(--navy);
+  margin-bottom:6px;
+}
+input[type="text"], input[type="number"], input[type="time"], textarea, select{
+  width:100%;
+  border:1px solid #9FB2BB;
+  border-radius:6px;
+  padding:10px 11px;
+  background:#fff;
+  color:var(--ink);
+}
+textarea{min-height:92px;resize:vertical}
+input:focus,textarea:focus,select:focus,button:focus{
+  outline:3px solid #F4B47E;
+  outline-offset:2px;
+  border-color:var(--navy);
+}
+.grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.table-wrap{overflow-x:auto}
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:690px;
+  margin:10px 0;
+}
+th{
+  text-align:left;
+  background:var(--navy);
+  color:#fff;
+  padding:10px;
+  font-size:14px;
+}
+td{
+  border-bottom:1px solid var(--border);
+  padding:9px 10px;
+  vertical-align:top;
+}
+td input,td textarea,td select{min-width:120px}
+.small-input{max-width:90px}
+.controls{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-top:16px;
+}
+.btn{
+  border:1px solid var(--navy);
+  color:var(--navy);
+  background:#fff;
+  padding:9px 12px;
+  border-radius:6px;
+  font-weight:700;
+}
+.btn.primary{
+  background:var(--navy);
+  color:#fff;
+}
+.btn.orange{
+  background:var(--orange);
+  color:#1E282C;
+  border-color:var(--orange);
+}
+.note{
+  background:#FFF8F2;
+  border-left:4px solid var(--orange);
+  padding:12px 14px;
+  margin:14px 0;
+}
+.resource{
+  border:1px solid var(--border);
+  background:#FAFCFC;
+  border-radius:8px;
+  padding:15px;
+}
+.resource h4{margin:0 0 7px;color:var(--navy)}
+.steps{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:8px;
+  margin-top:12px;
+}
+.step{
+  border:1px solid var(--border);
+  border-top:5px solid var(--blue);
+  padding:10px;
+  border-radius:6px;
+  background:#fff;
+  min-height:92px;
+}
+.step:nth-child(4){border-top-color:var(--orange)}
+.step strong{display:block;color:var(--navy)}
+.schedule{
+  display:grid;
+  grid-template-columns:90px 1fr;
+  border:1px solid var(--border);
+  border-radius:7px;
+  overflow:hidden;
+}
+.schedule .time,.schedule .slot{
+  padding:9px 10px;
+  border-bottom:1px solid var(--border);
+}
+.schedule .time{
+  background:var(--light);
+  font-weight:700;
+  color:var(--navy);
+}
+.schedule .slot input{
+  border:0;border-radius:0;padding:3px;background:transparent;
+}
+.schedule .slot input:focus{outline:3px solid #F4B47E}
+.footer-save{
+  background:var(--navy);
+  color:#fff;
+  padding:24px;
+  border-radius:10px;
+  margin-top:45px;
+}
+.footer-save h2{margin-top:0}
+.footer-save p{color:#D5E7F4}
+.hidden{display:none !important}
+.toast{
+  position:fixed;right:18px;bottom:18px;background:var(--ink);color:#fff;
+  padding:11px 14px;border-radius:6px;box-shadow:0 4px 18px rgba(0,0,0,.2);
+  z-index:9999;
+}
+.progress-wrap{
+  width:100%;height:7px;background:#0B4A63;border-radius:999px;overflow:hidden;margin-top:9px
+}
+.progress-bar{height:100%;width:0;background:var(--orange)}
+.help-text{font-size:13px;color:var(--muted)}
+.checkbox-list label{
+  font-weight:400;color:var(--ink);display:flex;gap:8px;align-items:flex-start;margin:7px 0
+}
+.checkbox-list input{margin-top:4px}
+@media (max-width:900px){
+  .app{grid-template-columns:1fr}
+  .sidebar{position:relative;height:auto}
+  .nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3px}
+  .hero-grid,.grid-3,.steps{grid-template-columns:1fr}
+}
+@media (max-width:650px){
+  .grid-2{grid-template-columns:1fr}
+  .nav{grid-template-columns:1fr}
+  .hero{background:#fff}
+}
+@media print{
+  .sidebar,.controls,.toast,.skip-link{display:none !important}
+  .app{display:block}
+  .activity{break-inside:avoid}
+  .hero{padding:20px;background:#fff}
+  .content{padding:20px}
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to workbook content</a>
+<div class="app">
+<aside class="sidebar" aria-label="Workbook navigation">
+  <div class="brand">
+    <div class="eyebrow">C² Technologies</div>
+    <h1>Time Management</h1>
+    <p>Participant eWorkbook</p>
+  </div>
+  <div class="nav-title">Course sections</div>
+  <nav class="nav">
+    <a href="#start">Start</a>
+    <a href="#section1">1. Multiple tasks</a>
+    <a href="#section2">2. Manage time</a>
+    <a href="#section3">3. Priorities</a>
+    <a href="#section4">4. Urgent vs. important</a>
+    <a href="#section5">5. Pressure and stress</a>
+    <a href="#section6">6. Difficult situations</a>
+    <a href="#capstone">Capstone</a>
+    <a href="#action">Action plan</a>
+  </nav>
+  <div class="sidebar-actions">
+    <button class="side-btn primary" type="button" onclick="downloadWork()">Download / Save My Work</button>
+    <button class="side-btn" type="button" onclick="document.getElementById('restoreFile').click()">Restore Saved Work</button>
+    <input id="restoreFile" class="hidden" type="file" accept=".json,application/json" onchange="restoreWork(event)">
+    <button class="side-btn" type="button" onclick="window.print()">Print / Save as PDF</button>
+    <div class="progress-wrap" aria-hidden="true"><div id="progressBar" class="progress-bar"></div></div>
+    <div class="status" id="saveStatus" aria-live="polite">Saved in this browser session</div>
+  </div>
+</aside>
+
+<main id="main">
+<section class="hero" id="start">
+  <div class="bar"></div>
+  <div class="kicker">One-day virtual course</div>
+  <h2>Time Management: Focus, Prioritize and Deliver</h2>
+  <p>Use this workbook throughout the session to capture decisions, complete activities, and leave with a personal plan you can use immediately.</p>
+  <div class="hero-grid">
+    <div class="hero-card"><strong>Work in course order</strong>Use the left navigation to move between activities.</div>
+    <div class="hero-card"><strong>Your work saves locally</strong>This page preserves entries in your browser while you work.</div>
+    <div class="hero-card"><strong>Download before you close</strong>Use Download / Save My Work to keep a backup file.</div>
+  </div>
+</section>
+
+<div class="content">
+
+<section class="section" aria-labelledby="opening-title">
+  <div class="section-heading">
+    <div class="section-number">0</div>
+    <div><h2 id="opening-title">Start with your challenge</h2><p>Opening reflection</p></div>
+  </div>
+  <div class="activity">
+    <div class="activity-head">
+      <div class="meta"><span class="badge">Slide 2</span><span class="badge orange">Individual reflection</span></div>
+      <h3>What would make today worth your time?</h3>
+    </div>
+    <div class="activity-body">
+      <div class="instructions"><p>Think about your typical workweek. Capture one time-management challenge you would like to handle better. You will return to this at the end of the session.</p></div>
+      <div class="field">
+        <label for="openingChallenge">My time-management challenge</label>
+        <textarea id="openingChallenge" data-save placeholder="What consistently creates the most pressure or gets in the way?"></textarea>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="section1" aria-labelledby="s1-title">
+  <div class="section-heading">
+    <div class="section-number">1</div>
+    <div><h2 id="s1-title">Take control of multiple tasks</h2><p>See the work, sort the work, decide the next move.</p></div>
+  </div>
+
+  <div class="activity">
+    <div class="activity-head">
+      <div class="meta"><span class="badge">Slide 11</span><span class="badge orange">Individual, then pairs · 10 minutes</span></div>
+      <h3>Your top time drains</h3>
+    </div>
+    <div class="activity-body">
+      <div class="instructions"><p>Identify your top three time drains. Classify each as Control, Influence, or Adapt. Then compare your choices with a partner.</p><div class="expected">Expected output: three real time drains and a classification for each.</div></div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Time drain</th><th>Classification</th><th>Why?</th></tr></thead>
+        <tbody>
+          <tr><td><input aria-label="Time drain 1" data-save id="drain1"></td>
+          <td><select aria-label="Classification for time drain 1" data-save id="drainClass1">
+            <option value=""></option><option>Control</option><option>Influence</option><option>Adapt</option>
+          </select></td><td><input aria-label="Reason for time drain 1 classification" data-save id="drainWhy1"></td></tr><tr><td><input aria-label="Time drain 2" data-save id="drain2"></td>
+          <td><select aria-label="Classification for time drain 2" data-save id="drainClass2">
+            <option value=""></option><option>Control</option><option>Influence</option><option>Adapt</option>
+          </select></td><td><input aria-label="Reason for time drain 2 classification" data-save id="drainWhy2"></td></tr><tr><td><input aria-label="Time drain 3" data-save id="drain3"></td>
+          <td><select aria-label="Classification for time drain 3" data-save id="drainClass3">
+            <option value=""></option><option>Control</option><option>Influence</option><option>Adapt</option>
+          </select></td><td><input aria-label="Reason for time drain 3 classification" data-save id="drainWhy3"></td></tr>
+        </tbody>
+      </table></div>
+      <div class="note"><strong>Control:</strong> you can change your own behavior, approach, or system. <strong>Influence:</strong> change requires a conversation or agreement with someone else. <strong>Adapt:</strong> the demand is a legitimate part of the job, so plan around it.</div>
+      <div class="controls"><button class="btn" type="button" onclick="copyActivity(this)">Copy this activity</button></div>
+    </div>
+  </div>
+
+  <div class="resource">
+    <h4>Reference: Track before you fix</h4>
+    <p>A short time audit can help you compare planned time, actual time, interruptions, and the value of the work. The course recommends using your own evidence before changing your system.</p>
+  </div>
+
+  <div class="activity">
+    <div class="activity-head">
+      <div class="meta"><span class="badge">Slide 17</span><span class="badge orange">Small groups · 10 minutes</span></div>
+      <h3>Clean up the task pile</h3>
+    </div>
+    <div class="activity-body">
+      <div class="instructions"><p>With your group, sort each item into Project, Next Action, Today, Waiting, or Remove. Be ready to explain your reasoning.</p><div class="expected">Expected output: one classification for each task, plus your reasoning where the group disagrees.</div></div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Task</th><th>Where it belongs</th><th>Reasoning</th></tr></thead><tbody>
+        <tr><td>Prepare quarterly briefing</td><td><select data-save aria-label="Classification for Prepare quarterly briefing" id="pile1">
+        <option value=""></option><option>Project</option><option>Next Action</option><option>Today</option><option>Waiting</option><option>Remove</option></select></td>
+        <td><input data-save aria-label="Reasoning for Prepare quarterly briefing" id="pileWhy1"></td></tr><tr><td>Wait for Facilities response</td><td><select data-save aria-label="Classification for Wait for Facilities response" id="pile2">
+        <option value=""></option><option>Project</option><option>Next Action</option><option>Today</option><option>Waiting</option><option>Remove</option></select></td>
+        <td><input data-save aria-label="Reasoning for Wait for Facilities response" id="pileWhy2"></td></tr><tr><td>Submit timesheet</td><td><select data-save aria-label="Classification for Submit timesheet" id="pile3">
+        <option value=""></option><option>Project</option><option>Next Action</option><option>Today</option><option>Waiting</option><option>Remove</option></select></td>
+        <td><input data-save aria-label="Reasoning for Submit timesheet" id="pileWhy3"></td></tr><tr><td>Update SOP section</td><td><select data-save aria-label="Classification for Update SOP section" id="pile4">
+        <option value=""></option><option>Project</option><option>Next Action</option><option>Today</option><option>Waiting</option><option>Remove</option></select></td>
+        <td><input data-save aria-label="Reasoning for Update SOP section" id="pileWhy4"></td></tr><tr><td>Review customer complaint</td><td><select data-save aria-label="Classification for Review customer complaint" id="pile5">
+        <option value=""></option><option>Project</option><option>Next Action</option><option>Today</option><option>Waiting</option><option>Remove</option></select></td>
+        <td><input data-save aria-label="Reasoning for Review customer complaint" id="pileWhy5"></td></tr><tr><td>Schedule project check-in</td><td><select data-save aria-label="Classification for Schedule project check-in" id="pile6">
+        <option value=""></option><option>Project</option><option>Next Action</option><option>Today</option><option>Waiting</option><option>Remove</option></select></td>
+        <td><input data-save aria-label="Reasoning for Schedule project check-in" id="pileWhy6"></td></tr><tr><td>Old newsletter draft</td><td><select data-save aria-label="Classification for Old newsletter draft" id="pile7">
+        <option value=""></option><option>Project</option><option>Next Action</option><option>Today</option><option>Waiting</option><option>Remove</option></select></td>
+        <td><input data-save aria-label="Reasoning for Old newsletter draft" id="pileWhy7"></td></tr><tr><td>Next month&#x27;s safety walkthrough</td><td><select data-save aria-label="Classification for Next month&#x27;s safety walkthrough" id="pile8">
+        <option value=""></option><option>Project</option><option>Next Action</option><option>Today</option><option>Waiting</option><option>Remove</option></select></td>
+        <td><input data-save aria-label="Reasoning for Next month&#x27;s safety walkthrough" id="pileWhy8"></td></tr>
+        </tbody></table></div>
+      <div class="field"><label for="pileDisagree">Which item caused the most disagreement, and why?</label><textarea id="pileDisagree" data-save></textarea></div>
+      <div class="controls"><button class="btn" type="button" onclick="copyActivity(this)">Copy this activity</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="section2" aria-labelledby="s2-title">
+  <div class="section-heading">
+    <div class="section-number">2</div>
+    <div><h2 id="s2-title">Manage time with intention</h2><p>Plan against real capacity rather than an ideal day.</p></div>
+  </div>
+
+  <div class="resource">
+    <h4>Planning reminders from the course</h4>
+    <div class="checkbox-list">
+      <label><input type="checkbox" data-save id="planRef1"> Start with fixed commitments.</label>
+      <label><input type="checkbox" data-save id="planRef2"> Protect high-priority work.</label>
+      <label><input type="checkbox" data-save id="planRef3"> Add routine work.</label>
+      <label><input type="checkbox" data-save id="planRef4"> Leave realistic buffer.</label>
+      <label><input type="checkbox" data-save id="planRef5"> Do not assume everything will fit.</label>
+    </div>
+  </div>
+
+  <div class="activity">
+    <div class="activity-head">
+      <div class="meta"><span class="badge">Slide 27</span><span class="badge orange">Individual or pairs · 12 minutes</span></div>
+      <h3>Design a workable day</h3>
+    </div>
+    <div class="activity-body">
+      <div class="instructions"><p>Build a realistic day. You will not fit everything. That is the point. Place fixed commitments first, protect priority work, add routine work, and leave buffer.</p><div class="expected">Expected output: a realistic 8:00 a.m. to 5:00 p.m. schedule with buffer and explicit tradeoffs.</div></div>
+
+      <div class="resource">
+        <h4>Work items</h4>
+        <div class="table-wrap">
+          <table aria-label="Design a Workable Day work items">
+            <thead><tr><th>Work item</th><th>Time needed</th><th>Type</th></tr></thead>
+            <tbody>
+              <tr><td>Team meeting</td><td>9:00–10:00</td><td>Fixed</td></tr>
+              <tr><td>Customer / stakeholder call</td><td>1:00–1:30</td><td>Fixed</td></tr>
+              <tr><td>Prepare high-priority briefing</td><td>90 min</td><td>High priority</td></tr>
+              <tr><td>Review time-sensitive request</td><td>45 min</td><td>High priority</td></tr>
+              <tr><td>Respond to routine email / messages</td><td>45 min</td><td>Routine</td></tr>
+              <tr><td>Update documentation / records</td><td>45 min</td><td>Routine</td></tr>
+              <tr><td>Schedule upcoming check-in</td><td>15 min</td><td>Routine</td></tr>
+              <tr><td>Follow up on non-urgent request</td><td>30 min</td><td>Routine</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div>
+          <div class="field"><label for="dayLeaveOut">What did you choose not to schedule, and why?</label><textarea id="dayLeaveOut" data-save></textarea></div>
+          <div class="field"><label for="dayProtect">What did you protect even though something else had to wait?</label><textarea id="dayProtect" data-save></textarea></div>
+        </div>
+        <div>
+          <label>Build your day</label>
+          <div class="schedule" aria-label="Workable day schedule">
+          <div class="time">8:00–9:00</div><div class="slot"><input data-save aria-label="Schedule item for 8:00 to 9:00" id="workday1"></div>
+          <div class="time">9:00–10:00</div><div class="slot"><input data-save aria-label="Schedule item for 9:00 to 10:00" id="workday2"></div>
+          <div class="time">10:00–11:00</div><div class="slot"><input data-save aria-label="Schedule item for 10:00 to 11:00" id="workday3"></div>
+          <div class="time">11:00–12:00</div><div class="slot"><input data-save aria-label="Schedule item for 11:00 to 12:00" id="workday4"></div>
+          <div class="time">12:00–1:00</div><div class="slot"><input data-save aria-label="Schedule item for 12:00 to 1:00" id="workday5"></div>
+          <div class="time">1:00–2:00</div><div class="slot"><input data-save aria-label="Schedule item for 1:00 to 2:00" id="workday6"></div>
+          <div class="time">2:00–3:00</div><div class="slot"><input data-save aria-label="Schedule item for 2:00 to 3:00" id="workday7"></div>
+          <div class="time">3:00–4:00</div><div class="slot"><input data-save aria-label="Schedule item for 3:00 to 4:00" id="workday8"></div>
+          <div class="time">4:00–5:00</div><div class="slot"><input data-save aria-label="Schedule item for 4:00 to 5:00" id="workday9"></div>
+          </div>
+        </div>
+      </div>
+      <div class="controls"><button class="btn" type="button" onclick="copyActivity(this)">Copy this activity</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="section3" aria-labelledby="s3-title">
+  <div class="section-heading">
+    <div class="section-number">3</div>
+    <div><h2 id="s3-title">Manage multiple priorities</h2><p>Use explicit tradeoffs when everything cannot be priority one.</p></div>
+  </div>
+
+  <div class="resource">
+    <h4>Priority Filter</h4>
+    <ol>
+      <li>What outcome does this support?</li>
+      <li>What happens if it waits?</li>
+      <li>Who depends on it?</li>
+      <li>What is the deadline?</li>
+      <li>What must move if I take it on?</li>
+    </ol>
+  </div>
+
+  <div class="activity">
+    <div class="activity-head">
+      <div class="meta"><span class="badge">Slide 34</span><span class="badge orange">Small groups · 15 minutes</span></div>
+      <h3>Re-prioritize a crowded day</h3>
+    </div>
+    <div class="activity-body">
+      <div class="instructions"><p>You have eight tasks and four available hours. Rank the work with the Priority Filter. Decide what fits and what must move, shrink, or go. Explain your tradeoffs.</p><div class="expected">Expected output: a ranked list, a decision for each item, and clear reasoning.</div></div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Task</th><th>Rank 1–8</th><th>Decision</th><th>Reasoning</th></tr></thead><tbody>
+        <tr><td>Track-fault report for safety review</td>
+        <td><input class="small-input" type="number" min="1" max="8" data-save id="crowdRank1" aria-label="Rank for Track-fault report for safety review"></td>
+        <td><select data-save id="crowdDecision1" aria-label="Decision for Track-fault report for safety review"><option value=""></option><option>Fits in 4 hours</option><option>Move</option><option>Shrink</option><option>Go / Remove</option></select></td>
+        <td><input data-save id="crowdWhy1" aria-label="Reasoning for Track-fault report for safety review"></td></tr><tr><td>Customer complaint: platform signage</td>
+        <td><input class="small-input" type="number" min="1" max="8" data-save id="crowdRank2" aria-label="Rank for Customer complaint: platform signage"></td>
+        <td><select data-save id="crowdDecision2" aria-label="Decision for Customer complaint: platform signage"><option value=""></option><option>Fits in 4 hours</option><option>Move</option><option>Shrink</option><option>Go / Remove</option></select></td>
+        <td><input data-save id="crowdWhy2" aria-label="Reasoning for Customer complaint: platform signage"></td></tr><tr><td>Weekly ridership report</td>
+        <td><input class="small-input" type="number" min="1" max="8" data-save id="crowdRank3" aria-label="Rank for Weekly ridership report"></td>
+        <td><select data-save id="crowdDecision3" aria-label="Decision for Weekly ridership report"><option value=""></option><option>Fits in 4 hours</option><option>Move</option><option>Shrink</option><option>Go / Remove</option></select></td>
+        <td><input data-save id="crowdWhy3" aria-label="Reasoning for Weekly ridership report"></td></tr><tr><td>Project milestone due Friday</td>
+        <td><input class="small-input" type="number" min="1" max="8" data-save id="crowdRank4" aria-label="Rank for Project milestone due Friday"></td>
+        <td><select data-save id="crowdDecision4" aria-label="Decision for Project milestone due Friday"><option value=""></option><option>Fits in 4 hours</option><option>Move</option><option>Shrink</option><option>Go / Remove</option></select></td>
+        <td><input data-save id="crowdWhy4" aria-label="Reasoning for Project milestone due Friday"></td></tr><tr><td>Manager asks for talking points</td>
+        <td><input class="small-input" type="number" min="1" max="8" data-save id="crowdRank5" aria-label="Rank for Manager asks for talking points"></td>
+        <td><select data-save id="crowdDecision5" aria-label="Decision for Manager asks for talking points"><option value=""></option><option>Fits in 4 hours</option><option>Move</option><option>Shrink</option><option>Go / Remove</option></select></td>
+        <td><input data-save id="crowdWhy5" aria-label="Reasoning for Manager asks for talking points"></td></tr><tr><td>Expense reconciliation</td>
+        <td><input class="small-input" type="number" min="1" max="8" data-save id="crowdRank6" aria-label="Rank for Expense reconciliation"></td>
+        <td><select data-save id="crowdDecision6" aria-label="Decision for Expense reconciliation"><option value=""></option><option>Fits in 4 hours</option><option>Move</option><option>Shrink</option><option>Go / Remove</option></select></td>
+        <td><input data-save id="crowdWhy6" aria-label="Reasoning for Expense reconciliation"></td></tr><tr><td>Optional vendor demo meeting</td>
+        <td><input class="small-input" type="number" min="1" max="8" data-save id="crowdRank7" aria-label="Rank for Optional vendor demo meeting"></td>
+        <td><select data-save id="crowdDecision7" aria-label="Decision for Optional vendor demo meeting"><option value=""></option><option>Fits in 4 hours</option><option>Move</option><option>Shrink</option><option>Go / Remove</option></select></td>
+        <td><input data-save id="crowdWhy7" aria-label="Reasoning for Optional vendor demo meeting"></td></tr><tr><td>Draft process improvement idea</td>
+        <td><input class="small-input" type="number" min="1" max="8" data-save id="crowdRank8" aria-label="Rank for Draft process improvement idea"></td>
+        <td><select data-save id="crowdDecision8" aria-label="Decision for Draft process improvement idea"><option value=""></option><option>Fits in 4 hours</option><option>Move</option><option>Shrink</option><option>Go / Remove</option></select></td>
+        <td><input data-save id="crowdWhy8" aria-label="Reasoning for Draft process improvement idea"></td></tr>
+        </tbody></table></div>
+      <div class="field"><label for="crowdDisagree">Which decision created the most disagreement?</label><textarea id="crowdDisagree" data-save></textarea></div>
+      <div class="controls"><button class="btn" type="button" onclick="copyActivity(this)">Copy this activity</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="section4" aria-labelledby="s4-title">
+  <div class="section-heading">
+    <div class="section-number">4</div>
+    <div><h2 id="s4-title">Urgent vs. important</h2><p>Choose the response the work deserves.</p></div>
+  </div>
+
+  <div class="resource">
+    <h4>Urgent / Important Matrix</h4>
+    <div class="grid-2">
+      <div><strong>Act</strong><br>Urgent and important.</div>
+      <div><strong>Schedule</strong><br>Important, not urgent.</div>
+      <div><strong>Coordinate / Delegate</strong><br>Urgent, but not necessarily yours to complete.</div>
+      <div><strong>Reduce / Remove</strong><br>Neither urgent nor important enough to displace higher-value work.</div>
+    </div>
+  </div>
+
+  <div class="activity">
+    <div class="activity-head">
+      <div class="meta"><span class="badge">Slide 41</span><span class="badge orange">Pairs or tables · 12 minutes</span></div>
+      <h3>Matrix practice</h3>
+    </div>
+    <div class="activity-body">
+      <div class="instructions"><p>Classify each task, then identify the next action. Context matters, so be ready to explain what additional information would change your answer.</p><div class="expected">Expected output: one matrix placement and one next action for each task.</div></div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Task</th><th>Matrix placement</th><th>Next action</th></tr></thead><tbody>
+        <tr><td>Unresolved equipment issue</td><td><select data-save id="matrix1" aria-label="Matrix placement for Unresolved equipment issue">
+        <option value=""></option><option>Act</option><option>Schedule</option><option>Coordinate / Delegate</option><option>Reduce / Remove</option></select></td>
+        <td><input data-save id="matrixNext1" aria-label="Next action for Unresolved equipment issue"></td></tr><tr><td>Certification deadline next month</td><td><select data-save id="matrix2" aria-label="Matrix placement for Certification deadline next month">
+        <option value=""></option><option>Act</option><option>Schedule</option><option>Coordinate / Delegate</option><option>Reduce / Remove</option></select></td>
+        <td><input data-save id="matrixNext2" aria-label="Next action for Certification deadline next month"></td></tr><tr><td>Recurring report due next week</td><td><select data-save id="matrix3" aria-label="Matrix placement for Recurring report due next week">
+        <option value=""></option><option>Act</option><option>Schedule</option><option>Coordinate / Delegate</option><option>Reduce / Remove</option></select></td>
+        <td><input data-save id="matrixNext3" aria-label="Next action for Recurring report due next week"></td></tr><tr><td>Optional meeting invitation</td><td><select data-save id="matrix4" aria-label="Matrix placement for Optional meeting invitation">
+        <option value=""></option><option>Act</option><option>Schedule</option><option>Coordinate / Delegate</option><option>Reduce / Remove</option></select></td>
+        <td><input data-save id="matrixNext4" aria-label="Next action for Optional meeting invitation"></td></tr><tr><td>Colleague request, unclear deadline</td><td><select data-save id="matrix5" aria-label="Matrix placement for Colleague request, unclear deadline">
+        <option value=""></option><option>Act</option><option>Schedule</option><option>Coordinate / Delegate</option><option>Reduce / Remove</option></select></td>
+        <td><input data-save id="matrixNext5" aria-label="Next action for Colleague request, unclear deadline"></td></tr><tr><td>Process improvement idea</td><td><select data-save id="matrix6" aria-label="Matrix placement for Process improvement idea">
+        <option value=""></option><option>Act</option><option>Schedule</option><option>Coordinate / Delegate</option><option>Reduce / Remove</option></select></td>
+        <td><input data-save id="matrixNext6" aria-label="Next action for Process improvement idea"></td></tr>
+        </tbody></table></div>
+      <div class="field"><label for="matrixNeed">What information did you wish you had before making some of these decisions?</label><textarea id="matrixNeed" data-save></textarea></div>
+      <div class="controls"><button class="btn" type="button" onclick="copyActivity(this)">Copy this activity</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="section5" aria-labelledby="s5-title">
+  <div class="section-heading">
+    <div class="section-number">5</div>
+    <div><h2 id="s5-title">Coping effectively with pressure and stress</h2><p>Recognize overload early and reset the plan deliberately.</p></div>
+  </div>
+
+  <div class="activity">
+    <div class="activity-head">
+      <div class="meta"><span class="badge">Slide 45</span><span class="badge orange">Individual reflection</span></div>
+      <h3>Recognize overload early</h3>
+    </div>
+    <div class="activity-body">
+      <div class="instructions"><p>Identify the overload signal that tends to show up first for you. Then choose one course strategy you can use when you notice it.</p></div>
+      <div class="grid-2">
+        <div class="field"><label for="overloadSignal">My early warning signal</label><select id="overloadSignal" data-save>
+          <option value=""></option><option>Too many open commitments</option><option>Constant switching</option><option>Missed details</option><option>Rushing</option><option>Difficulty deciding what comes next</option><option>Working longer without meaningful progress</option>
+        </select></div>
+        <div class="field"><label for="overloadResponse">What I will do when I notice it</label><input id="overloadResponse" data-save></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="resource">
+    <h4>Pressure Reset</h4>
+    <div class="steps">
+      <div class="step"><strong>1. Stop</strong>Pause long enough to see what changed.</div>
+      <div class="step"><strong>2. Reassess</strong>Identify the new facts, deadlines, and dependencies.</div>
+      <div class="step"><strong>3. Reprioritize</strong>Decide what rises, moves, or no longer fits.</div>
+      <div class="step"><strong>4. Communicate</strong>Tell the people affected by the changed plan.</div>
+      <div class="step"><strong>5. Restart</strong>Choose one clear next action.</div>
+    </div>
+  </div>
+
+  <div class="activity">
+    <div class="activity-head">
+      <div class="meta"><span class="badge">Slide 50</span><span class="badge orange">Small groups · 12 minutes</span></div>
+      <h3>Pressure Reset: your day changes at 1:30 p.m.</h3>
+    </div>
+    <div class="activity-body">
+      <div class="instructions"><p>Use the five-step Pressure Reset to rebuild the afternoon. Decide what stays, what moves, what you communicate, and what you stop.</p><div class="expected">Expected output: a revised afternoon and one clear restart action.</div></div>
+      <div class="grid-2">
+        <div class="resource"><h4>The original plan</h4><p>1:00 Team meeting<br>2:00 Finish inspection report<br>3:30 Email and follow-ups</p></div>
+        <div class="resource"><h4>At 1:30, everything shifts</h4><p>High-priority data request due at 4:00<br>Meeting is running long<br>Teammate needs your figures by 2:30</p></div>
+      </div>
+      <div class="grid-3">
+        <div class="field"><label for="resetKeep">What do you keep or protect?</label><textarea id="resetKeep" data-save></textarea></div>
+        <div class="field"><label for="resetMove">What moves or stops?</label><textarea id="resetMove" data-save></textarea></div>
+        <div class="field"><label for="resetComm">Who do you need to communicate with, and what do they need to know?</label><textarea id="resetComm" data-save></textarea></div>
+      </div>
+      <div class="field"><label for="resetRestart">What is your first action when you restart?</label><input id="resetRestart" data-save></div>
+      <div class="controls"><button class="btn" type="button" onclick="copyActivity(this)">Copy this activity</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="section6" aria-labelledby="s6-title">
+  <div class="section-heading">
+    <div class="section-number">6</div>
+    <div><h2 id="s6-title">Manage difficult situations</h2><p>Make workload conflicts visible and plan the conversation.</p></div>
+  </div>
+
+  <div class="activity">
+    <div class="activity-head">
+      <div class="meta"><span class="badge">Slide 56</span><span class="badge orange">Individual practice</span></div>
+      <h3>Say no without creating a dead end</h3>
+    </div>
+    <div class="activity-body">
+      <div class="instructions"><p>Rephrase one of the sample approaches from the slide in language you would naturally use at work. Include the request, the constraint, an alternative, and the next step.</p></div>
+      <div class="field"><label for="noLine">My version</label><textarea id="noLine" data-save placeholder="Write the response you would use."></textarea></div>
+    </div>
+  </div>
+
+  <div class="activity">
+    <div class="activity-head">
+      <div class="meta"><span class="badge">Slide 58</span><span class="badge orange">One scenario per group · 14 minutes</span></div>
+      <h3>Difficult situation practice</h3>
+    </div>
+    <div class="activity-body">
+      <div class="instructions"><p>Your group receives one scenario. Name the real time-management issue, decide what conversation needs to happen, and script the exact opening line you would use.</p><div class="expected">Expected output: issue, conversation plan, and exact opening language.</div></div>
+      <fieldset class="field">
+        <legend>Our assigned scenario</legend>
+        <select id="scenarioChoice" data-save>
+          <option value=""></option>
+          <option>A. Shifting deadline — the date just moved up</option>
+          <option>B. Unclear assignment — no owner, no definition of done</option>
+          <option>C. Overloaded employee who keeps saying yes</option>
+          <option>D. Repeated interruption from the same colleague</option>
+        </select>
+      </fieldset>
+      <div class="grid-3">
+        <div class="field"><label for="scenarioIssue">What is the real time-management issue?</label><textarea id="scenarioIssue" data-save></textarea></div>
+        <div class="field"><label for="scenarioConversation">What conversation needs to happen?</label><textarea id="scenarioConversation" data-save></textarea></div>
+        <div class="field"><label for="scenarioOpening">Exact opening line</label><textarea id="scenarioOpening" data-save></textarea></div>
+      </div>
+      <div class="note">Use the tools from this section: clarify, surface the conflict, offer options, and confirm what happens next.</div>
+      <div class="controls"><button class="btn" type="button" onclick="copyActivity(this)">Copy this activity</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="capstone" aria-labelledby="cap-title">
+  <div class="section-heading">
+    <div class="section-number">C</div>
+    <div><h2 id="cap-title">Capstone: The Day Changed Again</h2><p>Sort the work, rebuild the day, and communicate the tradeoffs.</p></div>
+  </div>
+
+  <div class="activity">
+    <div class="activity-head">
+      <div class="meta"><span class="badge">Slide 59</span><span class="badge orange">Teams</span></div>
+      <h3>Capstone scenario</h3>
+    </div>
+    <div class="activity-body">
+      <div class="instructions">
+        <p>Read the full scenario before making decisions. Do not jump straight to the calendar.</p>
+        <div class="expected">Expected output: a shared understanding of the starting workday, task pile, and the changes that arrive at 10:15 a.m.</div>
+      </div>
+
+      <div class="resource">
+        <h4>Your workday</h4>
+        <p>It is 8:00 a.m. You work in a busy organization that supports both operational and administrative needs. Your day ends at 4:30 p.m.</p>
+        <div class="table-wrap"><table aria-label="Capstone fixed commitments">
+          <thead><tr><th>Time</th><th>Commitment</th><th>Details</th></tr></thead>
+          <tbody>
+            <tr><td>9:00–9:30</td><td>Daily team check-in</td><td>Fixed meeting</td></tr>
+            <tr><td>11:00–11:45</td><td>Project coordination meeting</td><td>Fixed meeting</td></tr>
+            <tr><td>3:00</td><td>Monthly performance summary due</td><td>Your manager needs it for a 4:00 briefing</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+
+      <div class="resource">
+        <h4>The task pile</h4>
+        <div class="table-wrap"><table aria-label="Capstone task pile">
+          <thead><tr><th>Task</th><th>Context</th><th>Value</th></tr></thead>
+          <tbody>
+            <tr><td>A. Finish monthly performance summary</td><td>Due 3:00 today. About 75 minutes remain.</td><td>High</td></tr>
+            <tr><td>B. Review updated safety procedure</td><td>Needed for tomorrow morning's field briefing. About 45 minutes.</td><td>High</td></tr>
+            <tr><td>C. Respond to routine email and approvals</td><td>Several items are waiting. About 40 minutes total.</td><td>Mixed</td></tr>
+            <tr><td>D. Prepare next week's project status notes</td><td>Useful, but not due until tomorrow afternoon. About 45 minutes.</td><td>Medium</td></tr>
+            <tr><td>E. Clean up shared-folder files</td><td>No firm deadline. About 30 minutes.</td><td>Low</td></tr>
+            <tr><td>F. Confirm vendor delivery details</td><td>Another team is waiting for your confirmation before scheduling work. About 15 minutes.</td><td>Medium</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+
+      <div class="resource">
+        <h4>At 10:15, the day changes</h4>
+        <div class="grid-2">
+          <div class="note"><strong>Urgent issue</strong><br>A service problem is affecting customers. Your manager asks for a quick data summary by 12:30. Estimate: 45 minutes.</div>
+          <div class="note"><strong>Difficult request</strong><br>A colleague asks you to complete a 60-minute analysis by 2:00. They need it for their own deadline.</div>
+          <div class="note"><strong>New information</strong><br>The 11:00 project meeting will run until 12:15 instead of 11:45.</div>
+          <div class="note"><strong>Capacity reality</strong><br>You still need a short lunch and some buffer. You cannot fit everything into the day.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="activity">
+    <div class="activity-head">
+      <div class="meta"><span class="badge">Slide 60</span><span class="badge orange">Step 1 · Teams · 8 minutes</span></div>
+      <h3>Sort the work</h3>
+    </div>
+    <div class="activity-body">
+      <div class="instructions"><p>Use the Priority Filter and urgent / important logic. Decide what must happen today, what can move, what needs clarification or coordination, and what can be delegated or removed.</p></div>
+      <div class="grid-2">
+        <div class="field"><label for="capToday">Must happen today</label><textarea id="capToday" data-save></textarea></div>
+        <div class="field"><label for="capSchedule">Schedule / Move</label><textarea id="capSchedule" data-save></textarea></div>
+        <div class="field"><label for="capClarify">Clarify / Coordinate</label><textarea id="capClarify" data-save></textarea></div>
+        <div class="field"><label for="capDelegate">Delegate / Remove</label><textarea id="capDelegate" data-save></textarea></div>
+      </div>
+      <div class="field"><label for="capDisagree">What item created the most debate in your group, and why?</label><textarea id="capDisagree" data-save></textarea></div>
+    </div>
+  </div>
+
+  <div class="activity">
+    <div class="activity-head">
+      <div class="meta"><span class="badge">Slide 61</span><span class="badge orange">Step 2 · Teams · 8 minutes</span></div>
+      <h3>Build the day</h3>
+    </div>
+    <div class="activity-body">
+      <div class="instructions"><p>Start with fixed commitments. Protect priority work. Leave buffer. Make the tradeoffs visible.</p></div>
+      <div class="table-wrap"><table aria-label="Capstone day plan">
+        <thead><tr><th>Time</th><th>Plan</th><th>Why / Tradeoff</th></tr></thead>
+        <tbody>
+          <tr><td>8:00–9:00</td><td><input data-save id="capslot1" aria-label="Plan for 8:00 to 9:00"></td><td><input data-save id="capwhy1" aria-label="Tradeoff for 8:00 to 9:00"></td></tr>
+          <tr><td>9:00–9:30</td><td><input data-save id="capslot2" aria-label="Plan for 9:00 to 9:30"></td><td><input data-save id="capwhy2" aria-label="Tradeoff for 9:00 to 9:30"></td></tr>
+          <tr><td>9:30–10:15</td><td><input data-save id="capslot3" aria-label="Plan for 9:30 to 10:15"></td><td><input data-save id="capwhy3" aria-label="Tradeoff for 9:30 to 10:15"></td></tr>
+          <tr><td>10:15–11:00</td><td><input data-save id="capslot4" aria-label="Plan for 10:15 to 11:00"></td><td><input data-save id="capwhy4" aria-label="Tradeoff for 10:15 to 11:00"></td></tr>
+          <tr><td>11:00–12:15</td><td><input data-save id="capslot5" aria-label="Plan for 11:00 to 12:15"></td><td><input data-save id="capwhy5" aria-label="Tradeoff for 11:00 to 12:15"></td></tr>
+          <tr><td>12:15–1:00</td><td><input data-save id="capslot6" aria-label="Plan for 12:15 to 1:00"></td><td><input data-save id="capwhy6" aria-label="Tradeoff for 12:15 to 1:00"></td></tr>
+          <tr><td>1:00–2:00</td><td><input data-save id="capslot7" aria-label="Plan for 1:00 to 2:00"></td><td><input data-save id="capwhy7" aria-label="Tradeoff for 1:00 to 2:00"></td></tr>
+          <tr><td>2:00–3:00</td><td><input data-save id="capslot8" aria-label="Plan for 2:00 to 3:00"></td><td><input data-save id="capwhy8" aria-label="Tradeoff for 2:00 to 3:00"></td></tr>
+          <tr><td>3:00–4:00</td><td><input data-save id="capslot9" aria-label="Plan for 3:00 to 4:00"></td><td><input data-save id="capwhy9" aria-label="Tradeoff for 3:00 to 4:00"></td></tr>
+          <tr><td>4:00–4:30</td><td><input data-save id="capslot10" aria-label="Plan for 4:00 to 4:30"></td><td><input data-save id="capwhy10" aria-label="Tradeoff for 4:00 to 4:30"></td></tr>
+        </tbody>
+      </table></div>
+      <div class="grid-3">
+        <div class="field"><label for="capLeftOut">What did you deliberately move or leave out?</label><textarea id="capLeftOut" data-save></textarea></div>
+        <div class="field"><label for="capProtected">Where did you protect buffer?</label><textarea id="capProtected" data-save></textarea></div>
+        <div class="field"><label for="capBreakFirst">What would break first if another urgent request arrived?</label><textarea id="capBreakFirst" data-save></textarea></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="activity">
+    <div class="activity-head">
+      <div class="meta"><span class="badge">Slide 62</span><span class="badge orange">Step 3 · Teams · 10 minutes</span></div>
+      <h3>Communicate</h3>
+    </div>
+    <div class="activity-body">
+      <div class="instructions"><p>Some of your decisions affect other people. Decide what needs to be communicated, to whom, and how.</p><div class="expected">Expected output: a clear communication plan and a 60-second explanation of your priorities, schedule, and tradeoffs.</div></div>
+      <div class="field"><label for="capComm1">1. What needs to be renegotiated or clarified?</label><textarea id="capComm1" data-save></textarea></div>
+      <div class="field"><label for="capComm2">2. Who needs to know about a changed deadline, sequence, or commitment?</label><textarea id="capComm2" data-save></textarea></div>
+      <div class="field"><label for="capComm3">3. What exact words would you use to make the tradeoff visible?</label><textarea id="capComm3" data-save></textarea></div>
+      <div class="field"><label for="capComm4">4. What will you confirm before moving on?</label><textarea id="capComm4" data-save></textarea></div>
+      <div class="resource"><h4>Final team check</h4><p>Can you explain your priorities, your schedule, and your tradeoffs in 60 seconds?</p><p class="help-text">Course tools to use: Priority Filter · Urgent / Important Matrix · Capacity + Buffer · Clarify Before You Commit · Offer Options · Confirm</p></div>
+      <div class="controls"><button class="btn" type="button" onclick="copyActivity(this)">Copy this activity</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="action" aria-labelledby="action-title">
+  <div class="section-heading">
+    <div class="section-number">A</div>
+    <div><h2 id="action-title">Your personal action plan</h2><p>Choose three actions, then schedule the first step.</p></div>
+  </div>
+
+  <div class="activity">
+    <div class="activity-head">
+      <div class="meta"><span class="badge">Slide 65</span><span class="badge orange">Individual · 7 minutes</span></div>
+      <h3>Choose your three</h3>
+    </div>
+    <div class="activity-body">
+      <div class="instructions"><p>Return to the challenge you identified at the beginning. Choose one strategy to start, one habit to stop or reduce, and one practice to continue or strengthen. Make each action specific and observable.</p></div>
+      <div class="field"><label for="challengeRepeat">The challenge I want to handle better</label><textarea id="challengeRepeat" data-save></textarea></div>
+      <div class="grid-3">
+        <div class="field"><label for="startAction">Start</label><textarea id="startAction" data-save placeholder="One strategy I will start using"></textarea></div>
+        <div class="field"><label for="stopAction">Stop or reduce</label><textarea id="stopAction" data-save placeholder="One habit I will stop or reduce"></textarea></div>
+        <div class="field"><label for="continueAction">Continue or strengthen</label><textarea id="continueAction" data-save placeholder="One practice I will continue or strengthen"></textarea></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="activity">
+    <div class="activity-head">
+      <div class="meta"><span class="badge">Slide 66</span><span class="badge orange">Individual · 4 minutes</span></div>
+      <h3>Commit to the first step</h3>
+    </div>
+    <div class="activity-body">
+      <div class="instructions"><p>Choose one action you will begin within the next 24 hours. Put it on your calendar, planner, or task system before you leave.</p></div>
+      <div class="grid-3">
+        <div class="field"><label for="firstStep">What exactly will I do?</label><textarea id="firstStep" data-save></textarea></div>
+        <div class="field"><label for="firstDate">Date</label><input id="firstDate" type="date" data-save></div>
+        <div class="field"><label for="firstTime">Time</label><input id="firstTime" type="time" data-save></div>
+      </div>
+      <div class="field"><label for="firstSupport">Anything I need to prepare, protect, or communicate first?</label><textarea id="firstSupport" data-save></textarea></div>
+    </div>
+  </div>
+
+  <div class="footer-save">
+    <h2>Save your work before you close this page</h2>
+    <p>Your entries are stored in this browser while you work, but browser storage is not a permanent backup. Download your work now so you can keep or restore it later.</p>
+    <div class="controls">
+      <button class="btn orange" type="button" onclick="downloadWork()">Download / Save My Work</button>
+      <button class="btn" style="color:#fff;border-color:#fff;background:transparent" type="button" onclick="document.getElementById('restoreFile').click()">Restore Saved Work</button>
+    </div>
+  </div>
+</section>
+
+</div>
+</main>
+</div>
+
+<div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+<script>
+const SAVE_KEY = "c2_time_management_eworkbook_v1";
+const inputs = () => Array.from(document.querySelectorAll("[data-save]"));
+
+function collectData(){
+  const data = {
+    workbook:"Time Management: Focus, Prioritize and Deliver - Participant eWorkbook",
+    savedAt:new Date().toISOString(),
+    values:{}
+  };
+  inputs().forEach(el=>{
+    data.values[el.id] = el.type === "checkbox" ? el.checked : el.value;
+  });
+  return data;
+}
+function saveLocal(){
+  try{
+    localStorage.setItem(SAVE_KEY, JSON.stringify(collectData()));
+    const s=document.getElementById("saveStatus");
+    if(s) s.textContent="Saved in this browser at " + new Date().toLocaleTimeString([], {hour:"numeric",minute:"2-digit"});
+    updateProgress();
+  }catch(e){
+    const s=document.getElementById("saveStatus");
+    if(s) s.textContent="Browser save unavailable. Use Download / Save My Work.";
+  }
+}
+function loadLocal(){
+  try{
+    const raw=localStorage.getItem(SAVE_KEY);
+    if(!raw) return;
+    applyData(JSON.parse(raw));
+  }catch(e){}
+}
+function applyData(data){
+  if(!data || !data.values) return;
+  Object.entries(data.values).forEach(([id,val])=>{
+    const el=document.getElementById(id);
+    if(!el) return;
+    if(el.type==="checkbox") el.checked=Boolean(val);
+    else el.value=val ?? "";
+  });
+  updateProgress();
+}
+function downloadWork(){
+  const data=collectData();
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+  const a=document.createElement("a");
+  const stamp=new Date().toISOString().slice(0,10);
+  a.href=URL.createObjectURL(blob);
+  a.download=`Time_Management_eWorkbook_${stamp}.json`;
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(a.href);
+  showToast("Your workbook backup was downloaded.");
+}
+function restoreWork(event){
+  const file=event.target.files && event.target.files[0];
+  if(!file) return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const data=JSON.parse(reader.result);
+      applyData(data);
+      saveLocal();
+      showToast("Saved work restored.");
+    }catch(e){
+      showToast("That file could not be restored.");
+    }
+    event.target.value="";
+  };
+  reader.readAsText(file);
+}
+function copyActivity(btn){
+  const activity=btn.closest(".activity");
+  if(!activity) return;
+  const lines=[];
+  const title=activity.querySelector("h3");
+  if(title) lines.push(title.textContent.trim());
+  activity.querySelectorAll("label, th, td").forEach(el=>{
+    if(el.closest("table") && el.tagName==="TD"){
+      const control=el.querySelector("input,textarea,select");
+      if(control){
+        const row=el.closest("tr");
+        const first=row && row.querySelector("td");
+        const name=first ? first.textContent.trim() : "";
+        const value=control.value || "";
+        if(value && name) lines.push(`${name}: ${value}`);
+      }
+    }
+  });
+  activity.querySelectorAll("textarea:not(td textarea), input[data-save]:not(td input), select[data-save]:not(td select)").forEach(el=>{
+    if(!el.value) return;
+    const label=activity.querySelector(`label[for="${el.id}"]`);
+    lines.push(`${label ? label.innerText.trim() : el.id}: ${el.value}`);
+  });
+  navigator.clipboard.writeText(lines.join("\n")).then(()=>showToast("Activity copied."));
+}
+function updateProgress(){
+  const els=inputs().filter(el=>el.type!=="checkbox");
+  const filled=els.filter(el=>String(el.value||"").trim().length>0).length;
+  const pct=els.length ? Math.round((filled/els.length)*100) : 0;
+  const bar=document.getElementById("progressBar");
+  if(bar) bar.style.width=pct+"%";
+}
+function showToast(msg){
+  const t=document.getElementById("toast");
+  t.textContent=msg; t.classList.remove("hidden");
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer=setTimeout(()=>t.classList.add("hidden"),2600);
+}
+document.addEventListener("input", e=>{
+  if(e.target.matches("[data-save]")){
+    clearTimeout(window.__saveTimer);
+    window.__saveTimer=setTimeout(saveLocal,250);
+  }
+});
+document.addEventListener("change", e=>{
+  if(e.target.matches("[data-save]")) saveLocal();
+});
+window.addEventListener("DOMContentLoaded",()=>{
+  loadLocal();
+  const opening=document.getElementById("openingChallenge");
+  const repeat=document.getElementById("challengeRepeat");
+  if(opening && repeat){
+    opening.addEventListener("input",()=>{
+      if(!repeat.dataset.userEdited){repeat.value=opening.value; saveLocal();}
+    });
+    repeat.addEventListener("input",()=>repeat.dataset.userEdited="1");
+  }
+  updateProgress();
+});
+</script>
+</body>
+</html>
