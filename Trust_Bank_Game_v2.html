@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Trust Bank | Team Success Decision Game</title>
+<style>
+:root{
+  --navy:#0c2f52; --navy2:#123f6d; --blue:#2e78d0; --blue2:#66a7e8;
+  --orange:#ff9226; --orange2:#ffb05d; --ink:#102f52; --muted:#64748b;
+  --line:#d9e4ef; --soft:#edf3fa; --good:#1f8f66; --bad:#c65b48;
+  --shadow:0 24px 60px rgba(2,22,44,.28);
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Aptos,Calibri,Arial,sans-serif}
+body{
+  color:#fff;
+  background:
+    radial-gradient(circle at 84% 12%,rgba(46,120,208,.22),transparent 25%),
+    radial-gradient(circle at 12% 86%,rgba(255,146,38,.10),transparent 24%),
+    linear-gradient(135deg,#0a2949 0%,#0d3257 56%,#0a2949 100%);
+  overflow-x:hidden
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;
+  background-image:
+    linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
+  background-size:36px 36px
+}
+.app{position:relative;z-index:1;min-height:100vh;padding:28px}
+.shell{max-width:1480px;margin:0 auto}
+.topbar{display:flex;justify-content:space-between;gap:18px;align-items:center;margin-bottom:18px}
+.brand{display:flex;align-items:center;gap:14px}
+.mark{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#3db3e8,#167cae);font-size:26px;font-weight:900;box-shadow:0 10px 24px rgba(0,0,0,.2)}
+.brandText .small{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#ffb15f;font-weight:900}
+.brandText h1{font-size:22px;margin:3px 0 0}
+.topActions{display:flex;gap:10px;flex-wrap:wrap}
+.btn{border:0;border-radius:14px;padding:11px 15px;font:inherit;font-weight:850;cursor:pointer;transition:.18s;box-shadow:0 8px 18px rgba(0,0,0,.15)}
+.btn:hover{transform:translateY(-1px)}
+.btnGhost{background:#ffffff12;color:#fff;border:1px solid #ffffff24}
+.btnOrange{background:var(--orange);color:#0d3154}
+.hero{display:grid;grid-template-columns:1.08fr .92fr;gap:24px;align-items:stretch}
+.left,.right{border-radius:28px;min-height:720px}
+.left{padding:42px;background:linear-gradient(150deg,rgba(17,61,105,.88),rgba(8,38,69,.88));border:1px solid rgba(255,255,255,.08);box-shadow:var(--shadow)}
+.right{padding:26px;background:rgba(255,255,255,.98);color:var(--ink);box-shadow:var(--shadow)}
+.kicker{color:#ffb15f;font-size:12px;letter-spacing:2px;text-transform:uppercase;font-weight:900}
+.titleRow{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-top:18px}
+.titleRow .prefix{font-size:28px;font-weight:700;color:#9fc4ef}
+.titleRow h2{margin:0;font-size:66px;line-height:.95}
+.lead{font-size:26px;line-height:1.35;color:#e8f2fb;max-width:650px;margin:28px 0}
+.instructions{display:grid;gap:16px;margin:32px 0 24px}
+.instruction{display:flex;gap:14px;align-items:center;padding:12px 0;font-size:21px}
+.iconBubble{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:#173f70;color:#ffb15f;font-size:22px;flex:0 0 auto}
+.meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+.metaChip{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:999px;background:#173f70;color:#fff;font-size:14px;font-weight:850}
+.gameCard{border-radius:24px;background:#fff;overflow:hidden;border:1px solid #dbe6ef;min-height:668px;display:flex;flex-direction:column}
+.meters{padding:26px 28px 24px;background:linear-gradient(180deg,#fff,#fbfdff);border-bottom:1px solid #e4edf5}
+.meters h3{margin:0 0 18px;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#718096}
+.metric{margin:18px 0}
+.metricLabel{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;font-size:18px;font-weight:900}
+.metricLabel span:first-child{display:flex;align-items:center;gap:9px}
+.metricBar{position:relative;height:28px;border-radius:999px;overflow:hidden;background:#e2ebf5;box-shadow:inset 0 1px 2px rgba(0,0,0,.07)}
+.metricFill{height:100%;width:50%;transition:width .55s cubic-bezier(.2,.8,.2,1)}
+.metricFill.trust{background:linear-gradient(90deg,#1f70c9,#357fd6)}
+.metricFill.friction{background:linear-gradient(90deg,#ff9a2f,#ff8120)}
+.metricTicks{position:absolute;inset:0;display:grid;grid-template-columns:repeat(5,1fr);pointer-events:none}
+.metricTicks span{border-right:2px solid rgba(255,255,255,.86)}
+.metricTicks span:last-child{border-right:0}
+.gameStage{padding:24px 28px 28px;display:flex;flex-direction:column;flex:1}
+.progressRow{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:14px}
+.progressText{font-size:13px;font-weight:850;color:#6b7f92}
+.progressPills{display:flex;gap:6px}
+.progressPill{width:28px;height:7px;border-radius:999px;background:#dfe8f1}
+.progressPill.done{background:var(--blue)}
+.progressPill.current{background:var(--orange)}
+.scenarioNo{font-size:12px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);margin-top:2px}
+.scenarioTitle{font-size:31px;line-height:1.12;margin:7px 0 8px;color:var(--navy)}
+.scenarioText{font-size:18px;line-height:1.5;color:#4d6275;margin:0 0 20px}
+.choices{display:grid;gap:10px}
+.choice{width:100%;text-align:left;border:1px solid #d6e2ec;background:#fff;color:var(--ink);padding:15px 16px;border-radius:15px;cursor:pointer;transition:.18s;font-size:15px;line-height:1.35;font-weight:760}
+.choice:hover,.choice:focus{border-color:#6aa8e2;box-shadow:0 0 0 3px rgba(46,120,208,.11);transform:translateY(-1px);outline:none}
+.choice:disabled{cursor:default;opacity:.72;transform:none}
+.consequence{display:none;margin-top:16px;padding:15px 16px;border-radius:16px;background:#f6f9fc;border:1px solid #dce6ee}
+.consequence.show{display:block;animation:fadeUp .28s ease}
+.consequence.good{border-left:5px solid var(--good)}
+.consequence.caution{border-left:5px solid var(--orange)}
+.consequence.bad{border-left:5px solid var(--bad)}
+.consequenceTitle{font-weight:900;margin-bottom:4px}
+.consequence p{margin:0;color:#526779;line-height:1.42}
+.deltaRow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.delta{padding:6px 9px;border-radius:999px;font-size:12px;font-weight:900;background:#edf4fb;color:#244f78}
+.nextRow{margin-top:auto;padding-top:18px;display:flex;justify-content:flex-end}
+.nextBtn{display:none}.nextBtn.show{display:inline-block}
+.complete{display:none;flex:1;align-items:center;justify-content:center;text-align:center;padding:26px}
+.complete.show{display:flex}
+.completeCard{max-width:520px}
+.completeIcon{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;margin:0 auto 18px;background:linear-gradient(145deg,#eaf4ff,#fff3e2);font-size:36px}
+.complete h3{font-size:34px;margin:0 0 10px;color:var(--navy)}
+.complete p{font-size:17px;line-height:1.5;color:#5c7184}
+.summaryGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}
+.summaryBox{padding:16px;border-radius:16px;background:#f6f9fc;border:1px solid #dce6ee}
+.summaryBox strong{display:block;font-size:28px;color:var(--navy)}
+.debrief{margin-top:18px;padding:16px;border-radius:16px;background:#fff8ef;border:1px solid #f2d4b2;text-align:left}
+.debrief h4{margin:0 0 8px;color:#8a4f16}
+.debrief ul{margin:0;padding-left:20px;color:#5c7184;line-height:1.45}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@keyframes fadeUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:1050px){.hero{grid-template-columns:1fr}.left,.right{min-height:auto}.titleRow h2{font-size:54px}}
+@media(max-width:650px){.app{padding:14px}.left,.right{padding:20px;border-radius:20px}.topbar{align-items:flex-start}.titleRow h2{font-size:44px}.titleRow .prefix{font-size:22px}.lead{font-size:21px}.instruction{font-size:18px}.summaryGrid{grid-template-columns:1fr}.meta{gap:7px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="shell">
+    <div class="topbar">
+      <div class="brand">
+        <div class="mark">C²</div>
+        <div class="brandText"><div class="small">Section 3 · Decision Game</div><h1>Contributing to Team Success</h1></div>
+      </div>
+      <div class="topActions">
+        <button class="btn btnGhost" id="resetTop" type="button">Reset Game</button>
+      </div>
+    </div>
+
+    <div class="hero">
+      <section class="left">
+        <div class="kicker">Interactive Team Decision Game</div>
+        <div class="titleRow"><span class="prefix">HTML Game:</span><h2>Trust Bank</h2></div>
+        <p class="lead">Choose the response you would make. Each option carries a different tradeoff.</p>
+
+        <div class="instructions">
+          <div class="instruction"><div class="iconBubble">▰</div><div>Six realistic team moments</div></div>
+          <div class="instruction"><div class="iconBubble">☷</div><div>Every choice affects trust and friction</div></div>
+          <div class="instruction"><div class="iconBubble">◉</div><div>No perfect answers. Watch the tradeoffs</div></div>
+        </div>
+
+        <div class="meta">
+          <div class="metaChip">● Individual</div>
+          <div class="metaChip">🎮 5 min play</div>
+          <div class="metaChip">💬 5 min debrief</div>
+        </div>
+      </section>
+
+      <section class="right">
+        <div class="gameCard">
+          <div class="meters">
+            <h3>Your meters</h3>
+            <div class="metric">
+              <div class="metricLabel"><span>🤝 Trust</span><span id="trustValue">50</span></div>
+              <div class="metricBar">
+                <div class="metricFill trust" id="trustFill"></div>
+                <div class="metricTicks"><span></span><span></span><span></span><span></span><span></span></div>
+              </div>
+            </div>
+            <div class="metric">
+              <div class="metricLabel"><span>⚙️ Team Friction</span><span id="frictionValue">50</span></div>
+              <div class="metricBar">
+                <div class="metricFill friction" id="frictionFill"></div>
+                <div class="metricTicks"><span></span><span></span><span></span><span></span><span></span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="gameStage" id="gameStage">
+            <div class="progressRow">
+              <div class="progressText" id="progressText">Moment 1 of 6</div>
+              <div class="progressPills" id="progressPills"></div>
+            </div>
+
+            <div id="scenarioPanel">
+              <div class="scenarioNo" id="scenarioNo">Team Moment 1</div>
+              <h3 class="scenarioTitle" id="scenarioTitle"></h3>
+              <p class="scenarioText" id="scenarioText"></p>
+              <div class="choices" id="choices"></div>
+
+              <div class="consequence" id="consequence">
+                <div class="consequenceTitle" id="consequenceTitle"></div>
+                <p id="consequenceText"></p>
+                <div class="deltaRow">
+                  <span class="delta" id="trustDelta"></span>
+                  <span class="delta" id="frictionDelta"></span>
+                </div>
+              </div>
+
+              <div class="nextRow">
+                <button class="btn btnOrange nextBtn" id="nextBtn" type="button">Next Team Moment</button>
+              </div>
+            </div>
+
+            <div class="complete" id="completePanel">
+              <div class="completeCard">
+                <div class="completeIcon">🏦</div>
+                <h3>Trust Bank complete</h3>
+                <p>Your choices showed how small decisions can build trust, create friction, or do both at the same time.</p>
+                <div class="summaryGrid">
+                  <div class="summaryBox"><span>Final Trust</span><strong id="finalTrust">0</strong></div>
+                  <div class="summaryBox"><span>Final Friction</span><strong id="finalFriction">0</strong></div>
+                </div>
+                <div class="debrief">
+                  <h4>Debrief</h4>
+                  <ul>
+                    <li>Which choice was hardest because both options had a cost?</li>
+                    <li>Where did the “fast” choice create more work later?</li>
+                  </ul>
+                </div>
+                <button class="btn btnOrange" id="playAgain" type="button" style="margin-top:16px">Play Again</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<div class="sr-only" aria-live="polite" id="live"></div>
+
+
+<script>
+const moments = [
+  {
+    title:"The deadline is slipping",
+    text:"You realize at 10:30 a.m. that a deliverable due at 3:00 p.m. will not be ready. Your teammate is waiting on it, your manager is in back-to-back meetings, and you think you might recover if nothing else goes wrong.",
+    choices:[
+      {label:"Keep working for another hour. If you are still behind at noon, send an update.",trust:2,friction:5,type:"caution",title:"You preserved focus, but reduced the team's adjustment time.",text:"Waiting briefly is not automatically wrong. The risk is that the team has less room to resequence if recovery fails."},
+      {label:"Send a short update now: the deadline is at risk, you are still working it, and you will confirm status at noon.",trust:9,friction:-4,type:"good",title:"You surfaced risk without declaring failure.",text:"The team gets early visibility while you keep ownership of the work. This costs attention now but protects planning options."},
+      {label:"Ask the teammate whether 4:00 p.m. would still work before involving anyone else.",trust:4,friction:1,type:"caution",title:"You tested flexibility, but kept the issue narrow.",text:"This may solve the immediate dependency, but it can miss other downstream impacts the teammate does not see."}
+    ]
+  },
+  {
+    title:"The handoff is incomplete",
+    text:"A teammate sends a file you need, but two fields are missing. You can probably infer them from last month's version. They are in a meeting for the next 45 minutes.",
+    choices:[
+      {label:"Infer the missing fields, flag what you assumed, and keep moving.",trust:4,friction:2,type:"caution",title:"You protected momentum, but accepted some risk.",text:"Making assumptions visible is better than hiding them. The question is whether the risk is low enough to proceed."},
+      {label:"Pause the work until the teammate is available so you do not introduce an error.",trust:6,friction:5,type:"caution",title:"You protected accuracy, but increased delay.",text:"Sometimes waiting is the right call. It also moves the cost to schedule, so the dependency needs to be visible."},
+      {label:"Send a quick message naming the missing fields, state the assumption you could use, and ask them to confirm when available.",trust:10,friction:-5,type:"good",title:"You kept the work moving and made the assumption visible.",text:"This balances momentum with transparency and gives the teammate a clear correction point."}
+    ]
+  },
+  {
+    title:"A rumor starts moving",
+    text:"Several people are discussing a possible reorganization. A trusted coworker says they heard it from someone 'close to leadership.' Your team asks what you think.",
+    choices:[
+      {label:"Say you have heard the same thing but cannot confirm it, and suggest waiting for an official update.",trust:-2,friction:5,type:"caution",title:"You added credibility to an unverified story.",text:"The disclaimer helps, but repeating that you heard it too can make the rumor feel more authoritative."},
+      {label:"Say you do not have confirmed information and steer the team back to what is known today.",trust:9,friction:-5,type:"good",title:"You protected information quality.",text:"You did not dismiss the concern, but you avoided turning uncertainty into more uncertainty."},
+      {label:"Message your manager privately to ask whether there is anything the team needs to prepare for.",trust:6,friction:0,type:"good",title:"You sought clarity through an appropriate channel.",text:"This can be a strong move when preparation may be needed, though it does not guarantee the manager has more information."}
+    ]
+  },
+  {
+    title:"The customer finds your error",
+    text:"A customer flags an error in a team deliverable. You made the original mistake, but two teammates reviewed the file before it went out.",
+    choices:[
+      {label:"Own your part immediately, correct the issue, then discuss the review breakdown after the customer is stabilized.",trust:11,friction:-3,type:"good",title:"You separated immediate recovery from process learning.",text:"You did not absorb all responsibility. You handled the customer impact first, then left room to examine the system."},
+      {label:"Explain that the file passed through multiple reviewers so the team understands this was not yours alone.",trust:-4,friction:8,type:"bad",title:"The timing makes context sound like deflection.",text:"The review breakdown matters, but leading with shared blame can slow recovery and weaken accountability."},
+      {label:"Correct the issue quietly, then raise the review problem at the next team meeting.",trust:4,friction:3,type:"caution",title:"You fixed the customer problem but delayed the learning.",text:"The team may miss an immediate chance to prevent another version of the same error."}
+    ]
+  },
+  {
+    title:"Someone needs help, and you are full",
+    text:"A teammate asks for 45 minutes of help today. Their deadline matters. You also have a deliverable due by end of day and about an hour of buffer left.",
+    choices:[
+      {label:"Give them the 45 minutes. Your buffer exists for situations like this.",trust:6,friction:3,type:"caution",title:"You used buffer for a real need.",text:"This may be a good choice if your own work is stable. It also leaves little room if another issue appears."},
+      {label:"Offer 20 minutes now to unblock them, then agree on what they can finish independently.",trust:10,friction:-5,type:"good",title:"You supported the teammate without taking over the problem.",text:"The smaller intervention protects both the team need and your existing commitment."},
+      {label:"Explain that you cannot help today and ask them to find someone else.",trust:0,friction:5,type:"caution",title:"The boundary is clear, but the handoff is incomplete.",text:"Capacity limits are real. A stronger response would help route the need instead of ending the conversation there."}
+    ]
+  },
+  {
+    title:"The meeting ends with ambiguity",
+    text:"A meeting runs five minutes over. People are clearly ready to leave. You think the decision was to move forward with Option B, but ownership and timing were never stated.",
+    choices:[
+      {label:"Send a recap message after the meeting with your understanding of the decision and ask people to correct it if needed.",trust:8,friction:-2,type:"good",title:"You closed the loop without extending the meeting.",text:"This protects time while making your assumptions visible. The tradeoff is that corrections may arrive later."},
+      {label:"Use one more minute in the meeting to confirm the decision, owner, and due date.",trust:10,friction:-6,type:"good",title:"You spent a minute to protect coordination.",text:"A small time cost now can prevent larger rework later."},
+      {label:"Let it go. If ownership matters, the project lead will follow up.",trust:-6,friction:12,type:"bad",title:"Ambiguity became someone else's problem.",text:"This preserves your time in the moment but increases the chance of different assumptions and delayed action."}
+    ]
+  }
+];
+
+let index=0, trust=50, friction=50, answered=false;
+let order=[];
+
+const clamp=n=>Math.max(0,Math.min(100,n));
+const shuffled = arr => [...arr].sort(()=>Math.random()-0.5);
+
+function renderProgress(){
+  const host=document.getElementById("progressPills");
+  host.innerHTML="";
+  moments.forEach((_,i)=>{
+    const s=document.createElement("span");
+    s.className="progressPill"+(i<index?" done":i===index?" current":"");
+    host.appendChild(s);
+  });
+  document.getElementById("progressText").textContent=index>=moments.length?"Complete":`Moment ${index+1} of ${moments.length}`;
+}
+
+function updateMeters(){
+  document.getElementById("trustValue").textContent=trust;
+  document.getElementById("frictionValue").textContent=friction;
+  document.getElementById("trustFill").style.width=trust+"%";
+  document.getElementById("frictionFill").style.width=friction+"%";
+}
+
+function renderMoment(){
+  answered=false;
+  document.getElementById("consequence").className="consequence";
+  document.getElementById("nextBtn").className="btn btnOrange nextBtn";
+  const m=moments[index];
+  document.getElementById("scenarioNo").textContent=`Team Moment ${index+1}`;
+  document.getElementById("scenarioTitle").textContent=m.title;
+  document.getElementById("scenarioText").textContent=m.text;
+  const host=document.getElementById("choices");
+  host.innerHTML="";
+  order=shuffled(m.choices.map((_,i)=>i));
+  order.forEach(choiceIndex=>{
+    const choice=m.choices[choiceIndex];
+    const b=document.createElement("button");
+    b.type="button";
+    b.className="choice";
+    b.textContent=choice.label;
+    b.addEventListener("click",()=>selectChoice(choiceIndex));
+    host.appendChild(b);
+  });
+  renderProgress();
+}
+
+function selectChoice(i){
+  if(answered) return;
+  answered=true;
+  const c=moments[index].choices[i];
+  trust=clamp(trust+c.trust);
+  friction=clamp(friction+c.friction);
+  updateMeters();
+
+  document.querySelectorAll(".choice").forEach(b=>b.disabled=true);
+  const box=document.getElementById("consequence");
+  box.className=`consequence show ${c.type}`;
+  document.getElementById("consequenceTitle").textContent=c.title;
+  document.getElementById("consequenceText").textContent=c.text;
+  document.getElementById("trustDelta").textContent=`Trust ${c.trust>0?"+":""}${c.trust}`;
+  document.getElementById("frictionDelta").textContent=`Friction ${c.friction>0?"+":""}${c.friction}`;
+  document.getElementById("nextBtn").className="btn btnOrange nextBtn show";
+  document.getElementById("live").textContent=`Trust is now ${trust}. Team friction is now ${friction}. ${c.title}`;
+}
+
+function nextMoment(){
+  index++;
+  if(index>=moments.length){
+    document.getElementById("scenarioPanel").style.display="none";
+    document.getElementById("completePanel").className="complete show";
+    document.getElementById("finalTrust").textContent=trust;
+    document.getElementById("finalFriction").textContent=friction;
+    renderProgress();
+  }else renderMoment();
+}
+
+function resetGame(){
+  index=0; trust=50; friction=50; answered=false;
+  document.getElementById("scenarioPanel").style.display="block";
+  document.getElementById("completePanel").className="complete";
+  updateMeters(); renderMoment();
+}
+
+document.getElementById("nextBtn").addEventListener("click",nextMoment);
+document.getElementById("resetTop").addEventListener("click",resetGame);
+document.getElementById("playAgain").addEventListener("click",resetGame);
+
+updateMeters();
+renderMoment();
+</script>
+
+</body>
+</html>
