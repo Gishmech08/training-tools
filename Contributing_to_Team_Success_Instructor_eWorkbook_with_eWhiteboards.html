@@ -131,6 +131,11 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.shell{display:g
 }
 @media print{.instructorRibbon,.instActivityTools,.instModal{display:none!important}}
 
+
+/* Simplified whiteboard workflow */
+#whiteboardModal .instModalTop{display:flex!important}
+#facilitatorCueBox[hidden]{display:none!important}
+
 </style>
 </head>
 <body>
@@ -153,12 +158,12 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.shell{display:g
 </div>
 
 <div class="instModal" id="whiteboardModal" role="dialog" aria-modal="true" aria-labelledby="whiteboardModalTitle">
-  <div class="instModalTop instructorOnly">
+  <div class="instModalTop">
     <h2 id="whiteboardModalTitle">Electronic Whiteboard</h2>
     <span class="spacer"></span>
-    <button class="instBtn primary" id="presentWhiteboard" type="button">Share Whiteboard</button>
+    <button class="instBtn" id="toggleFacilitatorCue" type="button">Show Facilitator Cue</button>
     <button class="instBtn" id="clearWhiteboard" type="button">Clear Board</button>
-    <button class="instBtn" data-close-modal="whiteboardModal" type="button">Close</button>
+    <button class="instBtn primary" data-close-modal="whiteboardModal" type="button">Back to Instructor eWorkbook</button>
   </div>
   <div class="shareCanvas" id="whiteboardContent"></div>
 </div>
@@ -173,7 +178,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.shell{display:g
     <div class="shareCard">
       <div class="shareEyebrow">Instructor tools</div>
       <h1 class="shareTitle">Activity eWhiteboards</h1>
-      <p class="shareLead">Open the board that matches the activity you are facilitating. Each board stores entries locally in this browser. Use Share Whiteboard to hide instructor controls while presenting.</p>
+      <p class="shareLead">Open the board that matches the activity you are facilitating. Each board stores entries locally in this browser. Facilitator cues stay hidden unless you choose to show them.</p>
       <div class="wbHubList" id="wbHubList"></div>
     </div>
   </div>
@@ -527,14 +532,22 @@ function showWhiteboard(id){
   }).join('');
   document.getElementById('whiteboardContent').innerHTML=`
     <div class="boardHeader"><div class="shareEyebrow" style="color:#ffb15e">Electronic Whiteboard</div><h1>${escHtml(w.title)}</h1><p>${escHtml(w.subtitle)}</p></div>
-    <div class="instructorCue instructorOnly"><strong>Facilitator cue</strong>${escHtml(w.cue)}</div>
+    <div class="instructorCue" id="facilitatorCueBox" hidden><strong>Facilitator cue</strong>${escHtml(w.cue)}</div>
     <div class="boardGrid ${w.cols.length>=5?'cols3':'cols4'}">${cells}</div>`;
   document.querySelectorAll('#whiteboardContent [data-board]').forEach(t=>t.addEventListener('input',()=>{boardState[id][t.dataset.board]=t.value;saveBoard();}));
+  const cueBtn=document.getElementById('toggleFacilitatorCue');
+  if(cueBtn) cueBtn.textContent='Show Facilitator Cue';
   openModal('whiteboardModal');
 }
 document.getElementById('clearWhiteboard').addEventListener('click',()=>{
   if(!currentBoardId)return;
   if(confirm('Clear this eWhiteboard?')){boardState[currentBoardId]={};saveBoard();showWhiteboard(currentBoardId);}
+});
+document.getElementById('toggleFacilitatorCue').addEventListener('click',()=>{
+  const cue=document.getElementById('facilitatorCueBox');
+  if(!cue)return;
+  cue.hidden=!cue.hidden;
+  document.getElementById('toggleFacilitatorCue').textContent=cue.hidden?'Show Facilitator Cue':'Hide Facilitator Cue';
 });
 
 function togglePresent(modalId,buttonId,onLabel,offLabel){
@@ -543,7 +556,7 @@ function togglePresent(modalId,buttonId,onLabel,offLabel){
   b.textContent=m.classList.contains('presenting')?offLabel:onLabel;
 }
 document.getElementById('presentDirections').addEventListener('click',()=>togglePresent('directionsModal','presentDirections','Present Directions','Return to Instructor View'));
-document.getElementById('presentWhiteboard').addEventListener('click',()=>togglePresent('whiteboardModal','presentWhiteboard','Share Whiteboard','Return to Instructor View'));
+
 
 function buildWhiteboardHub(){
   const host=document.getElementById('wbHubList'); host.innerHTML='';
