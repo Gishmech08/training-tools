@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Time Management | Instructor Electronic Workbook</title>
+<style>
+:root{--navy:#073e55;--navy2:#0a516d;--blue:#2f8fc4;--blue2:#61add6;--orange:#f58220;--ink:#173847;--muted:#667b86;--paper:#f7fbfd;--pale:#eaf4f9;--cream:#fff6e9;--line:#cfe0e8;--shadow:0 14px 35px rgba(12,62,83,.13);}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Aptos,Calibri,Arial,sans-serif;color:var(--ink);background:linear-gradient(135deg,#edf7fb,#fff 45%,#fff8ef);}
+button,input,textarea{font:inherit}button{cursor:pointer}a{color:inherit}
+.app{display:grid;grid-template-columns:320px 1fr;min-height:100vh}
+.side{position:sticky;top:0;height:100vh;overflow:auto;padding:24px 18px;background:linear-gradient(180deg,var(--navy),#052f43);color:white}
+.brand{display:flex;gap:12px;align-items:center;padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,.16)}
+.brand img{width:62px;height:62px;object-fit:contain;background:white;border-radius:50%;padding:4px}
+.brand small{display:block;color:#9cc8dc;font-size:10px;letter-spacing:1.3px;text-transform:uppercase;font-weight:800}
+.brand strong{display:block;font-size:17px;line-height:1.15;margin-top:3px}
+.navtitle{font-size:10px;letter-spacing:1.6px;text-transform:uppercase;color:#8fb9cb;margin:22px 10px 8px;font-weight:900}
+.nav{display:flex;gap:9px;align-items:flex-start;text-decoration:none;color:#d9e8ef;padding:9px 10px;border-radius:10px;margin:2px 0;font-size:12.5px;line-height:1.25}
+.nav:hover,.nav.active{background:rgba(47,143,196,.32);color:white}
+.nav span{width:27px;height:27px;border-radius:50%;background:rgba(255,255,255,.09);display:grid;place-items:center;font-weight:900;font-size:10px;flex:0 0 auto}
+.nav small{display:block;color:#89b5c9;font-size:9px;text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px}
+.wbnav span{background:rgba(245,130,32,.18);color:#ffba78}
+.savebox{margin-top:20px;padding:13px;border:1px solid rgba(255,255,255,.15);border-radius:15px;background:rgba(255,255,255,.07)}
+.savebox p{font-size:11px;color:#b8d2de;line-height:1.4}
+.content{max-width:1280px;width:100%;padding:32px clamp(20px,4vw,58px) 90px;margin:auto}
+.hero{position:relative;overflow:hidden;background:linear-gradient(120deg,#fff,#fff 55%,#eaf6fb);border:1px solid #dbeaf1;border-radius:28px;padding:38px;box-shadow:var(--shadow);margin-bottom:24px}
+.hero:after{content:"";position:absolute;right:-65px;top:-80px;width:300px;height:300px;border-radius:50%;border:38px solid rgba(47,143,196,.08);box-shadow:0 0 0 28px rgba(245,130,32,.05)}
+.heroTop{display:flex;justify-content:space-between;gap:20px;position:relative;z-index:1}
+.heroLogo{width:78px;height:78px;object-fit:contain;background:white;border-radius:50%;padding:5px;box-shadow:0 10px 25px rgba(7,62,85,.15)}
+.eyebrow,.kicker{font-size:11px;font-weight:900;letter-spacing:1.4px;text-transform:uppercase;color:var(--orange)}
+.hero h1{font-size:clamp(38px,5vw,58px);line-height:1.02;margin:8px 0;color:var(--navy)}
+.hero p{font-size:18px;max-width:760px;line-height:1.5;color:#4e6875}
+.heroActions,.toolrow,.wbtools{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-top:16px}
+.notice{padding:15px 17px;border:1px solid #d8e8ef;border-radius:16px;background:#f2f8fb;margin:18px 0;line-height:1.5}
+.card{background:rgba(255,255,255,.98);border:1px solid #dceaf0;border-radius:24px;padding:28px;box-shadow:0 10px 28px rgba(15,65,86,.08);margin:24px 0}
+.head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:16px}
+.head h2{font-size:27px;color:var(--navy);margin:4px 0 6px}.head p{margin:0;color:#617884;line-height:1.45;max-width:850px}
+.time{white-space:nowrap;background:var(--cream);border:1px solid #f1d1ab;color:#8b4c16;border-radius:999px;padding:8px 12px;font-size:12px;font-weight:900}
+.btn{border:0;border-radius:11px;padding:9px 12px;font-weight:850;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+.btn.orange{background:var(--orange);color:white}.btn.blue{background:var(--blue);color:white}.btn.ghost{background:white;color:var(--navy);border:1px solid #c9dce5}.btn.small{padding:7px 9px;font-size:11px}
+.btn:focus-visible,.nav:focus-visible,textarea:focus-visible{outline:3px solid #ffd39b;outline-offset:2px}
+.pill{padding:8px 11px;border-radius:999px;background:#edf5f9;border:1px solid #d6e6ed;font-size:11px;color:#526d79;font-weight:800}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.panel{border:1px solid #dce8ee;border-radius:16px;padding:16px;background:#fbfdfe}.panel h3{margin:0 0 9px;color:var(--navy);font-size:16px}.panel p,.panel li{font-size:13px;line-height:1.5;color:#4f6874}
+.panel ol,.panel ul{margin:0;padding-left:20px}
+.sharePreview{margin-top:14px;border:1px solid #f0d2ae;background:#fff8ef;border-radius:15px;padding:11px 14px}.sharePreview summary{font-weight:900;color:#8c4c12;cursor:pointer}.sharePreview li{font-size:13px;line-height:1.5}
+.privateNotes{margin-top:14px}label{display:block;font-weight:850;color:var(--navy);margin-bottom:6px}textarea{width:100%;min-height:84px;border:1px solid #bad1dc;border-radius:12px;padding:10px;background:#fbfdfe;color:var(--ink);resize:vertical}
+.divider{margin:48px 0 16px;padding:20px 24px;border-radius:20px;background:linear-gradient(110deg,var(--navy),var(--navy2));color:white;box-shadow:var(--shadow)}.divider h2{margin:4px 0;font-size:30px}.divider p{margin:4px 0 0;color:#dceef5}
+.wbPrompt{padding:13px 15px;border:1px solid #d9e8ef;border-radius:14px;background:#f4f9fc;line-height:1.45;margin:12px 0}
+.wbInstructor{padding:12px 14px;border-left:5px solid var(--orange);background:#fff8ef;border-radius:12px;margin:10px 0;color:#6a4c33}
+.wbgrid{display:grid;gap:12px;margin-top:16px;align-items:start}.wbgrid.cols-2{grid-template-columns:repeat(2,1fr)}.wbgrid.cols-3{grid-template-columns:repeat(3,1fr)}.wbgrid.cols-4{grid-template-columns:repeat(4,1fr)}.wbgrid.cols-5{grid-template-columns:repeat(5,1fr)}
+.wbcol{min-height:210px;border:1px solid #d6e5ec;border-radius:16px;background:linear-gradient(#fbfdfe,#f3f8fb);padding:12px}.wbcolhead{min-height:48px}.wbcol h3{font-size:15px;margin:0;color:var(--navy)}.wbcol p{font-size:11px;color:#6a808c;margin:4px 0 0;line-height:1.35}
+.noteList{display:grid;gap:8px;margin:10px 0}.sticky{position:relative;background:#fff;border:1px solid #d7e4ea;border-radius:11px;padding:8px 30px 8px 8px;box-shadow:0 4px 11px rgba(7,62,85,.06)}.sticky textarea{min-height:62px;border:0;background:transparent;padding:2px;box-shadow:none}.deleteNote{position:absolute;right:6px;top:5px;border:0;background:transparent;color:#8b9da6;font-size:18px;line-height:1}
+.overlay{position:fixed;inset:0;background:#f6fbfd;z-index:10000;display:none;overflow:auto;padding:28px}.overlay.show{display:block}.overlayBar{position:sticky;top:0;z-index:3;display:flex;justify-content:space-between;gap:12px;align-items:center;background:rgba(246,251,253,.96);backdrop-filter:blur(6px);padding:10px 0 16px;border-bottom:1px solid #dbe7ed}
+.overlayContent{max-width:1220px;margin:26px auto}.shareCard{background:white;border:1px solid #dce8ee;border-radius:24px;padding:32px;box-shadow:var(--shadow)}.shareCard .bigTitle{font-size:clamp(34px,5vw,54px);color:var(--navy);margin:5px 0 12px}.shareMeta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}.shareCard li{font-size:20px;line-height:1.5;margin:10px 0}
+.overlay .whiteboard{box-shadow:none;border:0;margin:0;padding:12px;background:transparent}.overlay .whiteboard .head{padding-right:120px}.overlay .instructorOnly,.overlay .shareWhiteboard{display:none!important}.overlay .wbPrompt{font-size:17px}
+.footer{text-align:center;color:#71858e;font-size:12px;margin-top:28px}
+@media(max-width:1050px){.app{grid-template-columns:1fr}.side{position:relative;height:auto}.navgroup{display:grid;grid-template-columns:repeat(2,1fr);gap:3px}.content{padding-top:18px}.wbgrid.cols-4,.wbgrid.cols-5{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:720px){.cols,.wbgrid.cols-2,.wbgrid.cols-3,.wbgrid.cols-4,.wbgrid.cols-5{grid-template-columns:1fr}.head,.heroTop{display:block}.heroLogo{margin-top:12px}.overlay{padding:12px}.shareCard{padding:20px}.shareCard li{font-size:17px}}
+@media print{.side,.toolrow,.heroActions,.wbtools,.privateNotes,.instructorOnly{display:none!important}.app{display:block}.content{max-width:none;padding:0}.card,.hero,.divider{box-shadow:none;break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="side">
+  <div class="brand">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJMAAACTCAYAAACK5SsVAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAFxEAABcRAcom8z8AADP+SURBVHhe7X0HeF3Vle68eW/ee5leMsnLBIwNptn00GvoAUJCSyEhIckkQBopJMwEkpAEbEuW3AuuuBewjU1zU+/FkqxeLNmyJVm9d9179vrf9++zj3R15HIl3SvLttb3rU8uV+ees/d/1lp71b/6q/OEAPw1gP8lIp8C8G8ALhaRm0TkSyLyLRH5iYj8l1LqLaXUXKXUUqXUKqXUGsPvKKVWKqWWKKXmKKX+IiK/AfCCiHwdwAMicr2IXATgn0Xk//D7+L3ue5mgs4QA/A8fJoD+xmzuFBG5UUQetizruwBeEZFZBIiIbFdK7VNKJSilMpRSeSJSpJQ6pJQqdVhESpRS/PdcpdQBpVScUmqPUupdEXlbRN70eDy/FJFnReR+ANeJyIUi8g/mPng/+t7c9z1B45AA/G8R+YyITBORewB8zbKsl5VSIZQuIrLLgCCLYLEs67hSqkkp1amU6lNKeZVSglMQ/18p5VFK9SqlOpRSjUqpCqVUsVIqUykVrZTaISLLKcEsy3oJwBMicoeIXCYi/0qp5b73CTrDZN72vxeRz4vI1SLykIi8qJQKpcRQSiUqpcqUUs1m85WIOExyY2VEZK5F0tc21KOUajDSjADbQOkF4HsAvigiVwL4f0b1TkirM0EEkNmATwO4QkQeEZFXjI1DqVOulGpVSnVT2oiIFTDUDJOMFOP3E8hdBtRUmxFKqUW01QywpgD4F2NrTQArmGRsDRq0/1dELhCR+yzL+qVSarWRPkeUUvVGXSn3po4XIqaNKm0XkRoRoWqMJLAsy3pRRG4Xkc/xOQH8zwlgBZi4oCLydyJyFU9OIjJDKfWhMYQJIK97084movoVEdpuGQDesyzrDyLyuIhMpeHuXo8JGgEZe+jTHo/nZsuyvqeUWmzUWBXVl3tTznai1LIsi3bWYZ4SRSRURJ4xtuA/utdngvwgineeeETkWh7jlVLLzJGddhBVBI1c916cE6QteJt4sqTUjRORcBF5iidBAP804bvyg4yNwJPZpfTVeL3eFZZlHTRHd6qCcxNBJyGDK0oqgipZKUVQfQXAJHMAmQCVm4xxTWlEw/qrSql5Sqk0s4ge9yKfj2RZFk+DVO8xAP4kIveKyL9z3dzred6SARI91HfR8DSe6GNnu1EdLDK+Mnrit1uW9QsRuQHA37rX9bwjc8y/FMCz5ojPYzL9QueVOhsOGdcCiZ73TBGZB+DLlOr0/rvX+JwnH2l0q2VZv1dKxRu76Jw1rANNxlC3lFK1SqmPTaD6GrpQ3Ot9zpKxjRg7e1JE1imlKo2ROYGiEZDxsFNKMWSzgM5cuhHOeWcnTyCMR4kIdT2j7XyrJkA0SqI0FxEGniuM0/N5Ziucs2rPvC13KqXovU7n2+RelAkaPZnYXzRjlUbtfcq9F2c10YvNJDSTcFbGoKd7ESYocGQCygeZocBYHx2d7j0568hE9//NhASYDkK/0YSRHWQyJz6qvXKTtPeg0Qxnp5PTAOlzIvIdpdRuy7J4WrPcDz5BwSEfO6pKRDYxcGxSds4+w9wA6YdKqSimW7gfdoLGhoyUokZ4X0SeZszTvVfjmkxS/Qsmu7DT/YATNLZkANVsWdYHJoXns+49G3fkqDYDJCbnd7sfbDwSnRM9HoX2Xg+auvpQ39GLmrZuHG/tQlVLFypb7J/8e21bNxo6etDS3YfOPi+81tlj/1FDMA+MefEmD318qjwDpP+garMsK4ZAGo9hEQKnzxINhMbOPpQ3diGrohURxXXYdrAS76SWY3F8GcKjD2FmRDHe3FeIv+wrxFv7izArsghzY0uwLLEMG9LLsTOnCvGlDSiobkNlcxeaOnvR2euBRymMuwe3wURqU0rtpMobtzYUT22WZdHYpo007lQbBUhTpwcHK1vxQU41liSU4/VPivDiezn45oYDeGxVKr64NBG3LozHjfNjcf3cWFwzJ8bmcPvntXNicP28WNy4IB63LU7EvcuS8OXVqXh2QwZ+uiMHf9pbiBXJR7C/qBaldW3o6PHq7x1vRJXH8i4Aj467pDvn+M9T23gytr1KcLy1FwllLVidUoHffVSI72zMxCMrknDbonhcOzcWV4bH4NLZ0bgkJAoXh0RhSkg0Js+KwuRZzs/Bf76I/x8SrT/Hz/P3Lpsdg2nhNtDuXJyoAfajd7O1RNuYcQxpFU1o7u7Vtst4IGND1SmlNgJg+OUf3Ht6RsgUGD6slHqPwVr3jZ8JaulWyK7qwJbM43jt40I8syZdb/JVc+IwNTQaF82KwqRZkfrnFIIoNEr/+6VhBFaM/nkZebZh15/15zRHY+rsGFxsAHjRzChMmsnrRurrXTsvDvctS8Z3N2dhVkQJPsw7jgJKLM+ZT9Giu8+yrEoRWSwit7Aqxr23Y0omheQOlkyLCOvDzlhVCN/5hk4vEg41YW50Gb6z6SDuXJKEK8NitQSZrCWPvfkaCOExuIwcFoPLw2NxWXgsLg/nn32Z/+bmE3+Gv6+vFx6DqWExuCTUll4E2cWzonD13Dg8uCIFP3s/F+vSj+JgVTOaevpwJq0rEWFq8GHLst5g0eoZKww10f/LRYS1+UyAPyNA4la0dHkRW9KIP+8pwVdWp2v75uKQSEwOicTFoTaAuMGXhZ0IFG6ADHzmihPwiYBl/99QkF0aHqu/+5LZMVoCTp5JiRWFmxfG47lNmViYUIbsyma093nOCKSMuiOgmBf1Mk/i7n0OOpnSI6aR/MLU3J+RSpGuXguph1vx1t5D+PLKVFwzJxaXhFJtRWumGnIkj3uj3SAJFA/9LqMmw2K06nPu7fLZ0bhlQTy+tTETixLLUFDbij5r7AMEpiKmy7Ks/QDYwGNs86EYOPR6vU8opfaeiZObpYDSuk4sjS/H19ce0IYvN4iGMn8OVlncZEoPR4KMNbsllg0sLalmReLS0Ghtz/14eza2Zleiqq0LYy3ijYRiuGsLgDvGLA2Yhhpb0SilmNhW676xYFNHj4U9+bX4+Xs5uHVhIi4JjdH20CWzfUF0cjV1JtkttQgqngZpuF8RFoOHVqbhzX3FSD7aiC7v2KfAm7J61uqxB0JwCxWMeptqWdZrJkNyTFV9VXM3lsYdwWMr0zHVGLdTNYgGADRegeTLg0EVayRVNC6aGYmr5sTgO5uysP1gJRq7etxLEFQymQb5IvKfbKjh3v+AEoB/ZD2bCZWMWU5Sr1cho7wFr+wswE0LE20fjznK20Cy2b1p453dUoovBk+cl4VG44HlKQiNKUVpYxs8MnaKz/GQe73eh4PmLjAFkneKCDuNtIyVA66j28JHOXV4bkMWpoXHYkpotD4d2SczxyY6u9lXUvEF4TPSnXHzggT86oM8JJY3oGeMjHOTU17NflYiMj3gOVDGDcCUktdNzdaYvCotHR6sS67A41RrNLC1nyj6rJVEp2NfSUUbkLbg1XNj8aP3DmJ3UfWY2VGmBD9FRH7EKqKAxu9MyfaXzeltTNy39W19WBJ3FA8sS9VqjW/rYLU2dDPOdnYb6FPDbEBdPjsG31yfgQ/yq9HhCT6gzOmOGQYbA+odN9kAlyql5rP6YSzUW3VLDxbFlOPOxckaSPQm2x5me7Hdm3CusS+gtNoLidIuhCfXZmBnfjXaPcF365kMg3wA/82ufAGRTqYbyTdM7X/QFXd9Wy8WxZbjzkVJWq1p++gcVWun4iF2FFV8aLT28O/Kp8oLvoIwaURs7cNg8OidmSyXUUqtYOqn+8sCTc0dVG3luHNpsh0KMYHV8w1IDg+RUAwNhUbjqXUZ+LioBn3Bf7e170lE/gxgshsbwyIjlZ5TSmUHu5FEe7cHa1Iq8MDyVH3st09sA4vpXujzhfsBZUIyzHBgZsOzG7MQe7ge3iADyvQFZR0eXQUjr8Fj32yl1NtMpnJ/SSCp16PwUU4tHl+dbttILm+2e4HHmoPlDB247sBLM8AD3+f7GScUw3SYF7fn4uBxbk1w7Vi2txYRZhZc6sbIacl4uj/FMmPTsS2oFl/GkSZ8e2OmBpE7tubegLFgX/CceLMDA6yh1z0RD70PZiMwZ+rqOXH43e4iVLUFNzxqms7uFZHHhu13MmMhpimlFopISzChf6yxE7/YmY9pc+K0wU3bIBAb5S+fHji2itHs/vcTbLj7+idi3+/yTbZjmozzZ1/P/sB3DPydZsBFIVG4ZVEilqQcRUdf8Axy022F0un3zPMfFqAYNWZJjFIqNpi2UmtXHxbHleFGhkhoXPZv2NANCDS7N0ezk2E5KJtyKOvPuH/XsPt73NwPIvqRZjOBzs7OtDM0o/pZ20aDAOy6Z20/2eGXR1elY09xDawghl2M7bSNHev8bohh/EoXKKVmGjQG5Q6VpfBJbjUeWZVmG9xjAKSTAYfOQd6DTgthFJ+Jdcz5Nn/nvzv/58v9Kb9Oau8QcA39fn6GIKFKZ6Ic89DvXZaMJ9ek4+vr0/HE2jTc/XYSps+N19LHAe+JAOXYTzTIX9iWg8L6tqApEcuicNJBYM6G8a+Q0zQz/6Lps+0JlpOytKYdP9+ei0uMdzuYBrdbCtlBVWZjDgCDqbV0DE4Li8Z1c2Nx84J43LEoAXcvTsQ9SxJx95JE3LkkEbcuSsD18+MxLTwOU2fHYkoIj+wx2o2hMxiGqEPn+w2YNJBoQEfh/uWpeG1vCTZnHdcVLbHFNdhfUI2N6Ufx6w/yceuSZO2wdVT/wPUGrs/nIKCumROPefGH0dITnPi73SJCGATm/Jmr/UrxNSVL7Pyf675goKi716PV280LE7VIH1Bvp1cTw2Xfxdd2CUFkpNAlsyIxfXY0bl+UgKfWslwpD2/sKcHcmMNYlVyOzQeOYUfWMezKrsSu7ArsOHgMG9OPYEn8Iby5vxAvv5+Dp9dl4LbFybgyPE6DSjsXT2L38O+2RIrE42szsCWnFg1dHvQJ4HFYia6qqWvrwrKUMty6JFGDlNLHd40GAyoaF86IwGNrMrC/rIFb717ygJAJAieIyDdPW9FiTnGXmdlqvKugUNrhJnxtbbrxJ9lSyQ2C0fIgdWDeYKokqq8rwqJx15IkfHdLNkKjy/BhXg0yK1pxuKEL1a29qGvvRUNnL5q7+tDS1Ye2bg/auvu0jdfU0YuGtm7UNHehvL4DB481YdfBCvx5Tz6eWp+B6xcm4+LZNrDsl2RAIvHvvIc7lyZhTdZxNHYPHJJZX9flVfD6aILq9k68trdIB3u1O8DksLuf0VZ3kbgiLBavfFSoszWDRcaJOeO0+eJmpATLljiLJCjesNauXryxpxjXzY/XpxFbLQwFw0h5kBqghNBqwA6YTp8Tiy+tSsernxRhR24NCuq60NKjdJXvaMjrtVDXysrgRqxOPoxvb8rCNQuSMGV2nFZ/juHO/HQC+2cfFqC+c6By/mhjB5YllOGtiCJsy61Adbv9f0oE+4prcd+yFP0SOOrONwXZV+pOmhmBu5ckY1teNawg2U5s0sYxa6bL78lVnRmz9WtWm7gvEihKKK7DwyvS9CmEKbe+ojsQ3C+NtG3ClN5InWx277JUvPpJMfaUNKKusw9WkGzBXo+FwuoWzIk7hIdXp+OSsHgtpXjAuHh2NK6an4Df7ytBdXMbGjq6Ud7YgYWxh3HrwgRcFhqFJ9amY19pQz8UCmpatSrly+BIusHPO/DMfNZLQ2Pw4o4CVLQErzEfIyJMkuQUKjeG+sm0rWML5aCouMaOPvxpdwmmh8fp5H/b6B4sukfD+lpGClCd0MBmIeT338vD9vx61Hb0Bul9HUq9Xi/iyurwg+05uGxOrK4EJpimz4vDk2sO4M3dhZgbXYI39hTisdXp+PyMSPzrn/bgpoUJ2JJbB6/Y57L86jZ8bX2GVnMnApP93APSiam/ty5Kxnu51fAG5yDOkx0HNb7F0bRuDGkyEyQ5+I8puUFRuvEltXh0pXEF9BuUQxdnuDzIyDYG9sWzInH328l4K/YI8us70HNGiv4FpQ0teHVvgQaRNr7DYnRJOmv7rpsXi2vmxmoQfH5mpD5RvrCzADm1tlSxlCC+tBGPrEjTJsGAmjv5808xroqf7irE8fagbCMlUwub2jPc5saRNrzZEYPzzsx0gIBDmk0c5kWVYbqJfgcqN2kQkPS1KZEi8PDqA1iVWYXarqBGgvyius4uhMYU4NbF8dqG0hU1odGYFBKNC0Oi8PkZ+3F5WDSe35aHhGOt6DNGXGu3B/NjjuDGBQk6OuAUTpxqDbQjNDQKty9Owe7iWigJvM/ZTElgz8yvDpniaRyVV5o5tq3uXw4E5VS24VsbsjBFe3eZehsY9eYG0tSQSHxlXQa25tWhtTfwCzkyEhw4Wosn16VqVUfpROZLNWlGBK6aE4uXdhUgubK1/zTn8Qr2FdTiq2sy9CmOUu1UktxZB9qKXN+pIbH4Y2Qp6oNQ4WIa2nPwIh2YgxPnDJjuYRFeMBp0iWVhc/ox3LwocZAhebKFGQ4PAlJoBB59J10Dqa1vnABJWKLVg9VJ5bh/eZJW746va/KsCG3T/fLjImTVtPcfCvo8ChGFDfj+1mx9cqOH3pE+7ucfWIcBQBF4DAQ/sf4g0iuDk1VgWRbTeufTzh4Uq+O0RTZ/MiVMAdcLDe29eHVXnrZn7BTcky+Kv+wsnn4TKdpnReCet23/zWglEo/kfZZCV5+lm4J19nnQ7fHCY6lhuQNFCQqq2jFj3yHdREOfMJ37DYnEDfPj8bt9pShs7Oi/bq/Xwu78Ojy3KUs/Jz9r20onl0ruNdEvV0gkrpufhHcOlMMb+C2ldGIWJu2m+wcVbLLhk4j8zLIs9ugOuH8pqawZX12djkkzbePwVG+Yv6wX15zc+IZfPz8WIfFHRmUjEURsglFY046YQ/XYmXscWw5WYktWBd7PrUL0oToU17ShpcszyLl4IqLxnFLWhJ/tyMe1c+nEtOOPBAdtulsXJ2JmbDkOt3RruUFu7vJg84EqPLYqzVaBdJ8MozbQ9wVjyGbKrBj8ik7MjsCnqJiCzVSmdPePfjWjSyeZwC47irl/b1TEDVqZVI5bFiboE8lUPxbldOy7aDwyXz47Ci/uzMOhxpEtGguTjzZ0YVd2Nd7cW4wfvXsQz6xNw6MrU/Dg8mTN/PPTa9Lww3ez8Jd9dC5W4XBTB6wTnFXYUOPjnBp8a0MmriKQTC67DtzOjtId5+YnHcWxNjuOxmsUVbdidmSplmCfnxGBz7wZod0F9B05L6B/0sl+yXSIZWYUHl+biYSKwLfNotAx7Xh+wXIoXxV3gxnRNfLX+iTU0e3Bqx/m6+Ownfh2+gU5HTtA0kHOWRE68+CjkvoRtfxr7vLig+xqvLwtB/ctScQ1c+P6veZO8y6dHjJzoNEEP/PQihS8+mEB9pbUos0nl6iurQ9rko/hsZVpOhvSsRHJBMb1C+PxRmQpKloHDOPmzj7syK7BC9vz8ODKNNy/IgVfWp2KR95JxQMrU3DDwvj+Zz7d2g2S2CFRuGlhMt7JqIQMS0GfnkycrlVEZjE/XNtNphHFgywJDrRLgFKu6HinrvmiA9EuoLQli3sR/GVfu4CbM21ODN6KKkNzz/Dfg7K6ToTsLcH9S1M0gBh05gY4kfohbAxnGrcXzmIsLEY7FN87WIm6jh4dq1sYXYp7304x2QR2FgFZOxRnReHeFWl4L/f4oCZfrZ19SCxrwuasKmzKqMB7ByuwPbsK7+dUYU1qOZ5ef6A//+l0a+dIMK3qGL4Ji8Nre0rQ3kef0wjetlOQ6e20yoRW/rdOhLMsi/0DYgKdu8To98d5dbh3aZL2zNqR79GDybYJbKP78XUHkFDBZNBhkAD5FW349fsFuqMbWxLavQvoQPTpIkdJ4MtGqvKobksauiKi8OjqdMyKKMbrH+XhtsUJdkYCVRqvY36PYJo0KwoPrjyA9/Or3XekpWqvJdq52qsEvV6BxxLUtvfilx/k4bIwu37w9Gs3ACaCjxL1W1tyUNIU+IRZqjoR2WGc3f+oK1Asy/opc70D3WqZJ6ClieX4wnx7w07mwR0OOxtzUWgkrgyPxlsxh9HUPbwcnkPVbfjV+wXanrkoNMoYuQNS79RsNswJ3s6OxrQ57MAbh+vm297sqQRkfy+EATARZPcuP4D1mVXo8Vo6S6C9z6tPny09XrQa5p+ZsdDU2YeCmna8sC1bX8P2NQ1dEzfr7zT3x9SUB1cdwP4jdVCBlRUEE5VZhGVZz3EkGSXTJMuy/sgeAoEGExuv/2F3ke5EqzME+jdjZOxstu1HicC9K1IRcbhxWPk7Te09eGtvsU5wm6RVr31PvK77+07FvsBjhzodIjJqzQHdAA+k6d6wIAHf3ZKFt/YU4C97C3W75z/tLcIbe4v0T4dp5L+1rwivfpinbSgHkP6sny+Aae/dsiQFqzMrA96ZzoAp1bKsX4nItU6RJUu/ObAloGCqbOnGi9tycJl28dseXPeD+8u+m6KDuKFReOmDQhxu8T/+xFTh7RlHcdfSFEwOsU9XowG4GyzOtRx23zulxZXhsTo/SfcXn0u243M2x2mmK4Fxuxvmx+La+bFa8jkAcd/Didj5LIFN++6aeUl4K/owugLcp8B4wvPpCaC/iWC6W0TWKKX4igeUco+34Zn1GfqNtfW9f4txInY2hF1y6ZC7em48FqceQ0uv/4Z3YXW7biI/tF3h0O8bDjubd6pr9YNOG/J2yxy7tzjzzU3OuWGGnHTYyfQm5+ed33df90Ts+11UrVeEx+PlD4uHbQ6cjggmy7KOKKWWsQ88wfS4ZVk7Aj2ZksZjTEmjPkLrUIcR/+4H95edzaJK4SnurmUpiDjcAI/l39vGBLZ1acdw+2I7VdhWGSO/n5Gwr9TSjTi0bWVvuv3nE/PJAHoy9gUTT3SXzo7Fc1vzcKw1oFvsSCb2ctpiWdYPCSae5NgqJ6Cw7e6zsCunGncstuNxo9m8fjVh7CW+rU9tOIjSJg5D8M9eqmzswq/ez7N//zRB07FkX4CdmIe/ZoPAxOkLodF4fO1B5Na2QgJ4ojOtd9j//UPLsn5NMP1IKRUX6DTdth4v1qVV4qb5LK48eS6OP+y7OJRyvNaPdxUMqxIj+lADvrwqLaAhnfHK/evVX5sXjftXZCDxWBM8gd1mJ7cpUkT+SDC9zC5hgW522tztxdtJR3Vd2GhzvX3BRBV31bwEvL6vBD1+qjhWfKxJPYpbF8TjQvq7RiElzwb2leS2Nz8Kdy1Nxf7SBvQEuPucKR1PYvoSwfQqG8O7PzRaYgkP67iudtwCowKTYy/ZR90bFyUjLLbM77TUzj4LM/aX6JMSpaTjU3J/z7nEDqAIJhr1TJbbWViPjgCn5iilesxggfkEE/tUZro/NFpi0n5oTBmm8XgaQDBRsty2NBVLko/4XQ7d0OnBL3fm66P5QJbn0O85l7gfTMZTf+viZDvPqzewPQmcrEtOhieY6LA86P7QaInJ+zOiS3HlbKZS2A5L9wP7y74Lc8HMCNyzLA2r0o/6BSbq7qPNfXjhvVxtiAYyy3M8s++a2Q0ukrE5pw6tPQEHE+NzOUqp5QTTG5ZlZbs/NFoimN6KOoQrGBhlmkgAwXTvinSsyajwq1yJcDvU2IPvbcmxY2bnMZg2ZdcEA0zMa8pld8GgSaa6zl7MjD6EKxj6CBSYwmNwwYwI3LcyHWszKvyymRidL2nswncIplkEE+/l/AMT1dzm3KBKpmUEE0dXBNxmYnk1O+wzTUODaVQ2k49kmkHJlIY1B47B61fGjOBIcxee32rAFIA0mLOBfdeMNtNtS1KwLa9OD7UOJBmbKYszBwmm3yil0t0fGi1xjOiChLKBIG+AwHShsZlWpB71E0xAfUcXXtyRa4cndIn2eQQmfZqLxB1LU/BhUT06AzyF0/RtYifmuQQTc7+TA+1nau/pw8rU8oHjuE803f3gp+Ohp7kULEg8csKU2RNRR18f/nt3gU6ZPd9cA3Ra0jf3xWVpiChtDIafqcN0RplFMP2AiXGB7hDX3efBu9mV+ML8+EHhlJFsoi+YGAW/YSGj4KXwcvCcH8RKk3kJZbhqbozOkAxG15XxxlyvAQ94JB5afQApwfOAR7BF4V9ZlsWG8Z/Q+eT+4GiIAdh9JbW4fVGiT2nzSMHkq/8jMX1uAl75pAjdfjZWZwxpR/5x3L40USfrO/fi/p5zhZ31Iph0RmpIFJ7ckIXCupaA5oKbQG+9UmoXCwsomR4RkXc5Gsr94VGRWMisbNZDjnV6qwmuuh/cH+5fHKdtcVgsnt+ai7ou/6Pg+TUt+OamLFwwM9LucxA2sns5G9hZL7JjJ35/Wx4qW0dWvXMyMmBiHtwGAN8jmG5jUjgRFuDcOJQ3d+JrGw5gSqidYz1S9eK7OM5MtkdWH0B2bb3fb1qPpw8zYw5hanjsoF5HI5GUbnau40jeQFxzNOz78tn2aix+s7sYLSMoujgVGTCx1nIRgCcIpmkiEm6G7AQUTU1dvXjp/Rxt+Or6thM8uL/sazdxgW5cmIwdhVXotvxTdaToI/W4d3UqLpyx36cLy+gklC/QB/PQz44V+5oFbPbKwHho3GF0B9j4NmDK4TgMJlkSTGzw9TulVGGgwdTZ14c/RxRh+hzmbI8uB3yQqtOOxzi8GV2G+mFkD7b19GJGbAkmh/FUZ1ejjAZM/fdkJKYukfLJKR/NtUfDvmBiIcdtS5KxPitoOeBJlmX9jEKJBQX/ZHKa6CsIKJh482szjuKmRXZ1ykCZ89AFOB37bpAzyeCbm3NQUDe8Eh4aoY9vSNdVKVr19h8M/N/4funjtH6eHa1zu9nmkPfJTdTPOoJrB4L71yksGpNm7sej7xxATHkDrABX/hswcXLB1/VMX/bX8Xq9z5jjnX8GiJ/E0pqkow14SCelRYy6abzvG0fpdNOCZD2+3RpWDyKFnfkVuOXtJFwwk1mXNiB8N/1U99cP6v4OddG4NCQSj72Thh++l40HV6XhEvayDOX/+wBvDAHF7+IzMaOUfRh+sCMPR3TKrv8vnT8kIl4e3kyj+b/XHeNM3292tAgsdCHa+/y9bTn6SH+6HkOnY19Vxxjb1JAY/PyDQlQMs7tsr+XFOxlHcMOSRHx+lp2Wwrif78b7br6vVHS+3ynCnDwzEvetSMG7eTWobu9FRPFxPL3pIKaE2eM7htMnIFDs3CMPPpeHR+Mv0bSX/Lct/SWTy/S26Qv+N86clKtEhNObAuprIjEY+2Z0CS6fE43JobbDcKSLOkgqGP/J3W+nYUfecQz3Pejo9WBNZjnuXpWKi2bH4iKTnmKrqMHg8WVHGtETz1jfAyvTsOJAFZp7bOnIkV3pFY346c5cTJ+fiMls4eyaUjXS5/eHfe+TDl42pt+cWz2oHD0QZIxv9j79k2n49ddOo6//YCqKcQ8E9lsBbM+rxG1vJ+i42kCVysjE/iDpxN5FoTH48fZclLcM34fC0MK+Q7V4/r1MXL+Ajbji9OZTUhGoejawZmcMhtOLIArXzYvDNzZmYUtuDZpP0A+qqrUL4fGluH1ZMiZzkgHvVRvrA6ByP1sg2HdtLpoZgWc2ZuFAVeAbfrFmwLKsEsuyXtIqzqc/098BeIEnukAXFpCK6lvx7NYsG0z6LR05mJwFc94+BjFvXZiIFWnH0DMCUc4lPtLQhqWJh/VAwNuWJOmycS39WLxgmG17OArj5vnxeHrtAcyMLsWB4y26zPtkxNPsjrxKfGVDBi4OY2N438ZdwQGUA6aLaVaERuH1/YfQ0DU8M8AfEhFmC8SJyJODmn0ZVfcVpVQUP+T+xdES2xiHxpWajmkDJyj3QvjL/dLJp/TpiTUHEF1WB8tPJ6ab2BXuWH0bPs6pxLyYYvzu4zz8fGcOfvJ+Dn6+MxevflSA0MhD2JpZhdzjrbr6xp93neolp6oBP/sgB9cvTNDqeTRB71Nx/wFFl8/vx82LE/Fefg2G1+/OP2JHZqXUJhG5y92GkKqOnnBW9g5fX/hB+0prcNuyRHOqcwzxAADKhFiuDIvBT7bnIr925P1dqeB7+ryob+1CeV277hJXVNOG4tp2HG7oRl17H7q9I7M+ato7sSrtEB5elWTbZT6ACgSofA8Jdr/M/Xh2azayawMbJXPINNINYWPdE4Fpqsm6DHybMQAVbR146YNsrccHmn6NHkz96i4kCtfNjcfvdxehvJnFmeOPqprb8LOdB3WXlECGc8j9UskEw68Ij8acxHK09AZc0VDFsWvcMRF5SUQ+4+62yz7g/ywi31FKHQp0OgqJLqx386pw1TzGxgZq10azmL6AckZl3bQgETMjSnCkuT2g1aujpT6vIKa4Dk+vox/K3vRAgcl3HZwOMQ++k46EY8Nz6PpLlmUxIS6Zc3ZOOMiQRpTH42H75v2WZfkfjh8GcYOf3sw5IBH9jSxGI53shbSvQUmnnZkhkXr02J/3l6CwtuW0jUzHgnr6FCKLGvCtjQf1aU4POwwQkMhuqcTDwusRZbrcLBhkSsLX6zY6JyMAV3AuLxuGuy8QCOqzvFieVo6r5vtG7gMBKB+VZwzyG+fH45e78pBc3oC+U5y4gk2dPRb25dfi2Q1ZOuQy0H1l6HOMlPXLZNwB9HjftzwV+8oaoYbpe/OXlFJHLMv6nW7wdTKi/rMsiy6CYvcFAkVHm9vx1ObMfn/NaE92vuwsqk5VDeV0yFh8e0MmNmRy7FbXmKu9pvY+bEqrxFNr0nG56YcZaD+Tr1Sik/LKsGj8dncJ6kfRwvpUxGAc47g8/evWgycjjlT1eDx3sRFBMDrvkhivW515THeQ5cnOsR3cizQSHmRDGaOckuqBZcn44+5CRJTUorajxz62BZFoH+VWtiNk/yE8tDxFd+gdPB516L2PlH2lEg83jBFyGubIzpynJ5Omu1lEpp92iriIXGRU3XH3hQJFnNT4ws4ce2xW/8SCwEkn583XM0f0MTkS18yNx5NrDyAk8pBuGH+kqROdAeykxnyL1h4L+cfbsS6lAs9vzsYXFpip6K5wivueR8r9Ukl3CmYDtFjdIc53wmagie0qLct6TUT+3Y2dIWROdf8pIulBiKwYEnxSXI07VyTbfiefxXYv2EjZARWv68TTLuH8ubkx+PLqVPzXxwXYklmBvKoW1Hf0oKvPHmfBihdWCvPJ+fj6p8Nig4ZdhNlZhYUKnR4LVa29iCttwqLYI/jB1mzdQH+qifUFck6Mw871HKmk/Uoz9uPbWw4ipXKYnYeHQcYlwOySL7NLsxs7Q8jMnbvRGcoTjFgdqbO3DzNMGi2P9IFwFbh5kGGuMw24wVF6Yjnr+Tgd/GvrDuBXO3MQHlWMTRlHEVVcg8yjTdpheayxEzWtPXpmb21bD6paulFa34GcqlbElTZga2YlwqNK8fKOXDy+Og1fmMeJ4nZWKceABSt00v9cjnqbFYFbFiVi/cFq9PhZsTNcMk3kG0RkoYhcMiiEcjIyQ5//naJMKVUa6EbzvlRU34Znt2Rp22ZwXtHQBRwpD2ymfX3bvrDzoXRxwuxoXD0nFrctisdDy5PxzNp0fG9zJn66PRu/3ZWje3v/4ZN8/GF3AV7/OB+v7MrFC+9m4Rvr0/Hw8mQ9mv6qOXGYynH0ZtrlYA93YJ+H7ADJmXowLTwKr+07hIr2gCd99BNzl9g6h+0GTzs53Jc4tQDAI0qpj4NliDu0t6Qaty1PHGijPMpU2lOxL7B8pRVTiplS4oy1oGuBIGNgd3p4DK6eE6PtEc6F49gOzvzl1Ep+lrYKQUlV7ZZEgQYR2ddO0t8bEoGvbz6I9CqGTYKiRDSZQc/viMhN/YN3/CGKMGOIz1BK1QU6ndeXmKi2MOUwps+Pswf1jLAv93B4QP3Zf3bsKod1BYyZ8Uu201HM3/XYUjvX2/m800fBfV33946WnevbdhLBvB/3LU/GtoJa9AVPgVAqsdNJqYhw6M6/nPYU50smvMJMgqeUUrHBGGjoS01dXfjNnnxMmWOP0hrIFQ8eoHx5AAAD/bxtNl1xT8BuKedcw33tQPEgIM2OwaQZ+3HTwngsSDmG1gB3g3MTg7pKqa0mPXcgDjccMqNWZymlat1fEGg61NCK72zPwuQwe2Df2APKV7K42f1/A593XydY7ACJkpv+JOZc/SGiFJVBtJNIxvAusyzrZWZUujHiNzGDzuQ5JQYjpXcwKaRXNuKpjQcw2ZmYGaBwy9nMvhKJ6pVA4kn0Fx8VoXCE8/WGQ6z0FpH3Adw5LFvpRMTUFOatsEjT/UWBJ0F0WQ0eWXdAT4Fkhcf5DKh+SWiAxHKxK/SgxgJkVLcFPTxkpFIBOzIztduNjWETj4FMNTAhliBLJzvcsq+0Go+sS8ck7RcaAJS9wEMX/VxkX4nk+JIuD4vCD9/PR2pVq9/thEZKpmE8Qye0lXiCG5pqMlwyfqcLzeSn4mD6nRzyWBb2HzqOx9anYQqT8XUpEme3DbZb3BtwLnC/bWaGJdInNtmoNkqktKrWoJ7cHGItAAO6lmW9CODTblyMmBgAFpE7vF4vu6XQ3xBc+apLhhTijtTia5uZjG+f8gZCE+em2vN9NjsEFIWLZuzXPq5ffVyMg7Xt8AS2TvaE5NMqZzHTkkZtK/mSGQr9LyLyYxOzC+5Z1BBtgsyqRrzwfjYum8uB0b5jvc4tQA2SSKZimcb2zYsS8aeoUhQ3dQWhLODEREe1iLDs+xkKkhG7A05GJk/8ahGZzeS5YDoyB5PgcFM7/ri/CNctTMDk0FiftNezX+X5SiMn1KMTB2dH4f4VqVicVoHKjp4gm9oDZIK5dAW8Ssf1sByUwyGGWbxeL8MsHyqlxjRrv6WrGyvSy3HvSseOsn0uOt7mI6nOFmAN3K/9DFoa6UzJKEwLj8Wzm7OxozDwEwVORcbobhSRlSJyq1/B3NGQiHxORBjs4wTEsXtSY0clHK7F97fnYNq8RFwUyjRYt5SyATVeQeUriZwuKo40msLmr4uTddA2rbJFp7iMJZlauMTTZlEGikyY5UoRCVNKHXXfUPBJcKy5AwviD+HBVem4NCwek0xJtz7xDQLV+JFUg0DkBJn1kZ+2USSunReP57ZkY2PWcVS09upp4mNJxqeUJyKvcG5zwO2kkxETo1jJSR8E6+zG4HA3hLr7vIg7XI/ffpSne1xfGh6vVR9DMU4JuhtYgcrm9J+H3kO/JDLB4+nhsXiMo+yjy/Sxn0WeY03m9FaplFrEJiYB8SkNh4wz81umNKrrTACKVN/ehZ25lXhxezZuWZSEqcaNMGW27TWmr8bJY3JvrCO53NLL/fcTsfMZ5/cH2Ofa/SNTbZ8RVbLOPgiNwvSwGN089rU9xYg+3Iymbs+YGdm+ZIDULCJbADzE05t7r8eE2C1MRH7OcRm0n84UoPi1NS1d2JZ1DD/ZkaslFR2cU0Js9UdJQGN9aNLaidgBhBskbnb/3mB20lMYY2R/BeahXzwzEleFxeDRVen4475SRJY1oKm7b8yO/G4yQGJBJQXCs8NKegs0+dhP9I4fHmuD3E0MMdS0dmJ/fhXe2J2Pr65J161yprL/Uohtn3BjCSw6QPtTTZycpNMCzcXmd/qlj4nqs4SLEkgnzs1kB5VoPWj6+a3ZmJdwBInlTWjo9vo1lSqYZAzuLMuy6D+8YMzspJMR3QUicjNzgxkMHjv/08lJWYL6ti6klTdgXUo5XtmZg6+sScfNS5JwxRzaVrG24TsrCpPM+Hem3FKK2KrRzpo8GetmqKavJn+XoGGWJosjJnMGcChTgeNw95IkfHN9Bt7YU4wdOdXIre1Aa691RtSZm9gCQCmVz8kCInJZ0PxJwyWKR9PKcB1zn8Yi3OIv9XosHGtoR3xJDdanHsEfPynEdzdl4pGVabh9SRKuX5CAaXPidP9J2jTariFIyJRmpsmX0+hL56sbJmg4tYrAuWl+PO5ZkoivrkrFC1sP6pKq7bk1yK5uRyOl0Jl/x/rJ5HMzczIMwDUUCO49PaNkDPIvKaUYv2t0P8CZJm6lZQnaO3tRfLwJ+wsqsTb1MEIji/GbD/Lxn+9m42vrM/DY6jQ8sDwF97ydhDsWJ2r1dNviBP3nu5Yk4r5lSfjSihQ88U46vr0xU7fx+f0nRZgXW4atGVVIOtyIypZudHssjLGb6LRknJIkdjBZIiK3nDGD+1Rksgv+jQ4vAO+ZVM9xtpw2URP3eSx093rQ0dWHprYeVDZ2oLCqBall9YgorMYHOVXYllWBrRkV2JJxDO9mVmBHdhU+zqtGVHE9DpQ3o6S2A8dbetDc5UFXn9K1dHzg8SODBsgAiRLpOAcNsgm80Shn1k46GZnccQaEn1RK7WA+jPuhxjNpkHktdPV60d7tQWt3H1q6+tDS2YfWbg/auj3o6PGim8CxRBdkng3kI5GOi8gKp9XyuAWSL7HujrM0lFKUUI3jwSg/X4lAYidTRitMm2UC6Z/cezauyZSZM8bDyuDqCUCNPRkgsUyJDdwWM2rBZrjuvRr3ZGyofxWRh5RS7yilytl8dRwd9M5pMg5J+pEYbwujsX1GnZKjJWNDscKFHenmsoMGBwRPACq45ADJsqwMEXmdHd6CkuR2JsgYe18w/QtSRCQobQ4nyCYG382AHDYwvXzc+ZFGS6a7Ch/sJTPGlaMSJiiAZIoAGP1nM65vmBBJcBPczhSZWN5nLcv6ulJqg4nnTai9UZJRa5zincuplCxNG9c+pEASTxSmiT0bY2SZ+qwJRI2AjP+IlSSxlmW9YiYsjT+vdjCJc+4YYBSR75oSKo51ZRrLBKj8IJMZyRFdPPYvN5EHZkiObWLbeCGj9j7j9XrvU0q9qZSKp/FIH5t78SbI9huRTFiEFUK7ReS3Jsb2z+Mm8n8myQxQvEJEvm98UtljVex5NpExsHlSSxWRBWx5ZMqRzk0je6RkCj05L/hGy7J+rZT6wKRJnPegMnYR7co8pdRGy7J+ZJISPzUhjU5CptCTyXafY36UZVmvK6X2MGXCnFbGpJJ4vBAzVw2ISkRkG1OkTROJTwe0ZPtcJuM5/1tjUD4AgM7OXQzJmOIFDho+5wSWie7TsPZaltWmlCoyPqOX2R/JvGQ0Cc79I38wyIjyixnjE5H/4uIqpQ4a2+GcMtTNqFL2EE1RSq20LIuS6B7jfDw/T2nBIKMCWU18t2VZP2WCl+m3WcZS9bPVT+VjVHOk7X4RmcuDCNUZkw0nbKIgkTHSKeaZgDedXTq8Xu+flVLbRYTlVszZYf4Uy3fGpdQy4Ok0jkZGADi3jeO22CjiMTZsZ2k2baIJdTZGZHxUzDv/LIDrLMtiLOoNkz+VppSqYj9Gk4bRZzZxTKUXoxzGvuNwZNp6NKaPGInKntqver1e5nxNY0JhTU0NB29PHPPPJBFYxmk3WURu4GwPEaEqZPufLSJCZyjTXygNKLUss9HkfnKDwR9yfpdAda5pnIqUPnQsssFHtBn295Zp+vGgaU90gYmhTQBovJIJ1XzWvPFMnH+KhYZKqb8YW4vpxEzRSFJK5RigMZxD45fSg24ISjQCjyELShb+5N/577TRWFJda1Qr2zMyxphgMiJ4SFhkWdbvjU/oqyJyO7MmJo71ZyEZ9wKZdhYnLlAlXmgkAk9IT4oIN5onRHYTJsg2GRfEXtMQluqIUo0g4U/+PYJhDFMwsV4ptYQBaxH5jTGcHzfHeE7VZvm8Vl3mPiaM6XOFzIZSJTK3iuqFm80cK1Yk0/XwtIg8LyIv0rdjWdZvOT6USX0A/tsA5ucAXhCR51g0ISL3M/EPAKevf8aAh8azBpD7Hs5l+v/gKI2fgLtfBQAAAABJRU5ErkJggg==" alt="C squared Technologies logo">
+    <div><small>Time Management</small><strong>Instructor eWorkbook</strong></div>
+  </div>
+  <div class="navgroup">
+    <div class="navtitle">Course activities</div>
+    <a class="nav" href="#act-orientation"><span>00</span><div><small>Before You Begin</small>Using Your eWorkbook</div></a><a class="nav" href="#act-challenge"><span>01</span><div><small>Opening and Framing</small>Start with Your Challenge</div></a><a class="nav" href="#act-time-drains"><span>02</span><div><small>Section 1 · Take Control of Multiple Tasks</small>Your Top Time Drains</div></a><a class="nav" href="#act-task-pile"><span>03</span><div><small>Section 1 · Take Control of Multiple Tasks</small>Clean Up the Task Pile</div></a><a class="nav" href="#act-workable-day"><span>04</span><div><small>Section 2 · Manage Time with Intention</small>Design a Workable Day</div></a><a class="nav" href="#act-crowded-day"><span>05</span><div><small>Section 3 · Manage Multiple Priorities</small>Re-Prioritize a Crowded Day</div></a><a class="nav" href="#act-matrix"><span>06</span><div><small>Section 4 · Urgent Compared with Important</small>Matrix Practice</div></a><a class="nav" href="#act-overload"><span>07</span><div><small>Section 5 · Coping with Pressure and Stress</small>Recognize Overload Early</div></a><a class="nav" href="#act-pressure-reset"><span>08</span><div><small>Section 5 · Coping with Pressure and Stress</small>Pressure Reset: Your Day Changes at 1:30 p.m.</div></a><a class="nav" href="#act-say-no"><span>09</span><div><small>Section 6 · Manage Difficult Situations</small>Say “No” Without Creating a Dead End</div></a><a class="nav" href="#act-difficult"><span>10</span><div><small>Section 6 · Manage Difficult Situations</small>Difficult Situation Practice</div></a><a class="nav" href="#act-capstone"><span>11</span><div><small>Capstone</small>Capstone: The Day Changed Again</div></a><a class="nav" href="#act-action-plan"><span>12</span><div><small>Action Plan</small>Choose Your Three</div></a><a class="nav" href="#act-first-step"><span>13</span><div><small>Action Plan</small>Commit to the First Step</div></a>
+  </div>
+  <div class="navgroup">
+    <div class="navtitle">Electronic whiteboards</div>
+    <a class="nav wbnav" href="#wb-challenges"><span>WB</span><div><small>Whiteboard</small>Opening Challenge Themes</div></a><a class="nav wbnav" href="#wb-drains"><span>WB</span><div><small>Whiteboard</small>Time Drains: Control · Influence · Adapt</div></a><a class="nav wbnav" href="#wb-taskpile"><span>WB</span><div><small>Whiteboard</small>Task Pile Debrief Board</div></a><a class="nav wbnav" href="#wb-workable"><span>WB</span><div><small>Whiteboard</small>Workable Day Debrief</div></a><a class="nav wbnav" href="#wb-crowded"><span>WB</span><div><small>Whiteboard</small>Crowded Day Tradeoffs</div></a><a class="nav wbnav" href="#wb-matrix"><span>WB</span><div><small>Whiteboard</small>Urgent / Important Matrix</div></a><a class="nav wbnav" href="#wb-overload"><span>WB</span><div><small>Whiteboard</small>Overload Signals</div></a><a class="nav wbnav" href="#wb-reset"><span>WB</span><div><small>Whiteboard</small>Pressure Reset Debrief</div></a><a class="nav wbnav" href="#wb-difficult"><span>WB</span><div><small>Whiteboard</small>Difficult Situation Opening Lines</div></a><a class="nav wbnav" href="#wb-capstone"><span>WB</span><div><small>Whiteboard</small>Capstone Debrief Board</div></a>
+  </div>
+  <div class="savebox">
+    <b>Instructor backup</b>
+    <p>Whiteboard notes and private instructor notes save in this browser. Download a backup if you want a portable copy.</p>
+    <button class="btn orange" id="downloadBackup" type="button" style="width:100%">Download Instructor Backup</button>
+    <button class="btn ghost" id="restoreBackup" type="button" style="width:100%;margin-top:8px">Restore Backup</button>
+    <input type="file" id="restoreFile" accept="application/json" hidden>
+  </div>
+</aside>
+
+<main class="content">
+<header class="hero">
+  <div class="heroTop">
+    <div>
+      <div class="eyebrow">FACILITATE · SHARE · CAPTURE</div>
+      <h1>Instructor Electronic Workbook</h1>
+      <p>Time Management: Focus, Prioritize and Deliver. Keep this file open beside the presentation. Each course activity includes instructor guidance and a learner-safe share view. Electronic whiteboards give you a clean place to capture live responses without exposing instructor notes.</p>
+      <div class="heroActions">
+        <button class="btn orange" type="button" onclick="document.getElementById('act-challenge').scrollIntoView()">Go to Activities</button>
+        <button class="btn blue" type="button" onclick="document.getElementById('wb-challenges').scrollIntoView()">Go to Whiteboards</button>
+        <button class="btn ghost" type="button" id="instructionsBtn">Instructions</button>
+        <a class="btn ghost" href="https://gishmech08.github.io/training-tools/Time_Management_Participant_eWorkbook_Capstone_Updated.html" target="_blank" rel="noopener">Open Participant eWorkbook</a>
+      </div>
+    </div>
+    <img class="heroLogo" src="data:image/png;base64,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" alt="C squared Technologies logo">
+  </div>
+</header>
+
+<div class="notice"><strong>How to use this workbook:</strong> Use <b>Share Activity Instructions</b> when briefing an activity. Use <b>Share Whiteboard</b> when capturing whole-group responses. The share views hide instructor-only notes and debrief guidance. Your whiteboard entries save automatically in this browser.</div>
+
+<div class="divider"><div class="kicker">INSTRUCTOR CONTROL CENTER</div><h2>Course Activities</h2><p>Activities follow the participant eWorkbook and Instructor Guide in delivery order.</p></div>
+
+<section class="activity card" id="act-orientation">
+  <div class="head">
+    <div>
+      <div class="kicker">Before You Begin · Full group</div>
+      <h2>00 · Using Your eWorkbook</h2>
+      <p>Get every participant into the eWorkbook and confident about saving their work before class begins.</p>
+    </div>
+    <div class="time">2 min</div>
+  </div>
+  <div class="toolrow">
+    <button class="btn orange shareBtn" data-share="{&quot;title&quot;: &quot;Using Your eWorkbook&quot;, &quot;slide&quot;: &quot;0&quot;, &quot;mode&quot;: &quot;Full group&quot;, &quot;instructions&quot;: [&quot;Open the participant eWorkbook from the link in chat in a separate browser tab.&quot;, &quot;Keep the eWorkbook open throughout the session.&quot;, &quot;Use the left navigation to move to each activity when directed.&quot;, &quot;Before closing the workbook, use Download / Save My Work so you keep a copy of your entries.&quot;]}">Share Activity Instructions</button>
+    
+    <a class="btn ghost" href="https://gishmech08.github.io/training-tools/Time_Management_Participant_eWorkbook_Capstone_Updated.html" target="_blank" rel="noopener">Open Participant eWorkbook</a>
+    <span class="pill">Participant section: Start Here</span>
+  </div>
+  <div class="cols">
+    <div class="panel instructorOnly"><h3>Instructor flow</h3><ol><li>Post the participant eWorkbook link in chat and ask everyone to open it.</li><li>Give participants a moment to confirm the workbook loads.</li><li>Point out the left navigation, activity fields and Download / Save My Work controls.</li><li>Resolve access problems now rather than during the first activity.</li></ol></div>
+    <div class="panel instructorOnly"><h3>Watch for</h3><ul><li>A participant whose workbook will not load. Pair them with a colleague for the session.</li><li>Participants closing the workbook or treating browser storage as a permanent backup.</li></ul></div>
+  </div>
+  <div class="cols">
+    <div class="panel instructorOnly"><h3>Debrief / listen for</h3><ul><li>No formal debrief required.</li></ul></div>
+    <div class="panel instructorOnly"><h3>Transition</h3><p>Now that everyone has the workbook open, let’s begin.</p></div>
+  </div>
+  <details class="sharePreview">
+    <summary>Preview learner-facing instructions</summary>
+    <ol><li>Open the participant eWorkbook from the link in chat in a separate browser tab.</li><li>Keep the eWorkbook open throughout the session.</li><li>Use the left navigation to move to each activity when directed.</li><li>Before closing the workbook, use Download / Save My Work so you keep a copy of your entries.</li></ol>
+  </details>
+  <div class="privateNotes instructorOnly">
+    <label for="note-orientation">Private instructor notes</label>
+    <textarea id="note-orientation" data-save-key="note-orientation" placeholder="Add delivery notes, timing adjustments, or follow-up reminders here."></textarea>
+  </div>
+</section>
+
+<section class="activity card" id="act-challenge">
+  <div class="head">
+    <div>
+      <div class="kicker">Opening and Framing · Individual, main room</div>
+      <h2>01 · Start with Your Challenge</h2>
+      <p>Capture each participant’s own time-management challenge so the day has something concrete to connect to and return to later.</p>
+    </div>
+    <div class="time">3 min</div>
+  </div>
+  <div class="toolrow">
+    <button class="btn orange shareBtn" data-share="{&quot;title&quot;: &quot;Start with Your Challenge&quot;, &quot;slide&quot;: &quot;2&quot;, &quot;mode&quot;: &quot;Individual, main room&quot;, &quot;instructions&quot;: [&quot;Open Start with Your Challenge in the eWorkbook.&quot;, &quot;Take about 1 minute to enter one time-management challenge you would like to handle better.&quot;, &quot;Leave the response in the workbook. You will return to it during the Action Plan.&quot;]}">Share Activity Instructions</button>
+    <a class="btn blue" href="#wb-challenges">Go to Whiteboard</a>
+    <a class="btn ghost" href="https://gishmech08.github.io/training-tools/Time_Management_Participant_eWorkbook_Capstone_Updated.html" target="_blank" rel="noopener">Open Participant eWorkbook</a>
+    <span class="pill">Participant section: Start with Your Challenge</span>
+  </div>
+  <div class="cols">
+    <div class="panel instructorOnly"><h3>Instructor flow</h3><ol><li>Frame this as a quick needs check, not a problem-solving discussion.</li><li>Give about 1 minute for individual entry.</li><li>Invite two or three responses in chat or aloud.</li><li>Note recurring themes you can reference later.</li></ol></div>
+    <div class="panel instructorOnly"><h3>Watch for</h3><ul><li>Keep the discussion moving. The point is to capture themes, not solve them yet.</li></ul></div>
+  </div>
+  <div class="cols">
+    <div class="panel instructorOnly"><h3>Debrief / listen for</h3><ul><li>What tends to create the most pressure for you?</li></ul></div>
+    <div class="panel instructorOnly"><h3>Transition</h3><p>You will hear several of those challenges reflected in what we are covering today.</p></div>
+  </div>
+  <details class="sharePreview">
+    <summary>Preview learner-facing instructions</summary>
+    <ol><li>Open Start with Your Challenge in the eWorkbook.</li><li>Take about 1 minute to enter one time-management challenge you would like to handle better.</li><li>Leave the response in the workbook. You will return to it during the Action Plan.</li></ol>
+  </details>
+  <div class="privateNotes instructorOnly">
+    <label for="note-challenge">Private instructor notes</label>
+    <textarea id="note-challenge" data-save-key="note-challenge" placeholder="Add delivery notes, timing adjustments, or follow-up reminders here."></textarea>
+  </div>
+</section>
+
+<section class="activity card" id="act-time-drains">
+  <div class="head">
+    <div>
+      <div class="kicker">Section 1 · Take Control of Multiple Tasks · Individual, then pairs</div>
+      <h2>02 · Your Top Time Drains</h2>
+      <p>Move participants from naming frustrations to identifying where action is possible.</p>
+    </div>
+    <div class="time">10 min</div>
+  </div>
+  <div class="toolrow">
+    <button class="btn orange shareBtn" data-share="{&quot;title&quot;: &quot;Your Top Time Drains&quot;, &quot;slide&quot;: &quot;11&quot;, &quot;mode&quot;: &quot;Individual, then pairs&quot;, &quot;instructions&quot;: [&quot;Enter your top three time drains.&quot;, &quot;Classify each as Control, Influence or Adapt and note why.&quot;, &quot;Compare your classifications with a partner.&quot;, &quot;Discuss any item you viewed differently.&quot;]}">Share Activity Instructions</button>
+    <a class="btn blue" href="#wb-drains">Go to Whiteboard</a>
+    <a class="btn ghost" href="https://gishmech08.github.io/training-tools/Time_Management_Participant_eWorkbook_Capstone_Updated.html" target="_blank" rel="noopener">Open Participant eWorkbook</a>
+    <span class="pill">Participant section: Your Top Time Drains</span>
+  </div>
+  <div class="cols">
+    <div class="panel instructorOnly"><h3>Instructor flow</h3><ol><li>Give 2 minutes to enter three time drains.</li><li>Give 2 minutes to classify them and note reasoning.</li><li>Open pairs for about 3 minutes to compare classifications.</li><li>Return to the main room and debrief the reasoning.</li></ol></div>
+    <div class="panel instructorOnly"><h3>Watch for</h3><ul><li>Participants who classify everything as Adapt. Ask what would have to be true for one item to move to Influence.</li><li>Validate real operational constraints rather than forcing a different classification.</li></ul></div>
+  </div>
+  <div class="cols">
+    <div class="panel instructorOnly"><h3>Debrief / listen for</h3><ul><li>Which drain generated the most disagreement about Control, Influence or Adapt?</li><li>What changed when you focused on where action is possible?</li></ul></div>
+    <div class="panel instructorOnly"><h3>Transition</h3><p>Now let’s look at the work itself and decide what belongs where.</p></div>
+  </div>
+  <details class="sharePreview">
+    <summary>Preview learner-facing instructions</summary>
+    <ol><li>Enter your top three time drains.</li><li>Classify each as Control, Influence or Adapt and note why.</li><li>Compare your classifications with a partner.</li><li>Discuss any item you viewed differently.</li></ol>
+  </details>
+  <div class="privateNotes instructorOnly">
+    <label for="note-time-drains">Private instructor notes</label>
+    <textarea id="note-time-drains" data-save-key="note-time-drains" placeholder="Add delivery notes, timing adjustments, or follow-up reminders here."></textarea>
+  </div>
+</section>
+
+<section class="activity card" id="act-task-pile">
+  <div class="head">
+    <div>
+      <div class="kicker">Section 1 · Take Control of Multiple Tasks · Groups of 3–5</div>
+      <h2>03 · Clean Up the Task Pile</h2>
+      <p>Practice sorting work before using AI or another tool to organize it.</p>
+    </div>
+    <div class="time">10 min</div>
+  </div>
+  <div class="toolrow">
+    <button class="btn orange shareBtn" data-share="{&quot;title&quot;: &quot;Clean Up the Task Pile&quot;, &quot;slide&quot;: &quot;17&quot;, &quot;mode&quot;: &quot;Groups of 3\u20135&quot;, &quot;instructions&quot;: [&quot;In your breakout room, take 5 minutes to sort all eight tasks.&quot;, &quot;Use the categories Project, Next Action, Today, Waiting or Remove.&quot;, &quot;Capture your group\u2019s decisions in the eWorkbook.&quot;, &quot;Be ready to explain the reasoning behind at least one ambiguous item.&quot;]}">Share Activity Instructions</button>
+    <a class="btn blue" href="#wb-taskpile">Go to Whiteboard</a>
+    <a class="btn ghost" href="https://gishmech08.github.io/training-tools/Time_Management_Participant_eWorkbook_Capstone_Updated.html" target="_blank" rel="noopener">Open Participant eWorkbook</a>
+    <span class="pill">Participant section: Clean Up the Task Pile</span>
+  </div>
+  <div class="cols">
+    <div class="panel instructorOnly"><h3>Instructor flow</h3><ol><li>Brief the categories before opening rooms.</li><li>Keep the sequence intact: participants decide first, then compare with AI or another tool.</li><li>Give groups 5 minutes to sort the eight tasks.</li><li>Debrief the ambiguous items and what context a tool would be missing.</li></ol></div>
+    <div class="panel instructorOnly"><h3>Watch for</h3><ul><li>Groups that sort quickly without discussing ambiguous items.</li><li>If AI is unavailable, compare verbally with how a context-free tool might classify two items.</li></ul></div>
+  </div>
+  <div class="cols">
+    <div class="panel instructorOnly"><h3>Debrief / listen for</h3><ul><li>Which item created the most disagreement?</li><li>What information would an AI tool need before its answer deserved your trust?</li></ul></div>
+    <div class="panel instructorOnly"><h3>Transition</h3><p>Once work is sorted, the next challenge is deciding what can realistically fit.</p></div>
+  </div>
+  <details class="sharePreview">
+    <summary>Preview learner-facing instructions</summary>
+    <ol><li>In your breakout room, take 5 minutes to sort all eight tasks.</li><li>Use the categories Project, Next Action, Today, Waiting or Remove.</li><li>Capture your group’s decisions in the eWorkbook.</li><li>Be ready to explain the reasoning behind at least one ambiguous item.</li></ol>
+  </details>
+  <div class="privateNotes instructorOnly">
+    <label for="note-task-pile">Private instructor notes</label>
+    <textarea id="note-task-pile" data-save-key="note-task-pile" placeholder="Add delivery notes, timing adjustments, or follow-up reminders here."></textarea>
+  </div>
+</section>
+
+<section class="activity card" id="act-workable-day">
+  <div class="head">
+    <div>
+      <div class="kicker">Section 2 · Manage Time with Intention · Individual or pairs</div>
+      <h2>04 · Design a Workable Day</h2>
+      <p>Build a realistic workday that protects priorities and leaves usable capacity.</p>
+    </div>
+    <div class="time">12 min</div>
+  </div>
+  <div class="toolrow">
+    <button class="btn orange shareBtn" data-share="{&quot;title&quot;: &quot;Design a Workable Day&quot;, &quot;slide&quot;: &quot;27&quot;, &quot;mode&quot;: &quot;Individual or pairs&quot;, &quot;instructions&quot;: [&quot;Build an 8:00 a.m. to 5:00 p.m. plan in the eWorkbook.&quot;, &quot;Place fixed commitments first.&quot;, &quot;Protect the highest-priority work.&quot;, &quot;Add routine work only where it fits.&quot;, &quot;Leave buffer. The goal is not to fit everything.&quot;]}">Share Activity Instructions</button>
+    <a class="btn blue" href="#wb-workable">Go to Whiteboard</a>
+    <a class="btn ghost" href="https://gishmech08.github.io/training-tools/Time_Management_Participant_eWorkbook_Capstone_Updated.html" target="_blank" rel="noopener">Open Participant eWorkbook</a>
+    <span class="pill">Participant section: Design a Workable Day</span>
+  </div>
+  <div class="cols">
+    <div class="panel instructorOnly"><h3>Instructor flow</h3><ol><li>Decide before briefing whether participants work alone or in pairs.</li><li>Give about 8 minutes to build the day.</li><li>Prompt participants to make deliberate choices about what is left out.</li><li>Debrief what they protected and where they created buffer.</li></ol></div>
+    <div class="panel instructorOnly"><h3>Watch for</h3><ul><li>Schedules with every minute filled. Ask what happens when something breaks at 10:15.</li></ul></div>
+  </div>
+  <div class="cols">
+    <div class="panel instructorOnly"><h3>Debrief / listen for</h3><ul><li>What did you protect even though something else had to wait?</li><li>Where did you leave buffer, and why?</li><li>What did you deliberately leave out?</li></ul></div>
+    <div class="panel instructorOnly"><h3>Transition</h3><p>A workable day depends on priorities. Next we will test those priorities when capacity gets tight.</p></div>
+  </div>
+  <details class="sharePreview">
+    <summary>Preview learner-facing instructions</summary>
+    <ol><li>Build an 8:00 a.m. to 5:00 p.m. plan in the eWorkbook.</li><li>Place fixed commitments first.</li><li>Protect the highest-priority work.</li><li>Add routine work only where it fits.</li><li>Leave buffer. The goal is not to fit everything.</li></ol>
+  </details>
+  <div class="privateNotes instructorOnly">
+    <label for="note-workable-day">Private instructor notes</label>
+    <textarea id="note-workable-day" data-save-key="note-workable-day" placeholder="Add delivery notes, timing adjustments, or follow-up reminders here."></textarea>
+  </div>
+</section>
+
+<section class="activity card" id="act-crowded-day">
+  <div class="head">
+    <div>
+      <div class="kicker">Section 3 · Manage Multiple Priorities · Groups of 3–5</div>
+      <h2>05 · Re-Prioritize a Crowded Day</h2>
+      <p>Practice ranking work when available capacity is smaller than the task list.</p>
+    </div>
+    <div class="time">15 min</div>
+  </div>
+  <div class="toolrow">
+    <button class="btn orange shareBtn" data-share="{&quot;title&quot;: &quot;Re-Prioritize a Crowded Day&quot;, &quot;slide&quot;: &quot;34&quot;, &quot;mode&quot;: &quot;Groups of 3\u20135&quot;, &quot;instructions&quot;: [&quot;Working in breakout rooms, review all eight tasks and their estimated times.&quot;, &quot;Rank the tasks using value, sequence, consequence and dependency, not deadline alone.&quot;, &quot;Decide what fits in the four available hours.&quot;, &quot;Identify what must Move, Shrink or Go.&quot;, &quot;Capture the group\u2019s tradeoffs in the eWorkbook.&quot;]}">Share Activity Instructions</button>
+    <a class="btn blue" href="#wb-crowded">Go to Whiteboard</a>
+    <a class="btn ghost" href="https://gishmech08.github.io/training-tools/Time_Management_Participant_eWorkbook_Capstone_Updated.html" target="_blank" rel="noopener">Open Participant eWorkbook</a>
+    <span class="pill">Participant section: Re-Prioritize a Crowded Day</span>
+  </div>
+  <div class="cols">
+    <div class="panel instructorOnly"><h3>Instructor flow</h3><ol><li>Give groups about 9 minutes.</li><li>Visit rooms and challenge the reasoning, not the ranking.</li><li>Return to the main room and compare what groups moved, shrank or dropped.</li></ol></div>
+    <div class="panel instructorOnly"><h3>Watch for</h3><ul><li>Groups that rank purely by stated deadline. Ask what they did with the valuable item nobody gave a deadline.</li></ul></div>
+  </div>
+  <div class="cols">
+    <div class="panel instructorOnly"><h3>Debrief / listen for</h3><ul><li>What did you move or drop?</li><li>Which decision was hardest to defend?</li><li>What mattered besides deadline?</li></ul></div>
+    <div class="panel instructorOnly"><h3>Transition</h3><p>Priority becomes clearer when we separate urgency from importance.</p></div>
+  </div>
+  <details class="sharePreview">
+    <summary>Preview learner-facing instructions</summary>
+    <ol><li>Working in breakout rooms, review all eight tasks and their estimated times.</li><li>Rank the tasks using value, sequence, consequence and dependency, not deadline alone.</li><li>Decide what fits in the four available hours.</li><li>Identify what must Move, Shrink or Go.</li><li>Capture the group’s tradeoffs in the eWorkbook.</li></ol>
+  </details>
+  <div class="privateNotes instructorOnly">
+    <label for="note-crowded-day">Private instructor notes</label>
+    <textarea id="note-crowded-day" data-save-key="note-crowded-day" placeholder="Add delivery notes, timing adjustments, or follow-up reminders here."></textarea>
+  </div>
+</section>
+
+<section class="activity card" id="act-matrix">
+  <div class="head">
+    <div>
+      <div class="kicker">Section 4 · Urgent Compared with Important · Pairs or groups</div>
+      <h2>06 · Matrix Practice</h2>
+      <p>Apply urgent/important logic while recognizing that missing context changes classification.</p>
+    </div>
+    <div class="time">12 min</div>
+  </div>
+  <div class="toolrow">
+    <button class="btn orange shareBtn" data-share="{&quot;title&quot;: &quot;Matrix Practice&quot;, &quot;slide&quot;: &quot;41&quot;, &quot;mode&quot;: &quot;Pairs or groups&quot;, &quot;instructions&quot;: [&quot;Place each task in the urgent/important matrix.&quot;, &quot;For each task, identify the next action.&quot;, &quot;Capture your group\u2019s responses in the eWorkbook.&quot;, &quot;If you need more information to classify an item, say what you need.&quot;]}">Share Activity Instructions</button>
+    <a class="btn blue" href="#wb-matrix">Go to Whiteboard</a>
+    <a class="btn ghost" href="https://gishmech08.github.io/training-tools/Time_Management_Participant_eWorkbook_Capstone_Updated.html" target="_blank" rel="noopener">Open Participant eWorkbook</a>
+    <span class="pill">Participant section: Matrix Practice</span>
+  </div>
+  <div class="cols">
+    <div class="panel instructorOnly"><h3>Instructor flow</h3><ol><li>Give groups about 7 minutes.</li><li>During debrief, choose two or three items where groups disagreed.</li><li>Ask what information or role perspective caused the difference.</li></ol></div>
+    <div class="panel instructorOnly"><h3>Watch for</h3><ul><li>Do not force one universal classification where the role or context changes the answer.</li></ul></div>
+  </div>
+  <div class="cols">
+    <div class="panel instructorOnly"><h3>Debrief / listen for</h3><ul><li>Where did you put the unresolved equipment issue? What drove your decision?</li><li>Which item needed more context before you could classify it confidently?</li></ul></div>
+    <div class="panel instructorOnly"><h3>Transition</h3><p>Even a good priority system gets harder to use when pressure starts changing how we think.</p></div>
+  </div>
+  <details class="sharePreview">
+    <summary>Preview learner-facing instructions</summary>
+    <ol><li>Place each task in the urgent/important matrix.</li><li>For each task, identify the next action.</li><li>Capture your group’s responses in the eWorkbook.</li><li>If you need more information to classify an item, say what you need.</li></ol>
+  </details>
+  <div class="privateNotes instructorOnly">
+    <label for="note-matrix">Private instructor notes</label>
+    <textarea id="note-matrix" data-save-key="note-matrix" placeholder="Add delivery notes, timing adjustments, or follow-up reminders here."></textarea>
+  </div>
+</section>
+
+<section class="activity card" id="act-overload">
+  <div class="head">
+    <div>
+      <div class="kicker">Section 5 · Coping with Pressure and Stress · Individual, main room</div>
+      <h2>07 · Recognize Overload Early</h2>
+      <p>Help participants identify the personal signal that tells them overload is starting.</p>
+    </div>
+    <div class="time">1–2 min</div>
+  </div>
+  <div class="toolrow">
+    <button class="btn orange shareBtn" data-share="{&quot;title&quot;: &quot;Recognize Overload Early&quot;, &quot;slide&quot;: &quot;45&quot;, &quot;mode&quot;: &quot;Individual, main room&quot;, &quot;instructions&quot;: [&quot;Select the overload signal that tends to show up first for you.&quot;, &quot;Enter one response you can use when you notice that signal.&quot;, &quot;Be ready to share if you choose.&quot;]}">Share Activity Instructions</button>
+    <a class="btn blue" href="#wb-overload">Go to Whiteboard</a>
+    <a class="btn ghost" href="https://gishmech08.github.io/training-tools/Time_Management_Participant_eWorkbook_Capstone_Updated.html" target="_blank" rel="noopener">Open Participant eWorkbook</a>
+    <span class="pill">Participant section: Recognize Overload Early</span>
+  </div>
+  <div class="cols">
+    <div class="panel instructorOnly"><h3>Instructor flow</h3><ol><li>Give about 1 minute for private reflection.</li><li>Invite a few examples, focusing on signals participants can notice early.</li></ol></div>
+    <div class="panel instructorOnly"><h3>Watch for</h3><ul><li>Keep this practical. The goal is an observable early signal plus a response, not a long discussion about stress.</li></ul></div>
+  </div>
+  <div class="cols">
+    <div class="panel instructorOnly"><h3>Debrief / listen for</h3><ul><li>What signal shows up first for you?</li><li>What could you do at that point, before overload gets worse?</li></ul></div>
+    <div class="panel instructorOnly"><h3>Transition</h3><p>Now we will apply that idea when the day itself changes.</p></div>
+  </div>
+  <details class="sharePreview">
+    <summary>Preview learner-facing instructions</summary>
+    <ol><li>Select the overload signal that tends to show up first for you.</li><li>Enter one response you can use when you notice that signal.</li><li>Be ready to share if you choose.</li></ol>
+  </details>
+  <div class="privateNotes instructorOnly">
+    <label for="note-overload">Private instructor notes</label>
+    <textarea id="note-overload" data-save-key="note-overload" placeholder="Add delivery notes, timing adjustments, or follow-up reminders here."></textarea>
+  </div>
+</section>
+
+<section class="activity card" id="act-pressure-reset">
+  <div class="head">
+    <div>
+      <div class="kicker">Section 5 · Coping with Pressure and Stress · Groups of 3–5</div>
+      <h2>08 · Pressure Reset: Your Day Changes at 1:30 p.m.</h2>
+      <p>Apply a deliberate reset to a day that cannot be rescued by simply working harder.</p>
+    </div>
+    <div class="time">12 min</div>
+  </div>
+  <div class="toolrow">
+    <button class="btn orange shareBtn" data-share="{&quot;title&quot;: &quot;Pressure Reset: Your Day Changes at 1:30 p.m.&quot;, &quot;slide&quot;: &quot;50&quot;, &quot;mode&quot;: &quot;Groups of 3\u20135&quot;, &quot;instructions&quot;: [&quot;Working in breakout rooms for about 7 minutes, review the 1:30 p.m. changes.&quot;, &quot;Decide what you will protect.&quot;, &quot;Decide what moves or stops.&quot;, &quot;Identify who needs communication.&quot;, &quot;Choose the first action you will take when you restart.&quot;, &quot;Capture the decisions in the eWorkbook.&quot;]}">Share Activity Instructions</button>
+    <a class="btn blue" href="#wb-reset">Go to Whiteboard</a>
+    <a class="btn ghost" href="https://gishmech08.github.io/training-tools/Time_Management_Participant_eWorkbook_Capstone_Updated.html" target="_blank" rel="noopener">Open Participant eWorkbook</a>
+    <span class="pill">Participant section: Pressure Reset</span>
+  </div>
+  <div class="cols">
+    <div class="panel instructorOnly"><h3>Instructor flow</h3><ol><li>Say plainly that this scenario cannot be solved by squeezing everything harder.</li><li>Give teams about 7 minutes.</li><li>Debrief for about 4 minutes using the same four decision points.</li></ol></div>
+    <div class="panel instructorOnly"><h3>Watch for</h3><ul><li>Groups that keep every original commitment and add the new request.</li><li>Groups that decide everything but communicate with nobody.</li></ul></div>
+  </div>
+  <div class="cols">
+    <div class="panel instructorOnly"><h3>Debrief / listen for</h3><ul><li>What did you protect?</li><li>What moved?</li><li>Who needed communication?</li><li>What was your first action when you restarted?</li><li>Which decision felt hardest, and why?</li></ul></div>
+    <div class="panel instructorOnly"><h3>Transition</h3><p>Managing pressure sometimes requires a difficult conversation about what cannot fit.</p></div>
+  </div>
+  <details class="sharePreview">
+    <summary>Preview learner-facing instructions</summary>
+    <ol><li>Working in breakout rooms for about 7 minutes, review the 1:30 p.m. changes.</li><li>Decide what you will protect.</li><li>Decide what moves or stops.</li><li>Identify who needs communication.</li><li>Choose the first action you will take when you restart.</li><li>Capture the decisions in the eWorkbook.</li></ol>
+  </details>
+  <div class="privateNotes instructorOnly">
+    <label for="note-pressure-reset">Private instructor notes</label>
+    <textarea id="note-pressure-reset" data-save-key="note-pressure-reset" placeholder="Add delivery notes, timing adjustments, or follow-up reminders here."></textarea>
+  </div>
+</section>
+
+<section class="activity card" id="act-say-no">
+  <div class="head">
+    <div>
+      <div class="kicker">Section 6 · Manage Difficult Situations · Individual practice</div>
+      <h2>09 · Say “No” Without Creating a Dead End</h2>
+      <p>Practice declining as a negotiation rather than a refusal.</p>
+    </div>
+    <div class="time">7 min</div>
+  </div>
+  <div class="toolrow">
+    <button class="btn orange shareBtn" data-share="{&quot;title&quot;: &quot;Say \u201cNo\u201d Without Creating a Dead End&quot;, &quot;slide&quot;: &quot;56&quot;, &quot;mode&quot;: &quot;Individual practice&quot;, &quot;instructions&quot;: [&quot;Use the four-step response: acknowledge the request, explain the constraint, offer an alternative and confirm the next step.&quot;, &quot;Rewrite the response in language you would naturally use at work.&quot;, &quot;Enter it in the eWorkbook.&quot;, &quot;Be ready to share it aloud or in chat.&quot;]}">Share Activity Instructions</button>
+    
+    <a class="btn ghost" href="https://gishmech08.github.io/training-tools/Time_Management_Participant_eWorkbook_Capstone_Updated.html" target="_blank" rel="noopener">Open Participant eWorkbook</a>
+    <span class="pill">Participant section: Say “No” Without Creating a Dead End</span>
+  </div>
+  <div class="cols">
+    <div class="panel instructorOnly"><h3>Instructor flow</h3><ol><li>Teach the four-step response before the writing activity.</li><li>Give about 1 minute for participants to rewrite the response in their own language.</li><li>Invite two or three volunteers.</li><li>Coach toward concise, neutral wording that includes an alternative and confirmation.</li></ol></div>
+    <div class="panel instructorOnly"><h3>Watch for</h3><ul><li>Do not let a version pass that only states the constraint. Every response needs a path forward.</li></ul></div>
+  </div>
+  <div class="cols">
+    <div class="panel instructorOnly"><h3>Debrief / listen for</h3><ul><li>What makes this different from simply saying, “I’m too busy”?</li><li>Which variable is easiest to negotiate in your work: time, scope, sequence or ownership?</li></ul></div>
+    <div class="panel instructorOnly"><h3>Transition</h3><p>Another difficult situation is knowing how to open the conversation before the problem becomes a missed deadline.</p></div>
+  </div>
+  <details class="sharePreview">
+    <summary>Preview learner-facing instructions</summary>
+    <ol><li>Use the four-step response: acknowledge the request, explain the constraint, offer an alternative and confirm the next step.</li><li>Rewrite the response in language you would naturally use at work.</li><li>Enter it in the eWorkbook.</li><li>Be ready to share it aloud or in chat.</li></ol>
+  </details>
+  <div class="privateNotes instructorOnly">
+    <label for="note-say-no">Private instructor notes</label>
+    <textarea id="note-say-no" data-save-key="note-say-no" placeholder="Add delivery notes, timing adjustments, or follow-up reminders here."></textarea>
+  </div>
+</section>
+
+<section class="activity card" id="act-difficult">
+  <div class="head">
+    <div>
+      <div class="kicker">Section 6 · Manage Difficult Situations · Teams, one scenario each</div>
+      <h2>10 · Difficult Situation Practice</h2>
+      <p>Practice diagnosing a time-management conflict and writing the exact opening line for the conversation it requires.</p>
+    </div>
+    <div class="time">14 min</div>
+  </div>
+  <div class="toolrow">
+    <button class="btn orange shareBtn" data-share="{&quot;title&quot;: &quot;Difficult Situation Practice&quot;, &quot;slide&quot;: &quot;58&quot;, &quot;mode&quot;: &quot;Teams, one scenario each&quot;, &quot;instructions&quot;: [&quot;Your group will receive one scenario.&quot;, &quot;Name the real time-management issue.&quot;, &quot;Decide what conversation needs to happen.&quot;, &quot;Write the exact opening line you would use.&quot;, &quot;The opening line is the deliverable. Be prepared to read it aloud.&quot;]}">Share Activity Instructions</button>
+    <a class="btn blue" href="#wb-difficult">Go to Whiteboard</a>
+    <a class="btn ghost" href="https://gishmech08.github.io/training-tools/Time_Management_Participant_eWorkbook_Capstone_Updated.html" target="_blank" rel="noopener">Open Participant eWorkbook</a>
+    <span class="pill">Participant section: Difficult Situation Practice</span>
+  </div>
+  <div class="cols">
+    <div class="panel instructorOnly"><h3>Instructor flow</h3><ol><li>Assign scenarios A through D across groups so each is represented.</li><li>Give about 7 minutes in breakout rooms.</li><li>Visit rooms and confirm every group has written an actual opening line.</li><li>During debrief, ask one group from each scenario to read its line.</li></ol></div>
+    <div class="panel instructorOnly"><h3>Watch for</h3><ul><li>Opening lines that apologize before stating anything.</li><li>Lines that name the conflict but ask for nothing.</li></ul></div>
+  </div>
+  <div class="cols">
+    <div class="panel instructorOnly"><h3>Debrief / listen for</h3><ul><li>Is the opening line clear?</li><li>Is it professional?</li><li>Does it make the tradeoff visible?</li><li>What decision or option does it ask for?</li></ul></div>
+    <div class="panel instructorOnly"><h3>Transition</h3><p>You have practiced the individual tools. Now you will bring the course together in the capstone.</p></div>
+  </div>
+  <details class="sharePreview">
+    <summary>Preview learner-facing instructions</summary>
+    <ol><li>Your group will receive one scenario.</li><li>Name the real time-management issue.</li><li>Decide what conversation needs to happen.</li><li>Write the exact opening line you would use.</li><li>The opening line is the deliverable. Be prepared to read it aloud.</li></ol>
+  </details>
+  <div class="privateNotes instructorOnly">
+    <label for="note-difficult">Private instructor notes</label>
+    <textarea id="note-difficult" data-save-key="note-difficult" placeholder="Add delivery notes, timing adjustments, or follow-up reminders here."></textarea>
+  </div>
+</section>
+
+<section class="activity card" id="act-capstone">
+  <div class="head">
+    <div>
+      <div class="kicker">Capstone · Same teams across all steps</div>
+      <h2>11 · Capstone: The Day Changed Again</h2>
+      <p>Bring prioritization, scheduling, buffer and communication together in one changing workday.</p>
+    </div>
+    <div class="time">35 min</div>
+  </div>
+  <div class="toolrow">
+    <button class="btn orange shareBtn" data-share="{&quot;title&quot;: &quot;Capstone: The Day Changed Again&quot;, &quot;slide&quot;: &quot;59\u201363&quot;, &quot;mode&quot;: &quot;Same teams across all steps&quot;, &quot;instructions&quot;: [&quot;Read the full scenario before scheduling anything.&quot;, &quot;Step 1: Sort the work into what must happen today, what can be scheduled, what needs clarification, and what can be delegated, coordinated or removed.&quot;, &quot;Step 2: Build the day using fixed commitments first, then protected priority work, then buffer, then whatever routine work fits.&quot;, &quot;Step 3: Prepare a 30-second response to the new request using Clarify, Tradeoff and Confirm.&quot;, &quot;Keep the same team for all capstone steps.&quot;]}">Share Activity Instructions</button>
+    <a class="btn blue" href="#wb-capstone">Go to Whiteboard</a>
+    <a class="btn ghost" href="https://gishmech08.github.io/training-tools/Time_Management_Participant_eWorkbook_Capstone_Updated.html" target="_blank" rel="noopener">Open Participant eWorkbook</a>
+    <span class="pill">Participant section: Capstone Activity Packet</span>
+  </div>
+  <div class="cols">
+    <div class="panel instructorOnly"><h3>Instructor flow</h3><ol><li>Capstone Scenario: give participants time to read the full scenario. Do not let teams begin scheduling yet.</li><li>Sort the Work: give teams about 6 minutes to sort the work before scheduling.</li><li>Build the Day: reopen the same rooms for about 6 minutes to build the day and leave visible buffer.</li><li>Respond to the New Request: give teams about 3 minutes to prepare the 30-second response, then take role-plays in the main room.</li><li>Capstone Debrief: ask different teams what they protected, moved, communicated and what reduced the pressure.</li></ol></div>
+    <div class="panel instructorOnly"><h3>Watch for</h3><ul><li>Teams that classify items as urgent only because someone wants them quickly.</li><li>Schedules that fill every available minute.</li><li>Teams that make a schedule change but tell nobody affected by it.</li><li>Role-play responses longer than 30 seconds.</li></ul></div>
+  </div>
+  <div class="cols">
+    <div class="panel instructorOnly"><h3>Debrief / listen for</h3><ul><li>What did you protect?</li><li>What did you move?</li><li>What did you communicate?</li><li>What helped reduce the pressure?</li></ul></div>
+    <div class="panel instructorOnly"><h3>Transition</h3><p>The capstone shows how the tools depend on one another. Now turn them into your own action plan.</p></div>
+  </div>
+  <details class="sharePreview">
+    <summary>Preview learner-facing instructions</summary>
+    <ol><li>Read the full scenario before scheduling anything.</li><li>Step 1: Sort the work into what must happen today, what can be scheduled, what needs clarification, and what can be delegated, coordinated or removed.</li><li>Step 2: Build the day using fixed commitments first, then protected priority work, then buffer, then whatever routine work fits.</li><li>Step 3: Prepare a 30-second response to the new request using Clarify, Tradeoff and Confirm.</li><li>Keep the same team for all capstone steps.</li></ol>
+  </details>
+  <div class="privateNotes instructorOnly">
+    <label for="note-capstone">Private instructor notes</label>
+    <textarea id="note-capstone" data-save-key="note-capstone" placeholder="Add delivery notes, timing adjustments, or follow-up reminders here."></textarea>
+  </div>
+</section>
+
+<section class="activity card" id="act-action-plan">
+  <div class="head">
+    <div>
+      <div class="kicker">Action Plan · Individual, main room</div>
+      <h2>12 · Choose Your Three</h2>
+      <p>Convert the day into three specific, observable commitments tied to the participant’s opening challenge.</p>
+    </div>
+    <div class="time">7 min</div>
+  </div>
+  <div class="toolrow">
+    <button class="btn orange shareBtn" data-share="{&quot;title&quot;: &quot;Choose Your Three&quot;, &quot;slide&quot;: &quot;65&quot;, &quot;mode&quot;: &quot;Individual, main room&quot;, &quot;instructions&quot;: [&quot;Review the challenge you entered at the beginning of the webinar.&quot;, &quot;Choose one action to Start.&quot;, &quot;Choose one habit to Stop or Reduce.&quot;, &quot;Choose one practice to Continue or Strengthen.&quot;, &quot;Make each action specific enough that you could tell whether you did it.&quot;]}">Share Activity Instructions</button>
+    
+    <a class="btn ghost" href="https://gishmech08.github.io/training-tools/Time_Management_Participant_eWorkbook_Capstone_Updated.html" target="_blank" rel="noopener">Open Participant eWorkbook</a>
+    <span class="pill">Participant section: Personal Action Plan</span>
+  </div>
+  <div class="cols">
+    <div class="panel instructorOnly"><h3>Instructor flow</h3><ol><li>Give about 4 minutes of quiet individual work.</li><li>Invite two or three volunteers to share one action.</li><li>If an action is vague, ask: What would that look like on Thursday?</li></ol></div>
+    <div class="panel instructorOnly"><h3>Watch for</h3><ul><li>Participants who list too many changes or actions with no connection to their opening challenge.</li></ul></div>
+  </div>
+  <div class="cols">
+    <div class="panel instructorOnly"><h3>Debrief / listen for</h3><ul><li>Which of your three actions would make the biggest difference on a bad week?</li></ul></div>
+    <div class="panel instructorOnly"><h3>Transition</h3><p>Before you leave, make sure at least one action gets off the page.</p></div>
+  </div>
+  <details class="sharePreview">
+    <summary>Preview learner-facing instructions</summary>
+    <ol><li>Review the challenge you entered at the beginning of the webinar.</li><li>Choose one action to Start.</li><li>Choose one habit to Stop or Reduce.</li><li>Choose one practice to Continue or Strengthen.</li><li>Make each action specific enough that you could tell whether you did it.</li></ol>
+  </details>
+  <div class="privateNotes instructorOnly">
+    <label for="note-action-plan">Private instructor notes</label>
+    <textarea id="note-action-plan" data-save-key="note-action-plan" placeholder="Add delivery notes, timing adjustments, or follow-up reminders here."></textarea>
+  </div>
+</section>
+
+<section class="activity card" id="act-first-step">
+  <div class="head">
+    <div>
+      <div class="kicker">Action Plan · Individual, main room</div>
+      <h2>13 · Commit to the First Step</h2>
+      <p>Get one action scheduled in the participant’s own system before the session ends.</p>
+    </div>
+    <div class="time">4 min</div>
+  </div>
+  <div class="toolrow">
+    <button class="btn orange shareBtn" data-share="{&quot;title&quot;: &quot;Commit to the First Step&quot;, &quot;slide&quot;: &quot;66&quot;, &quot;mode&quot;: &quot;Individual, main room&quot;, &quot;instructions&quot;: [&quot;Choose one action you will take within the next 24 hours.&quot;, &quot;Schedule it in your calendar, planner, phone or task system.&quot;, &quot;Record the same action in the eWorkbook as a backup.&quot;, &quot;When it is scheduled, use a reaction or chat message to confirm completion.&quot;]}">Share Activity Instructions</button>
+    
+    <a class="btn ghost" href="https://gishmech08.github.io/training-tools/Time_Management_Participant_eWorkbook_Capstone_Updated.html" target="_blank" rel="noopener">Open Participant eWorkbook</a>
+    <span class="pill">Participant section: Commit to the First Step</span>
+  </div>
+  <div class="cols">
+    <div class="panel instructorOnly"><h3>Instructor flow</h3><ol><li>Give about 1 minute to choose and schedule the action.</li><li>Ask participants to confirm in chat or with a reaction.</li><li>If the room is quiet, give another 30 seconds rather than moving on.</li></ol></div>
+    <div class="panel instructorOnly"><h3>Watch for</h3><ul><li>Actions without a specific day and time. Ask for the missing detail.</li></ul></div>
+  </div>
+  <div class="cols">
+    <div class="panel instructorOnly"><h3>Debrief / listen for</h3><ul><li>What exactly will you do, and when will you do it?</li></ul></div>
+    <div class="panel instructorOnly"><h3>Transition</h3><p>You now have a system, a personal action plan and a first step already scheduled.</p></div>
+  </div>
+  <details class="sharePreview">
+    <summary>Preview learner-facing instructions</summary>
+    <ol><li>Choose one action you will take within the next 24 hours.</li><li>Schedule it in your calendar, planner, phone or task system.</li><li>Record the same action in the eWorkbook as a backup.</li><li>When it is scheduled, use a reaction or chat message to confirm completion.</li></ol>
+  </details>
+  <div class="privateNotes instructorOnly">
+    <label for="note-first-step">Private instructor notes</label>
+    <textarea id="note-first-step" data-save-key="note-first-step" placeholder="Add delivery notes, timing adjustments, or follow-up reminders here."></textarea>
+  </div>
+</section>
+
+
+<div class="divider"><div class="kicker">LIVE CAPTURE TOOLS</div><h2>Electronic Whiteboards</h2><p>Use these boards for debriefs and whole-group capture. Each board has a learner-safe full-screen share view.</p></div>
+
+<section class="whiteboard card" id="wb-challenges">
+  <div class="head">
+    <div>
+      <div class="kicker">ELECTRONIC WHITEBOARD</div>
+      <h2>Opening Challenge Themes</h2>
+      <p>Capture the recurring pressures participants name at the start of the day without solving them yet.</p>
+    </div>
+    <button class="btn orange shareWhiteboard" type="button" data-board="wb-challenges">Share Whiteboard</button>
+  </div>
+  <div class="wbPrompt"><strong>On-screen prompt:</strong> Capture short phrases only. You will reuse these themes throughout the day.</div>
+  <div class="wbInstructor instructorOnly"><strong>Instructor-only guidance:</strong> Listen for volume of work, interruptions, competing requests, unclear priorities and difficulty declining work.</div>
+  <div class="wbgrid cols-5">
+    
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Volume of work</h3></div>
+          <div class="noteList" data-board="wb-challenges" data-col="0"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-challenges" data-col="0">+ Add response</button>
+        </div>
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Interruptions</h3></div>
+          <div class="noteList" data-board="wb-challenges" data-col="1"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-challenges" data-col="1">+ Add response</button>
+        </div>
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Competing requests</h3></div>
+          <div class="noteList" data-board="wb-challenges" data-col="2"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-challenges" data-col="2">+ Add response</button>
+        </div>
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Unclear priorities</h3></div>
+          <div class="noteList" data-board="wb-challenges" data-col="3"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-challenges" data-col="3">+ Add response</button>
+        </div>
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Other themes</h3></div>
+          <div class="noteList" data-board="wb-challenges" data-col="4"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-challenges" data-col="4">+ Add response</button>
+        </div>
+  </div>
+  <div class="wbtools instructorOnly">
+    <button class="btn ghost clearBoard" type="button" data-board="wb-challenges">Clear This Board</button>
+  </div>
+</section>
+
+<section class="whiteboard card" id="wb-drains">
+  <div class="head">
+    <div>
+      <div class="kicker">ELECTRONIC WHITEBOARD</div>
+      <h2>Time Drains: Control · Influence · Adapt</h2>
+      <p>Capture examples from the pair debrief and make the distinction between the three response zones visible.</p>
+    </div>
+    <button class="btn orange shareWhiteboard" type="button" data-board="wb-drains">Share Whiteboard</button>
+  </div>
+  <div class="wbPrompt"><strong>On-screen prompt:</strong> Add participant examples under the category they defend. Different roles may classify the same drain differently.</div>
+  <div class="wbInstructor instructorOnly"><strong>Instructor-only guidance:</strong> Do not pressure operational participants to reclassify real constraints. The distinction should be honest.</div>
+  <div class="wbgrid cols-3">
+    
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Control</h3><p>What can I directly change?</p></div>
+          <div class="noteList" data-board="wb-drains" data-col="0"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-drains" data-col="0">+ Add response</button>
+        </div>
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Influence</h3><p>Where can I negotiate, request or shape?</p></div>
+          <div class="noteList" data-board="wb-drains" data-col="1"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-drains" data-col="1">+ Add response</button>
+        </div>
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Adapt</h3><p>What constraint is real and must be planned around?</p></div>
+          <div class="noteList" data-board="wb-drains" data-col="2"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-drains" data-col="2">+ Add response</button>
+        </div>
+  </div>
+  <div class="wbtools instructorOnly">
+    <button class="btn ghost clearBoard" type="button" data-board="wb-drains">Clear This Board</button>
+  </div>
+</section>
+
+<section class="whiteboard card" id="wb-taskpile">
+  <div class="head">
+    <div>
+      <div class="kicker">ELECTRONIC WHITEBOARD</div>
+      <h2>Task Pile Debrief Board</h2>
+      <p>Make the class’s sorting logic visible before comparing it with an AI-supported sort.</p>
+    </div>
+    <button class="btn orange shareWhiteboard" type="button" data-board="wb-taskpile">Share Whiteboard</button>
+  </div>
+  <div class="wbPrompt"><strong>On-screen prompt:</strong> Capture the items groups disagree about first. Ask what context changed the classification.</div>
+  <div class="wbInstructor instructorOnly"><strong>Instructor-only guidance:</strong> The key point is that context determines the right bucket. A tool without context can only make a guess.</div>
+  <div class="wbgrid cols-5">
+    
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Project</h3></div>
+          <div class="noteList" data-board="wb-taskpile" data-col="0"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-taskpile" data-col="0">+ Add response</button>
+        </div>
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Next Action</h3></div>
+          <div class="noteList" data-board="wb-taskpile" data-col="1"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-taskpile" data-col="1">+ Add response</button>
+        </div>
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Today</h3></div>
+          <div class="noteList" data-board="wb-taskpile" data-col="2"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-taskpile" data-col="2">+ Add response</button>
+        </div>
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Waiting</h3></div>
+          <div class="noteList" data-board="wb-taskpile" data-col="3"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-taskpile" data-col="3">+ Add response</button>
+        </div>
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Remove</h3></div>
+          <div class="noteList" data-board="wb-taskpile" data-col="4"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-taskpile" data-col="4">+ Add response</button>
+        </div>
+  </div>
+  <div class="wbtools instructorOnly">
+    <button class="btn ghost clearBoard" type="button" data-board="wb-taskpile">Clear This Board</button>
+  </div>
+</section>
+
+<section class="whiteboard card" id="wb-workable">
+  <div class="head">
+    <div>
+      <div class="kicker">ELECTRONIC WHITEBOARD</div>
+      <h2>Workable Day Debrief</h2>
+      <p>Surface the choices that make a schedule realistic rather than packed.</p>
+    </div>
+    <button class="btn orange shareWhiteboard" type="button" data-board="wb-workable">Share Whiteboard</button>
+  </div>
+  <div class="wbPrompt"><strong>On-screen prompt:</strong> Capture one or two strong examples in each column.</div>
+  <div class="wbInstructor instructorOnly"><strong>Instructor-only guidance:</strong> If nobody left buffer, ask what happens when the day changes unexpectedly.</div>
+  <div class="wbgrid cols-3">
+    
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Protected</h3><p>What did participants protect?</p></div>
+          <div class="noteList" data-board="wb-workable" data-col="0"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-workable" data-col="0">+ Add response</button>
+        </div>
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Left Out / Moved</h3><p>What did they choose not to fit?</p></div>
+          <div class="noteList" data-board="wb-workable" data-col="1"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-workable" data-col="1">+ Add response</button>
+        </div>
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Buffer</h3><p>Where did they leave capacity?</p></div>
+          <div class="noteList" data-board="wb-workable" data-col="2"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-workable" data-col="2">+ Add response</button>
+        </div>
+  </div>
+  <div class="wbtools instructorOnly">
+    <button class="btn ghost clearBoard" type="button" data-board="wb-workable">Clear This Board</button>
+  </div>
+</section>
+
+<section class="whiteboard card" id="wb-crowded">
+  <div class="head">
+    <div>
+      <div class="kicker">ELECTRONIC WHITEBOARD</div>
+      <h2>Crowded Day Tradeoffs</h2>
+      <p>Compare group decisions when only four hours remain.</p>
+    </div>
+    <button class="btn orange shareWhiteboard" type="button" data-board="wb-crowded">Share Whiteboard</button>
+  </div>
+  <div class="wbPrompt"><strong>On-screen prompt:</strong> Capture the task plus a few words of reasoning. Reasoning matters more than identical rankings.</div>
+  <div class="wbInstructor instructorOnly"><strong>Instructor-only guidance:</strong> Challenge rankings based on deadline alone. Ask about value, consequence, dependency and sequence.</div>
+  <div class="wbgrid cols-4">
+    
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Fits</h3></div>
+          <div class="noteList" data-board="wb-crowded" data-col="0"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-crowded" data-col="0">+ Add response</button>
+        </div>
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Move</h3></div>
+          <div class="noteList" data-board="wb-crowded" data-col="1"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-crowded" data-col="1">+ Add response</button>
+        </div>
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Shrink</h3></div>
+          <div class="noteList" data-board="wb-crowded" data-col="2"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-crowded" data-col="2">+ Add response</button>
+        </div>
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Go</h3></div>
+          <div class="noteList" data-board="wb-crowded" data-col="3"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-crowded" data-col="3">+ Add response</button>
+        </div>
+  </div>
+  <div class="wbtools instructorOnly">
+    <button class="btn ghost clearBoard" type="button" data-board="wb-crowded">Clear This Board</button>
+  </div>
+</section>
+
+<section class="whiteboard card" id="wb-matrix">
+  <div class="head">
+    <div>
+      <div class="kicker">ELECTRONIC WHITEBOARD</div>
+      <h2>Urgent / Important Matrix</h2>
+      <p>Capture different classifications and use disagreement to expose missing context.</p>
+    </div>
+    <button class="btn orange shareWhiteboard" type="button" data-board="wb-matrix">Share Whiteboard</button>
+  </div>
+  <div class="wbPrompt"><strong>On-screen prompt:</strong> Add the disputed tasks. Use the note text to record why a group placed the task there.</div>
+  <div class="wbInstructor instructorOnly"><strong>Instructor-only guidance:</strong> Role perspective may change the answer. Focus on the reasoning and the next action.</div>
+  <div class="wbgrid cols-4">
+    
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Urgent + Important</h3><p>Act</p></div>
+          <div class="noteList" data-board="wb-matrix" data-col="0"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-matrix" data-col="0">+ Add response</button>
+        </div>
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Important + Not Urgent</h3><p>Schedule</p></div>
+          <div class="noteList" data-board="wb-matrix" data-col="1"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-matrix" data-col="1">+ Add response</button>
+        </div>
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Urgent + Not Important</h3><p>Coordinate / Delegate</p></div>
+          <div class="noteList" data-board="wb-matrix" data-col="2"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-matrix" data-col="2">+ Add response</button>
+        </div>
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Not Urgent + Not Important</h3><p>Reduce / Remove</p></div>
+          <div class="noteList" data-board="wb-matrix" data-col="3"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-matrix" data-col="3">+ Add response</button>
+        </div>
+  </div>
+  <div class="wbtools instructorOnly">
+    <button class="btn ghost clearBoard" type="button" data-board="wb-matrix">Clear This Board</button>
+  </div>
+</section>
+
+<section class="whiteboard card" id="wb-overload">
+  <div class="head">
+    <div>
+      <div class="kicker">ELECTRONIC WHITEBOARD</div>
+      <h2>Overload Signals</h2>
+      <p>Collect early warning signs and practical reset responses.</p>
+    </div>
+    <button class="btn orange shareWhiteboard" type="button" data-board="wb-overload">Share Whiteboard</button>
+  </div>
+  <div class="wbPrompt"><strong>On-screen prompt:</strong> Use short, observable examples rather than general statements about stress.</div>
+  <div class="wbInstructor instructorOnly"><strong>Instructor-only guidance:</strong> Keep this brief and practical. Do not turn it into a clinical discussion.</div>
+  <div class="wbgrid cols-2">
+    
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Signal</h3><p>What shows up first?</p></div>
+          <div class="noteList" data-board="wb-overload" data-col="0"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-overload" data-col="0">+ Add response</button>
+        </div>
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Response</h3><p>What can you do when you notice it?</p></div>
+          <div class="noteList" data-board="wb-overload" data-col="1"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-overload" data-col="1">+ Add response</button>
+        </div>
+  </div>
+  <div class="wbtools instructorOnly">
+    <button class="btn ghost clearBoard" type="button" data-board="wb-overload">Clear This Board</button>
+  </div>
+</section>
+
+<section class="whiteboard card" id="wb-reset">
+  <div class="head">
+    <div>
+      <div class="kicker">ELECTRONIC WHITEBOARD</div>
+      <h2>Pressure Reset Debrief</h2>
+      <p>Capture the four decisions that turn reaction into a deliberate reset.</p>
+    </div>
+    <button class="btn orange shareWhiteboard" type="button" data-board="wb-reset">Share Whiteboard</button>
+  </div>
+  <div class="wbPrompt"><strong>On-screen prompt:</strong> Capture each team’s most important decision. Ask who is affected by any change.</div>
+  <div class="wbInstructor instructorOnly"><strong>Instructor-only guidance:</strong> Watch for teams that keep everything or make changes without communicating them.</div>
+  <div class="wbgrid cols-4">
+    
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Protect</h3></div>
+          <div class="noteList" data-board="wb-reset" data-col="0"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-reset" data-col="0">+ Add response</button>
+        </div>
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Move / Stop</h3></div>
+          <div class="noteList" data-board="wb-reset" data-col="1"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-reset" data-col="1">+ Add response</button>
+        </div>
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Communicate</h3></div>
+          <div class="noteList" data-board="wb-reset" data-col="2"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-reset" data-col="2">+ Add response</button>
+        </div>
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>First Action</h3></div>
+          <div class="noteList" data-board="wb-reset" data-col="3"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-reset" data-col="3">+ Add response</button>
+        </div>
+  </div>
+  <div class="wbtools instructorOnly">
+    <button class="btn ghost clearBoard" type="button" data-board="wb-reset">Clear This Board</button>
+  </div>
+</section>
+
+<section class="whiteboard card" id="wb-difficult">
+  <div class="head">
+    <div>
+      <div class="kicker">ELECTRONIC WHITEBOARD</div>
+      <h2>Difficult Situation Opening Lines</h2>
+      <p>Capture the exact opening line each scenario team would use.</p>
+    </div>
+    <button class="btn orange shareWhiteboard" type="button" data-board="wb-difficult">Share Whiteboard</button>
+  </div>
+  <div class="wbPrompt"><strong>On-screen prompt:</strong> Enter the exact opening line, not a description of the conversation.</div>
+  <div class="wbInstructor instructorOnly"><strong>Instructor-only guidance:</strong> Ask: Is it clear? Professional? Does it make the tradeoff visible? Does it ask for a decision or offer an option?</div>
+  <div class="wbgrid cols-4">
+    
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Scenario A</h3><p>Shifting deadline</p></div>
+          <div class="noteList" data-board="wb-difficult" data-col="0"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-difficult" data-col="0">+ Add response</button>
+        </div>
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Scenario B</h3><p>Unclear assignment</p></div>
+          <div class="noteList" data-board="wb-difficult" data-col="1"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-difficult" data-col="1">+ Add response</button>
+        </div>
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Scenario C</h3><p>Overloaded employee</p></div>
+          <div class="noteList" data-board="wb-difficult" data-col="2"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-difficult" data-col="2">+ Add response</button>
+        </div>
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Scenario D</h3><p>Repeated interruption</p></div>
+          <div class="noteList" data-board="wb-difficult" data-col="3"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-difficult" data-col="3">+ Add response</button>
+        </div>
+  </div>
+  <div class="wbtools instructorOnly">
+    <button class="btn ghost clearBoard" type="button" data-board="wb-difficult">Clear This Board</button>
+  </div>
+</section>
+
+<section class="whiteboard card" id="wb-capstone">
+  <div class="head">
+    <div>
+      <div class="kicker">ELECTRONIC WHITEBOARD</div>
+      <h2>Capstone Debrief Board</h2>
+      <p>Connect the capstone back to the full course and make the interdependence of the tools visible.</p>
+    </div>
+    <button class="btn orange shareWhiteboard" type="button" data-board="wb-capstone">Share Whiteboard</button>
+  </div>
+  <div class="wbPrompt"><strong>On-screen prompt:</strong> Use one contribution from each team so every group appears on the board once.</div>
+  <div class="wbInstructor instructorOnly"><strong>Instructor-only guidance:</strong> Reinforce that pressure decreased because the team had a process and communicated the tradeoff, not because the workload became smaller.</div>
+  <div class="wbgrid cols-4">
+    
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Protected</h3></div>
+          <div class="noteList" data-board="wb-capstone" data-col="0"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-capstone" data-col="0">+ Add response</button>
+        </div>
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Moved</h3></div>
+          <div class="noteList" data-board="wb-capstone" data-col="1"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-capstone" data-col="1">+ Add response</button>
+        </div>
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Communicated</h3></div>
+          <div class="noteList" data-board="wb-capstone" data-col="2"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-capstone" data-col="2">+ Add response</button>
+        </div>
+        <div class="wbcol">
+          <div class="wbcolhead"><h3>Reduced Pressure</h3></div>
+          <div class="noteList" data-board="wb-capstone" data-col="3"></div>
+          <button class="addNote btn small ghost" type="button" data-board="wb-capstone" data-col="3">+ Add response</button>
+        </div>
+  </div>
+  <div class="wbtools instructorOnly">
+    <button class="btn ghost clearBoard" type="button" data-board="wb-capstone">Clear This Board</button>
+  </div>
+</section>
+
+
+<div class="footer">Time Management · Instructor Electronic Workbook · C² Technologies</div>
+</main>
+</div>
+
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="overlayTitle">
+  <div class="overlayBar">
+    <div><div class="eyebrow" id="overlayLabel">SHARE VIEW</div><strong id="overlayTitle">Activity Instructions</strong></div>
+    <button class="btn orange" id="closeOverlay" type="button">Close Share View</button>
+  </div>
+  <div class="overlayContent" id="overlayContent"></div>
+</div>
+
+<script>
+const STORAGE_KEY = 'tm_instructor_eworkbook_v1';
+let state = { notes: {}, boards: {} };
+let movedBoard = null;
+let movedPlaceholder = null;
+
+function loadState(){
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if(saved) state = Object.assign({notes:{},boards:{}}, JSON.parse(saved));
+  } catch(e) {}
+}
+function saveState(){
+  document.querySelectorAll('[data-save-key]').forEach(el => state.notes[el.dataset.saveKey] = el.value);
+  document.querySelectorAll('.whiteboard').forEach(board => {
+    const bid = board.id;
+    state.boards[bid] = {};
+    board.querySelectorAll('.noteList').forEach(list => {
+      const c = list.dataset.col;
+      state.boards[bid][c] = Array.from(list.querySelectorAll('textarea')).map(t => t.value);
+    });
+  });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+function addNote(boardId,col,value=''){
+  const list = document.querySelector('.noteList[data-board="'+boardId+'"][data-col="'+col+'"]');
+  if(!list) return;
+  const div = document.createElement('div');
+  div.className='sticky';
+  div.innerHTML='<textarea aria-label="Whiteboard response" placeholder="Type a response..."></textarea><button type="button" class="deleteNote" aria-label="Delete response">×</button>';
+  const ta=div.querySelector('textarea'); ta.value=value;
+  ta.addEventListener('input',saveState);
+  div.querySelector('.deleteNote').addEventListener('click',()=>{div.remove();saveState();});
+  list.appendChild(div);
+}
+function restoreUI(){
+  document.querySelectorAll('[data-save-key]').forEach(el => { if(state.notes[el.dataset.saveKey]!==undefined) el.value=state.notes[el.dataset.saveKey]; });
+  document.querySelectorAll('.noteList').forEach(list => list.innerHTML='');
+  for(const [bid,cols] of Object.entries(state.boards||{})){
+    for(const [col,vals] of Object.entries(cols||{})){
+      (vals||[]).forEach(v=>addNote(bid,col,v));
+    }
+  }
+  document.querySelectorAll('.noteList').forEach(list => { if(!list.children.length) addNote(list.dataset.board,list.dataset.col,''); });
+}
+function openInstructionShare(data){
+  const o=document.getElementById('overlay');
+  document.getElementById('overlayLabel').textContent='LEARNER-FACING ACTIVITY INSTRUCTIONS';
+  document.getElementById('overlayTitle').textContent=data.title;
+  const lis=data.instructions.map(x=>'<li>'+escapeHtml(x)+'</li>').join('');
+  document.getElementById('overlayContent').innerHTML='<div class="shareCard"><div class="kicker">ACTIVITY · '+escapeHtml(data.mode)+'</div><div class="bigTitle">'+escapeHtml(data.title)+'</div><div class="shareMeta"><span class="pill">'+escapeHtml(data.mode)+'</span></div><ol>'+lis+'</ol></div>';
+  o.classList.add('show');
+}
+function openInstructions(){
+  document.getElementById('overlayLabel').textContent='INSTRUCTOR WORKBOOK';
+  document.getElementById('overlayTitle').textContent='How to Use This File';
+  document.getElementById('overlayContent').innerHTML=`<div class="shareCard">
+    <div class="bigTitle">Instructor eWorkbook Instructions</div>
+    <ol>
+      <li>Keep this file open in a separate browser window beside the presentation.</li>
+      <li>Use <b>Share Activity Instructions</b> when you want participants to see only the activity directions.</li>
+      <li>Use <b>Go to Whiteboard</b> or the Whiteboards navigation to capture whole-group responses.</li>
+      <li>Use <b>Share Whiteboard</b> to make the board full screen. Instructor-only guidance is hidden automatically.</li>
+      <li>Whiteboard responses and your private notes save in this browser. Use <b>Download Instructor Backup</b> if you want a portable copy.</li>
+      <li>Use <b>Restore Backup</b> to load a previously downloaded instructor backup.</li>
+      <li>Open the participant eWorkbook from the button at the top whenever you need to confirm the learner view.</li>
+    </ol>
+  </div>`;
+  document.getElementById('overlay').classList.add('show');
+}
+function openWhiteboard(boardId){
+  const board=document.getElementById(boardId);
+  if(!board) return;
+  saveState();
+  movedBoard=board;
+  movedPlaceholder=document.createElement('div');
+  movedPlaceholder.dataset.placeholder=boardId;
+  board.parentNode.insertBefore(movedPlaceholder,board);
+  document.getElementById('overlayLabel').textContent='SHARED ELECTRONIC WHITEBOARD';
+  document.getElementById('overlayTitle').textContent=board.querySelector('h2').textContent;
+  const content=document.getElementById('overlayContent');
+  content.innerHTML='';
+  content.appendChild(board);
+  document.getElementById('overlay').classList.add('show');
+}
+function closeOverlay(){
+  const o=document.getElementById('overlay');
+  if(movedBoard && movedPlaceholder){
+    movedPlaceholder.parentNode.insertBefore(movedBoard,movedPlaceholder);
+    movedPlaceholder.remove();
+    movedBoard=null; movedPlaceholder=null;
+  }
+  document.getElementById('overlayContent').innerHTML='';
+  o.classList.remove('show');
+  saveState();
+}
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function downloadBackup(){
+  saveState();
+  const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='Time_Management_Instructor_eWorkbook_Backup.json';
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+function clearBoard(boardId){
+  if(!confirm('Clear all responses from this whiteboard?')) return;
+  const board=document.getElementById(boardId);
+  board.querySelectorAll('.noteList').forEach(list=>{list.innerHTML='';addNote(boardId,list.dataset.col,'');});
+  saveState();
+}
+loadState();
+restoreUI();
+
+document.querySelectorAll('[data-save-key]').forEach(el=>el.addEventListener('input',saveState));
+document.querySelectorAll('.addNote').forEach(btn=>btn.addEventListener('click',()=>{addNote(btn.dataset.board,btn.dataset.col,'');saveState();}));
+document.querySelectorAll('.clearBoard').forEach(btn=>btn.addEventListener('click',()=>clearBoard(btn.dataset.board)));
+document.querySelectorAll('.shareWhiteboard').forEach(btn=>btn.addEventListener('click',()=>openWhiteboard(btn.dataset.board)));
+document.querySelectorAll('.shareBtn').forEach(btn=>btn.addEventListener('click',()=>{try{openInstructionShare(JSON.parse(btn.dataset.share));}catch(e){alert('Unable to open share instructions.');}}));
+document.getElementById('instructionsBtn').addEventListener('click',openInstructions);
+document.getElementById('closeOverlay').addEventListener('click',closeOverlay);
+document.getElementById('downloadBackup').addEventListener('click',downloadBackup);
+document.getElementById('restoreBackup').addEventListener('click',()=>document.getElementById('restoreFile').click());
+document.getElementById('restoreFile').addEventListener('change',e=>{
+  const f=e.target.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=()=>{try{state=JSON.parse(r.result);localStorage.setItem(STORAGE_KEY,JSON.stringify(state));restoreUI();alert('Instructor backup restored.');}catch(err){alert('That file could not be restored.');}};
+  r.readAsText(f);
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape' && document.getElementById('overlay').classList.contains('show')) closeOverlay();});
+window.addEventListener('beforeunload',saveState);
+</script>
+</body>
+</html>
