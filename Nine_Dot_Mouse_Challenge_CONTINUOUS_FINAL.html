@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>9 Dot Challenge</title>
+<style>
+  :root{
+    --navy:#0d2a45;
+    --orange:#f07a2b;
+    --blue:#2b91bf;
+    --light:#f7fbfe;
+    --line:#d7e6ef;
+    --ink:#122033;
+    --success:#2e7d32;
+    --danger:#b42318;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:linear-gradient(135deg,#f7fbfe,#ffffff 45%,#fdf7f2);
+    color:var(--ink);
+    min-height:100vh;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:28px}
+  .header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+  .dash{width:68px;height:11px;background:var(--orange);border-radius:2px;flex:0 0 auto}
+  .kicker{font-weight:800;color:var(--orange);letter-spacing:.04em;font-size:28px}
+  .panel{
+    background:rgba(255,255,255,.96);
+    border:1px solid #e3ebf0;
+    box-shadow:0 18px 48px rgba(13,42,69,.10);
+    border-radius:28px;
+    overflow:hidden;
+  }
+  .top{
+    display:grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap:24px;
+    padding:34px 38px 24px;
+  }
+  h1{font-size:48px;line-height:1.05;margin:0 0 22px;color:var(--navy)}
+  .lead{font-size:27px;line-height:1.35;margin:0 0 18px;max-width:500px}
+  .rules{font-size:17px;line-height:1.55;color:#475569;margin-top:24px}
+  .rules strong{color:var(--navy)}
+  .game-card{
+    position:relative;
+    background:radial-gradient(circle at 50% 35%, #fff 0 55%, #f4f9fc 100%);
+    border:1px solid var(--line);
+    border-radius:22px;
+    min-height:540px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+  }
+  #board{
+    width:min(560px,100%);
+    aspect-ratio:1/1;
+    display:block;
+    touch-action:none;
+    user-select:none;
+    overflow:visible;
+  }
+  .dot{fill:var(--navy);filter:drop-shadow(0 7px 10px rgba(13,42,69,.18))}
+  .trace{fill:none;stroke:var(--orange);stroke-width:13;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 4px 4px rgba(240,122,43,.18));pointer-events:none}
+  .ghost{fill:none;stroke:#f7b98d;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;opacity:.65}
+  .hit{fill:transparent;stroke:transparent;stroke-width:30}
+  .covered{fill:var(--success)}
+  .toolbar{
+    display:flex;flex-wrap:wrap;gap:12px;align-items:center;
+    padding:18px 38px 26px;border-top:1px solid #edf2f5;background:#fbfdff
+  }
+  button{
+    border:0;border-radius:12px;padding:12px 18px;font-weight:800;font-size:16px;cursor:pointer
+  }
+  .primary{background:var(--navy);color:white}
+  .secondary{background:white;color:var(--navy);border:1px solid #cddbe5}
+  .hint{background:#fff4ec;color:#8a3e0c;border:1px solid #ffd7bd}
+  button:focus-visible{outline:4px solid #8cd1ff;outline-offset:2px}
+  .status{margin-left:auto;font-weight:800;color:var(--navy);font-size:16px}
+  .status .count{color:var(--orange)}
+  .message{
+    margin:0 38px 28px;padding:15px 18px;border-radius:14px;background:#eef7fb;color:var(--navy);font-weight:700;display:none
+  }
+  .message.success{display:block;background:#edf8ef;color:#205b28;border:2px solid #69b878;box-shadow:0 10px 24px rgba(46,125,50,.14)}
+  .message.fail,.message.warning{display:block;background:#fff3f2;color:#8f1d14;border:1px solid #f2c2bd}
+  .message.info{display:block;background:#eef7fb;color:var(--navy);border:1px solid #cfe5f0}
+  .footer{height:78px;background:var(--navy);display:flex;align-items:center;justify-content:center;color:white;font-size:24px;letter-spacing:.01em}
+  .small{font-size:14px;color:#64748b;margin-top:12px}
+
+  .success-pop{
+    position:fixed;inset:0;display:none;align-items:center;justify-content:center;
+    background:rgba(13,42,69,.22);z-index:20;padding:24px
+  }
+  .success-pop.show{display:flex}
+  .success-card{
+    width:min(520px,94vw);background:#fff;border-radius:24px;padding:30px;
+    box-shadow:0 24px 70px rgba(13,42,69,.28);text-align:center;border:2px solid #b9dfbf
+  }
+  .success-icon{
+    width:76px;height:76px;border-radius:50%;background:#edf8ef;color:#2e7d32;
+    display:flex;align-items:center;justify-content:center;font-size:44px;font-weight:900;margin:0 auto 14px
+  }
+  .success-card h2{margin:0 0 8px;color:#205b28;font-size:32px}
+  .success-card p{margin:0 0 20px;color:#475569;font-size:17px;line-height:1.45}
+
+  @media(max-width:900px){
+    .top{grid-template-columns:1fr;padding:26px}
+    .game-card{min-height:auto}
+    h1{font-size:38px}.lead{font-size:22px}
+    .toolbar{padding:16px 26px 22px}.message{margin:0 26px 22px}.status{width:100%;margin-left:0}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header"><div class="dash"></div><div class="kicker">COMMUNICATION FOUNDATIONS</div></div>
+  <div class="panel">
+    <div class="top">
+      <section>
+        <h1>Activity: The 9 Dot Challenge</h1>
+        <p class="lead">Connect all nine dots using four straight lines without lifting your mouse.</p>
+        <div class="rules">
+          <strong>How to play</strong><br>
+          Press and hold on any dot, then drag one continuous path. Draw naturally. The game automatically straightens your stroke into line segments as you move. You can draw horizontally, vertically, diagonally, and beyond the outside dots. Do not release until you are finished.
+          <div class="small">Tip: you do not need a perfectly steady hand. The activity smooths your stroke into straight lines while preserving your turns.</div>
+        </div>
+      </section>
+      <section class="game-card">
+        <svg id="board" viewBox="-180 -180 960 960" role="img" aria-label="Nine dot drawing challenge"><rect x="-180" y="-180" width="960" height="960" fill="transparent" pointer-events="all" />
+          <polyline id="ghost" class="ghost" points="" />
+          <polyline id="trace" class="trace" points="" />
+          <g id="dots"></g>
+        </svg>
+      </section>
+    </div>
+    <div id="message" class="message" aria-live="polite"></div>
+    <div class="toolbar">
+      <button id="resetBtn" class="primary">Reset</button>
+      <button id="undoBtn" class="secondary">Undo attempt</button>
+      <button id="hintBtn" class="hint">Hint</button>
+      <button id="solutionBtn" class="secondary">Show solution</button>
+      <div class="status">Segments: <span class="count" id="segmentCount">0</span>/4 &nbsp; Dots crossed: <span class="count" id="dotCount">0</span>/9</div>
+    </div>
+    <div class="footer">Think beyond the boundaries you first assume are there.</div>
+  </div>
+</div>
+
+<div id="successPop" class="success-pop" role="dialog" aria-modal="true" aria-labelledby="successTitle">
+  <div class="success-card">
+    <div class="success-icon">✓</div>
+    <h2 id="successTitle">You got it!</h2>
+    <p>You connected all nine dots in one continuous path using no more than four straight lines.</p>
+    <button id="successClose" class="primary">Continue</button>
+  </div>
+</div>
+
+
+
+<script>
+const svg = document.getElementById('board');
+const trace = document.getElementById('trace');
+const ghost = document.getElementById('ghost');
+const dotsG = document.getElementById('dots');
+const message = document.getElementById('message');
+const dotCount = document.getElementById('dotCount');
+const segmentCount = document.getElementById('segmentCount');
+const resetBtn = document.getElementById('resetBtn');
+const undoBtn = document.getElementById('undoBtn');
+const hintBtn = document.getElementById('hintBtn');
+const solutionBtn = document.getElementById('solutionBtn');
+const successPop = document.getElementById('successPop');
+const successClose = document.getElementById('successClose');
+
+const dots = [
+  {x:180,y:180},{x:300,y:180},{x:420,y:180},
+  {x:180,y:300},{x:300,y:300},{x:420,y:300},
+  {x:180,y:420},{x:300,y:420},{x:420,y:420}
+];
+
+let drawing = false;
+let pointerId = null;
+let rawPoints = [];
+let cleanPoints = [];
+let previousAttempt = [];
+let covered = new Set();
+
+function makeDots(){
+  dotsG.innerHTML = '';
+  dots.forEach(d=>{
+    const c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c.setAttribute('cx', d.x);
+    c.setAttribute('cy', d.y);
+    c.setAttribute('r', 34);
+    c.setAttribute('class', 'dot');
+    dotsG.appendChild(c);
+  });
+}
+makeDots();
+
+function svgPoint(evt){
+  const p = svg.createSVGPoint();
+  p.x = evt.clientX;
+  p.y = evt.clientY;
+  return p.matrixTransform(svg.getScreenCTM().inverse());
+}
+
+function dist(a,b){
+  return Math.hypot(a.x-b.x, a.y-b.y);
+}
+
+function pointToSegmentDistance(p,a,b){
+  const vx = b.x-a.x;
+  const vy = b.y-a.y;
+  const len2 = vx*vx + vy*vy;
+  if(!len2) return dist(p,a);
+  let t = ((p.x-a.x)*vx + (p.y-a.y)*vy) / len2;
+  t = Math.max(0, Math.min(1,t));
+  const proj = {x:a.x+t*vx, y:a.y+t*vy};
+  return dist(p,proj);
+}
+
+function rdp(points, epsilon){
+  if(points.length < 3) return points.map(p=>({...p}));
+
+  let maxDist = 0;
+  let index = 0;
+  const first = points[0];
+  const last = points[points.length-1];
+
+  for(let i=1;i<points.length-1;i++){
+    const d = pointToSegmentDistance(points[i], first, last);
+    if(d > maxDist){
+      maxDist = d;
+      index = i;
+    }
+  }
+
+  if(maxDist > epsilon){
+    const left = rdp(points.slice(0,index+1), epsilon);
+    const right = rdp(points.slice(index), epsilon);
+    return left.slice(0,-1).concat(right);
+  }
+
+  return [{...first},{...last}];
+}
+
+function simplifyToFourSegments(points){
+  if(points.length <= 2) return points.map(p=>({...p}));
+
+  // Start with light smoothing so ordinary mouse wobble disappears.
+  let epsilon = 8;
+  let simplified = rdp(points, epsilon);
+
+  // Increase smoothing only as much as needed to keep no more than 4 segments.
+  while(simplified.length > 5 && epsilon < 90){
+    epsilon += 2;
+    simplified = rdp(points, epsilon);
+  }
+
+  // Fallback: keep the strongest turns if a highly erratic stroke still has too many vertices.
+  if(simplified.length > 5){
+    const candidates = [];
+    for(let i=1;i<simplified.length-1;i++){
+      const a=simplified[i-1], b=simplified[i], c=simplified[i+1];
+      const v1={x:a.x-b.x,y:a.y-b.y};
+      const v2={x:c.x-b.x,y:c.y-b.y};
+      const m1=Math.hypot(v1.x,v1.y), m2=Math.hypot(v2.x,v2.y);
+      if(!m1 || !m2) continue;
+      const cosine=Math.max(-1,Math.min(1,(v1.x*v2.x+v1.y*v2.y)/(m1*m2)));
+      const turn=Math.PI-Math.acos(cosine);
+      candidates.push({i,score:turn*Math.min(m1,m2)});
+    }
+    candidates.sort((a,b)=>b.score-a.score);
+    const keep=[0, ...candidates.slice(0,3).map(x=>x.i), simplified.length-1].sort((a,b)=>a-b);
+    simplified=keep.map(i=>simplified[i]);
+  }
+
+  return simplified;
+}
+
+function render(){
+  cleanPoints = simplifyToFourSegments(rawPoints);
+  trace.setAttribute('points', cleanPoints.map(p=>`${p.x},${p.y}`).join(' '));
+
+  covered = new Set();
+  for(let s=0;s<cleanPoints.length-1;s++){
+    dots.forEach((d,i)=>{
+      if(pointToSegmentDistance(d, cleanPoints[s], cleanPoints[s+1]) <= 39){
+        covered.add(i);
+      }
+    });
+  }
+
+  [...dotsG.children].forEach((c,i)=>{
+    c.setAttribute('class', covered.has(i) ? 'dot covered' : 'dot');
+  });
+
+  dotCount.textContent = covered.size;
+  segmentCount.textContent = Math.max(0, cleanPoints.length-1);
+
+  if(drawing && covered.size===9 && cleanPoints.length-1<=4){
+    message.className='message success';
+    message.textContent='All nine dots are crossed. Release the mouse to finish.';
+  }
+}
+
+function reset(){
+  drawing=false;
+  pointerId=null;
+  rawPoints=[];
+  cleanPoints=[];
+  previousAttempt=[];
+  covered=new Set();
+  trace.setAttribute('points','');
+  ghost.setAttribute('points','');
+  [...dotsG.children].forEach(c=>c.setAttribute('class','dot'));
+  dotCount.textContent='0';
+  segmentCount.textContent='0';
+  message.className='message info';
+  message.textContent='Press and hold on any dot. Keep holding while you draw one continuous path. Your stroke will straighten automatically.';
+}
+reset();
+
+svg.addEventListener('pointerdown', e=>{
+  if(drawing) return;
+
+  const p = svgPoint(e);
+  let nearest=null;
+  let best=Infinity;
+
+  dots.forEach(d=>{
+    const dd=dist(p,d);
+    if(dd<best){
+      best=dd;
+      nearest=d;
+    }
+  });
+
+  if(best>58){
+    message.className='message warning';
+    message.textContent='Start by pressing on one of the nine dots.';
+    return;
+  }
+
+  previousAttempt = rawPoints.map(p=>({...p}));
+  rawPoints = [{x:nearest.x,y:nearest.y}];
+  cleanPoints = [{x:nearest.x,y:nearest.y}];
+  covered = new Set();
+
+  drawing=true;
+  pointerId=e.pointerId;
+  ghost.setAttribute('points','');
+
+  try{ svg.setPointerCapture(e.pointerId); }catch(_){}
+
+  message.className='message info';
+  message.textContent='Keep holding. Draw straight across, diagonal, vertical, or outside the dot pattern. Turn naturally when you want the next line.';
+  render();
+});
+
+svg.addEventListener('pointermove', e=>{
+  if(!drawing) return;
+
+  const p = svgPoint(e);
+  const last = rawPoints[rawPoints.length-1];
+
+  // Record enough points to detect a turn, but ignore tiny mouse jitter.
+  if(!last || dist(last,p)>=4){
+    rawPoints.push({x:p.x,y:p.y});
+    render();
+  }
+});
+
+function finish(e){
+  if(!drawing) return;
+
+  drawing=false;
+
+  try{
+    if(pointerId!==null && svg.hasPointerCapture(pointerId)){
+      svg.releasePointerCapture(pointerId);
+    }
+  }catch(_){}
+
+  pointerId=null;
+  render();
+
+  const used=Math.max(0,cleanPoints.length-1);
+
+  if(covered.size===9 && used<=4){
+    message.className='message success';
+    message.textContent='Success. You connected all nine dots in one continuous path using four straight lines.';
+    successPop.classList.add('show');
+    successClose.focus();
+  }else{
+    message.className='message warning';
+    message.textContent=`You crossed ${covered.size} of 9 dots using ${used} straight line${used===1?'':'s'}. Reset and try again.`;
+  }
+}
+
+svg.addEventListener('pointerup', finish);
+svg.addEventListener('pointercancel', finish);
+
+successClose.onclick=()=>{
+  successPop.classList.remove('show');
+};
+
+resetBtn.onclick=reset;
+
+undoBtn.onclick=()=>{
+  if(!previousAttempt.length){
+    reset();
+    return;
+  }
+
+  drawing=false;
+  rawPoints=previousAttempt.map(p=>({...p}));
+  pointerId=null;
+  render();
+
+  message.className='message info';
+  message.textContent='Your previous attempt has been restored.';
+};
+
+hintBtn.onclick=()=>{
+  message.className='message info';
+  message.textContent='Hint: the outer dots do not create a boundary. Some successful lines continue into the empty space beyond them.';
+};
+
+solutionBtn.onclick=()=>{
+  const entered=window.prompt('Enter the solution password:');
+  if(entered===null) return;
+
+  if(entered.trim().toLowerCase()!=='dot'){
+    message.className='message warning';
+    message.textContent='Incorrect password. Ask your instructor if you need the solution.';
+    return;
+  }
+
+  const sol=[
+    {x:180,y:180},
+    {x:540,y:180},
+    {x:180,y:540},
+    {x:180,y:180},
+    {x:420,y:420}
+  ];
+
+  ghost.setAttribute('points', sol.map(p=>`${p.x},${p.y}`).join(' '));
+
+  const solutionCovered=new Set();
+  for(let s=0;s<sol.length-1;s++){
+    dots.forEach((d,i)=>{
+      if(pointToSegmentDistance(d,sol[s],sol[s+1])<=39){
+        solutionCovered.add(i);
+      }
+    });
+  }
+
+  [...dotsG.children].forEach((c,i)=>{
+    c.setAttribute('class',solutionCovered.has(i)?'dot covered':'dot');
+  });
+
+  dotCount.textContent=solutionCovered.size;
+  segmentCount.textContent='4';
+  message.className='message success';
+  message.textContent='Solution shown. It crosses all nine dots with one continuous path and four straight lines.';
+};
+</script>
+
+
+
+</body>
+</html>
